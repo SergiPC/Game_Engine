@@ -81,9 +81,6 @@
     <ClInclude Include="PhysBody3D.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="Imgui\imconfig.h">
       <Filter>Sources\Containers\Imgui</Filter>
     </ClInclude>
@@ -110,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="Imgui\GL\glcorearb.h">
       <Filter>Sources\Containers\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Sources\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +161,6 @@
     <ClCompile Include="PhysBody3D.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Imgui\imgui.cpp">
       <Filter>Sources\Containers\Imgui</Filter>
     </ClCompile>
@@ -178,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Imgui\GL\gl3w.c">
       <Filter>Sources\Containers\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

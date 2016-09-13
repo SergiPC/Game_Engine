@@ -10,15 +10,10 @@ public:
 	Editor(Application* app, bool start_enabled = true);
 	~Editor();
 
-	bool Init() override;
+	bool Init();
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	bool CleanUp() override;
-	
-	void HandleInput(SDL_Event* event);
-
-	void Draw();
-	bool IsHovered();
 
 private:
 };
