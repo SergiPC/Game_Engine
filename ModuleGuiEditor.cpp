@@ -1,38 +1,39 @@
 #include "Globals.h"
 #include "Application.h"
-#include "Editor.h"
+#include "ModuleGuiEditor.h"
 #include "ModuleWindow.h"
 
 #include "Imgui\imgui_impl_sdl_gl3.h"
 #include "Imgui\imgui.h"
 #include "Imgui\GL\gl3w.h"
 
-Editor::Editor(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleGuiEditor::ModuleGuiEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
 
 // Destructor
-Editor::~Editor()
+ModuleGuiEditor::~ModuleGuiEditor()
 {
 }
 
 // Called before render is available
-bool Editor::Init()
+bool ModuleGuiEditor::Init()
 {
 	gl3wInit();
-	LOG("Init editor gui with imgui lib");
+	LOG("Init Editor gui with imgui lib");
 	ImGui_ImplSdlGL3_Init(App->window->window);
 	return true;
+	rand();
 }
 		
-update_status Editor::PreUpdate(float dt)
+update_status ModuleGuiEditor::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
 	return UPDATE_CONTINUE;
 }
 
 // Main loop
-update_status Editor::Update(float dt)
+update_status ModuleGuiEditor::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 	static bool show_test_window = true;
@@ -77,9 +78,9 @@ update_status Editor::Update(float dt)
 }
 
 // Called before quitting
-bool Editor::CleanUp()
+bool ModuleGuiEditor::CleanUp()
 {
-	LOG("Freeing editor gui");
+	LOG("Freeing Editor gui");
 	ImGui_ImplSdlGL3_Shutdown();
 
 	return true;

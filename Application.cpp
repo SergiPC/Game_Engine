@@ -15,7 +15,7 @@ Application::Application()
 	physics3D = new ModulePhysics3D(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
-	editor = new Editor(this);
+	editor = new ModuleGuiEditor(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order

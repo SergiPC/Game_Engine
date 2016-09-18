@@ -4,11 +4,11 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 
-class Editor : public Module
+class ModuleGuiEditor : public Module
 {
 public:
-	Editor(Application* app, bool start_enabled = true);
-	~Editor();
+	ModuleGuiEditor(Application* app, bool start_enabled = true);
+	~ModuleGuiEditor();
 
 	bool Init();
 	update_status PreUpdate(float dt);
