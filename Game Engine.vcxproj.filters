@@ -111,9 +111,6 @@
     <ClInclude Include="Timer.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="RandNumbGen.h">
-      <Filter>Sources\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleGuiEditor.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -294,6 +291,12 @@
     <ClInclude Include="MathGeoLib\Time\Clock.h">
       <Filter>Sources\External\MathGeoLib\src</Filter>
     </ClInclude>
+    <ClInclude Include="RNG.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="glmath.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -448,6 +451,12 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\Time\Clock.cpp">
       <Filter>Sources\External\MathGeoLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="RNG.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="glmath.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

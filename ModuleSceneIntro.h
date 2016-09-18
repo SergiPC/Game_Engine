@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "p2DynArray.h"
 #include "Globals.h"
+#include "RNG.h"
 
 #define BOUNCER_TIME 200
 
@@ -23,4 +24,5 @@ public:
 public:
 
 	Cube c1, c2, c3, c4;
+	RNG rand_gen;
 };
