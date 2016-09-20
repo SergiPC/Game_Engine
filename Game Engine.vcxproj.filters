@@ -34,6 +34,9 @@
     <Filter Include="Sources\External\MathGeoLib\src">
       <UniqueIdentifier>{1ef6a929-f1a3-48ec-9f55-b613b1521375}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Menus">
+      <UniqueIdentifier>{0fd8fa59-cd41-41b0-aacc-ce9a4240fce8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -297,6 +300,12 @@
     <ClInclude Include="glmath.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Menus.h">
+      <Filter>Sources\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuAbout.h">
+      <Filter>Sources\Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -457,6 +466,12 @@
     </ClCompile>
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Menus.cpp">
+      <Filter>Sources\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuAbout.cpp">
+      <Filter>Sources\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

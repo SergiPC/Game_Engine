@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleGuiEditor.h"
 #include "ModuleWindow.h"
+#include "Menus.h"
+#include "MenuAbout.h"
 
 #include "Imgui\imgui_impl_sdl_gl3.h"
 #include "Imgui\imgui.h"
@@ -22,8 +24,11 @@ bool ModuleGuiEditor::Init()
 	gl3wInit();
 	LOG("Init Editor gui with imgui lib");
 	ImGui_ImplSdlGL3_Init(App->window->window);
+
+	// Menus
+	menus_list.add(about_menu = new MenuAbout());
+
 	return true;
-	rand();
 }
 		
 update_status ModuleGuiEditor::PreUpdate(float dt)
@@ -63,13 +68,47 @@ update_status ModuleGuiEditor::Update(float dt)
 			if (ImGui::BeginMenu("View"))
 			{
 				if (ImGui::MenuItem("Open test window"))
-					show_test_window = true;
+					show_test_window = !show_test_window;
 
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Help"))
+			{
+				if (ImGui::MenuItem("About"))
+					about_menu->SwitchActive();
+				/*
+				if (ImGui::MenuItem("Gui Demo"))
+					//showcase = !showcase;
+
+				if (ImGui::MenuItem("Documentation"))
+					//App->RequestBrowser("https:...");
+
+				if (ImGui::MenuItem("Download latest"))
+					//App->RequestBrowser("https:...");
+
+				if (ImGui::MenuItem("Report a bug"))
+					//App->RequestBrowser("https:...");
+				*/
 				ImGui::EndMenu();
 			}
 
 			ImGui::EndMainMenuBar();
 		}
+	}
+
+	// Draw menus
+	p2List_item<Menu*>* menu = menus_list.getFirst();
+
+	while (menu != NULL)
+	{
+		if (menu->data->GetActive() == true)
+		{
+			ImGui::SetNextWindowPos(ImVec2((float)menu->data->pos_x, (float)menu->data->pos_y), ImGuiSetCond_Always);
+			ImGui::SetNextWindowSize(ImVec2((float)menu->data->width, (float)menu->data->height), ImGuiSetCond_Always);
+			menu->data->Render();
+		}
+		menu = menu->next;
 	}
 
 	ImGui::Render();

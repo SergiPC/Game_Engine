@@ -134,6 +134,8 @@
     <ClInclude Include="MathGeoLib\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
+    <ClInclude Include="MenuAbout.h" />
+    <ClInclude Include="Menus.h" />
     <ClInclude Include="ModuleGuiEditor.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Imgui\GL\gl3w.h" />
@@ -196,6 +198,7 @@
     <ClCompile Include="MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="MenuAbout.cpp" />
     <ClCompile Include="ModuleGuiEditor.cpp" />
     <ClCompile Include="Imgui\GL\gl3w.c" />
     <ClCompile Include="Imgui\imgui.cpp" />
@@ -212,6 +215,7 @@
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleSceneIntro.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="Menus.cpp" />
     <ClCompile Include="PhysBody3D.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="RNG.cpp" />

@@ -3,6 +3,10 @@
 #include "Module.h"
 #include "p2DynArray.h"
 #include "Globals.h"
+#include "p2List.h"
+
+class Menu;
+class MenuAbout;
 
 class ModuleGuiEditor : public Module
 {
@@ -15,5 +19,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp() override;
 
+	MenuAbout* about_menu;
+
 private:
+	p2List<Menu*> menus_list;
 };
