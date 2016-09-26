@@ -4,6 +4,12 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "RNG.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
+#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
+#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -15,21 +21,6 @@ ModuleSceneIntro::~ModuleSceneIntro()
 bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
-
-	c1.size.Set(1.0f, 1.0f, 1.0f);
-	c1.SetPos(0,0,0);
-
-	c2.size.Set(1.0f, 1.0f, 1.0f);
-	c2.SetPos(1.5f, 0, 0);
-	c2.color.Set(0.5f, 0.2f, 0.2f);
-
-	c3.size.Set(1.0f, 1.0f, 1.0f);
-	c3.SetPos(3.0f, 0, 0);
-	c3.color.Set(0.2f, 0.5f, 0.2f);
-
-	c4.size.Set(1.0f, 1.0f, 1.0f);
-	c4.SetPos(4.5f, 0, 0);
-	c4.color.Set(0.2f, 0.2f, 0.5f);
 
 	bool ret = true;
 
@@ -49,10 +40,123 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	Plane(0, 1, 0, 0).Render();
 
-	c1.Render();
-	c2.Render();
-	c3.Render();
-	c4.Render();
+	// Cube by triangles -----------------
+	float x = 1.0f;
+	float y = 1.0f;
+	float z = 1.0f;
+	
+	float mx = x * 0.5f;
+	float my = y * 0.5f;
+	float mz = z * 0.5f;
+	/*
+	float g_vertex_data[] = {
+		-mx, -my, -mz,
+		-mx, my, -mz,
+		mx, -my, -mz,
+		mx, -my, -mz,
+		-mx, my, -mz,
+		mx, my, -mz,
+		mx, -my, -mz,
+		mx, my, -mz,
+		mx, -my, mz,
+		mx, -my, mz,
+		mx, my, -mz,
+		mx, my, mz,
+		-mx, -my, mz,
+		mx, -my, mz,
+		mx, my, mz,
+		-mx, -my, mz,
+		mx, my, mz,
+		-mx, my, mz,
+		-mx, -my, -mz,
+		-mx, -my, mz,
+		-mx, my, mz,
+		-mx, -my, -mz,
+		-mx, my, mz,
+		-mx, my, -mz,
+		mx, my, mz,
+		mx, my, -mz,
+		-mx, my, -mz,
+		mx, my, mz,
+		-mx, my, -mz,
+		-mx, my, mz,
+		-mx, -my, mz,
+		-mx, -my, -mz,
+		mx, -my, -mz,
+		-mx, -my, mz,
+		mx, -my, -mz,
+		mx, -my, mz };
+	*/
+	glBegin(GL_TRIANGLES);
+	// Face -Z -------------------
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(-mx, -my, -mz);
+	glVertex3f(-mx, my, -mz);
+	glVertex3f(mx, -my, -mz);	
+
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(mx, -my, -mz);
+	glVertex3f(-mx, my, -mz);
+	glVertex3f(mx, my, -mz);
+
+	// Face X -------------------
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(mx, -my, -mz);
+	glVertex3f(mx, my, -mz);
+	glVertex3f(mx, -my, mz);
+
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(mx, -my, mz);
+	glVertex3f(mx, my, -mz);
+	glVertex3f(mx, my, mz);
+
+	// Face Z -------------------
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-mx, -my, mz);
+	glVertex3f(mx, -my, mz);
+	glVertex3f(mx, my, mz);
+
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-mx, -my, mz);
+	glVertex3f(mx, my, mz);
+	glVertex3f(-mx, my, mz);
+
+	// Face -X ------------------
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(-mx, -my, -mz);
+	glVertex3f(-mx, -my, mz);
+	glVertex3f(-mx, my, mz);
+
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(-mx, -my, -mz);
+	glVertex3f(-mx, my, mz);
+	glVertex3f(-mx, my, -mz);
+
+	// Face Y -------------------
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(mx, my, mz);
+	glVertex3f(mx, my, -mz);
+	glVertex3f(-mx, my, -mz);
+
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(mx, my, mz);
+	glVertex3f(-mx, my, -mz);
+	glVertex3f(-mx, my, mz);
+
+	// Face -Y ------------------
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3f(-mx, -my, mz);
+	glVertex3f(-mx, -my, -mz);
+	glVertex3f(mx, -my, -mz);
+
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3f(-mx, -my, mz);
+	glVertex3f(mx, -my, -mz);
+	glVertex3f(mx, -my, mz);
+
+	glEnd();
+
+	glLineWidth(1.0f);
 
 	return UPDATE_CONTINUE;
 }
