@@ -25,4 +25,7 @@ public:
 
 	Cube c1, c2, c3, c4;
 	RNG rand_gen;
+	uint my_id;
+	uint my_indices;
+	uint my_vertices;
 };

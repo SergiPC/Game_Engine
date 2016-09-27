@@ -5,9 +5,9 @@
 #include "Menus.h"
 #include "MenuAbout.h"
 
+#include "Glew\include\glew.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
 #include "Imgui\imgui.h"
-#include "Imgui\GL\gl3w.h"
 
 ModuleGuiEditor::ModuleGuiEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -21,7 +21,7 @@ ModuleGuiEditor::~ModuleGuiEditor()
 // Called before render is available
 bool ModuleGuiEditor::Init()
 {
-	gl3wInit();
+	glewInit();
 	LOG("Init Editor gui with imgui lib");
 	ImGui_ImplSdlGL3_Init(App->window->window);
 

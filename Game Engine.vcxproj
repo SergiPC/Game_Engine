@@ -76,6 +76,10 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Glew\include\eglew.h" />
+    <ClInclude Include="Glew\include\glew.h" />
+    <ClInclude Include="Glew\include\glxew.h" />
+    <ClInclude Include="Glew\include\wglew.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
@@ -138,8 +142,6 @@
     <ClInclude Include="Menus.h" />
     <ClInclude Include="ModuleGuiEditor.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="Imgui\GL\gl3w.h" />
-    <ClInclude Include="Imgui\GL\glcorearb.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />
     <ClInclude Include="Imgui\imgui_impl_sdl_gl3.h" />
@@ -151,6 +153,7 @@
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModulePhysics3D.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
+    <ClInclude Include="OpenGL.h" />
     <ClInclude Include="p2List.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleAudio.h" />
@@ -200,7 +203,6 @@
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="MenuAbout.cpp" />
     <ClCompile Include="ModuleGuiEditor.cpp" />
-    <ClCompile Include="Imgui\GL\gl3w.c" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />
     <ClCompile Include="Imgui\imgui_draw.cpp" />
