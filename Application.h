@@ -12,6 +12,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGuiEditor.h"
+#include "ModuleLoadFBX.h"
 
 class Application
 {
@@ -24,6 +25,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleGuiEditor* editor;
+	ModuleLoadFBX* load_fbx;
 
 private:
 

@@ -40,6 +40,9 @@
     <Filter Include="Sources\External\Glew">
       <UniqueIdentifier>{2e5bcfbb-7cb7-4cdc-bdde-f8fe436f65c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External\Assimp">
+      <UniqueIdentifier>{0438b40e-c6a5-41ae-bda8-417940989657}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -318,6 +321,12 @@
     <ClInclude Include="OpenGL.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleLoadFBX.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -481,6 +490,12 @@
     </ClCompile>
     <ClCompile Include="MenuAbout.cpp">
       <Filter>Sources\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleLoadFBX.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
