@@ -8,6 +8,9 @@
 
 #pragma comment (lib, "Glew/libx86/glew32.lib") /* link Microsoft OpenGL lib   */
 
+#define checkImageWidth 64
+#define checkImageHeight 64
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
 
@@ -18,6 +21,19 @@ ModuleSceneIntro::~ModuleSceneIntro()
 bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
+
+	GLubyte checkImage[checkImageHeight][checkImageWidth][4];
+
+	for (int i = 0; i < checkImageHeight; i++) {
+		for (int j = 0; j < checkImageWidth; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
 	/*
 	my_id = 0;
 
@@ -71,7 +87,7 @@ bool ModuleSceneIntro::Start()
 	glGenBuffers(1, (GLuint*) &(my_id));
 	glBindBuffer(GL_ARRAY_BUFFER, my_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 36 * 3, g_vertex_data, GL_STATIC_DRAW);
-	*/
+	
 	// Paralepipedo 3 by triangles -----------------
 	float x3 = 7.0f;
 	float y3 = 7.0f;
@@ -110,7 +126,7 @@ bool ModuleSceneIntro::Start()
 	glGenBuffers(1, (GLuint*) &(my_indices)); 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices); 
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6 * 6, indices, GL_STATIC_DRAW);
-
+	*/
 	bool ret = true;
 
 	return ret;
@@ -129,6 +145,24 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	Plane(0, 1, 0, 0).Render();
 
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glShadeModel(GL_FLAT);
+	glEnable(GL_DEPTH_TEST);
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	glGenTextures(1, &ImageName);
+	glBindTexture(GL_TEXTURE_2D, ImageName);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+		GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth,
+		checkImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+
 	// Paralepipedo 1 by triangles -----------------
 	float x = 1.0f;
 	float y = 1.0f;
@@ -141,14 +175,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	glBegin(GL_TRIANGLES);
 	// Face -Z -------------------
 	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(-mx, -my, -mz);
-	glVertex3f(-mx, my, -mz);
-	glVertex3f(mx, -my, -mz);	
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(-mx, -my, -mz);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-mx, my, -mz);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(mx, -my, -mz);
 
 	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(mx, -my, -mz);
-	glVertex3f(-mx, my, -mz);
-	glVertex3f(mx, my, -mz);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(mx, -my, -mz);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-mx, my, -mz);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(mx, my, -mz);
 
 	// Face X -------------------
 	glNormal3f(1.0f, 0.0f, 0.0f);
@@ -207,7 +241,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	glEnd();
 	glLineWidth(1.0f);
-	
+
 	/*
 	// Paralepipedo 2 by triangles -----------------
 	glEnableClientState(GL_VERTEX_ARRAY); 
@@ -216,7 +250,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	// … draw other buffers 
 	glDrawArrays(GL_TRIANGLES, 0, 36 * 3); 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	*/
+
 
 	// Paralepipedo 3 by triangles -----------------
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -225,7 +259,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	// … draw other buffers 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
+	*/
 	return UPDATE_CONTINUE;
 }
 
