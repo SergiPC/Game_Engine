@@ -1,13 +1,12 @@
-#pragma once
+#ifndef __MODULE_SCENE_INTRO__
+#define __MODULE_SCENE_INTRO__
+
 #include "Module.h"
-#include "p2DynArray.h"
-#include "Globals.h"
-#include "RNG.h"
+#include "ModuleLoadFBX.h"
 
 #define BOUNCER_TIME 200
 
-struct PhysBody3D;
-class Cube;
+struct MeshData;
 
 class ModuleSceneIntro : public Module
 {
@@ -23,9 +22,10 @@ public:
 
 public:
 
-	Cube c1, c2, c3, c4;
-	RNG rand_gen;
-	uint my_id;
-	uint my_indices;
-	uint my_vertices;
+	uint my_id = 0;
+	uint my_indices = 0;
+	uint my_vertices = 0;
+	std::vector<MeshData> warrior_fbx;
 };
+
+#endif __MODULE_SCENE_INTRO__

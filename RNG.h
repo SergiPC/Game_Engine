@@ -1,8 +1,8 @@
 // ----------------------------------------------------
 // Random Number Generator   --------------------------
 // ----------------------------------------------------
-
-#pragma once
+#ifndef __RNG__
+#define __RNG__
 
 #include "SDL\include\SDL.h"
 #include <iostream>
@@ -44,3 +44,5 @@ public:
 	// Returns an integer in the range [_from, _to].
 	int IntBetween(int _from, int _to);
 };
+
+#endif __RNG__

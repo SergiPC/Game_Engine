@@ -1,14 +1,14 @@
-#pragma once
+#ifndef __MODULE_FBX__
+#define __MODULE_FBX__
 
 #include "Module.h"
-#include "Globals.h"
-#include "p2DynArray.h"
+#include <vector>
 
 struct MeshData
 {
 	uint id_vertices = 0; // id in VRAM 
 	uint num_vertices = 0; 
-	uint* vertices = nullptr;
+	float* vertices = nullptr;
 
 	uint id_indices = 0; // id in VRAM 
 	uint num_indices = 0; 
@@ -25,8 +25,8 @@ public:
 	void Render();
 	bool CleanUp();
 
-	void LoadFile(const char* path);
+	std::vector<MeshData> LoadFile(const char* path);
 
-private:
-	p2DynArray<MeshData*> mesh_list;
 };
+
+#endif __MODULE_FBX__

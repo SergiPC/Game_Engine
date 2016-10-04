@@ -1,15 +1,13 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneIntro.h"
-#include "Primitive.h"
-#include "PhysBody3D.h"
-#include "RNG.h"
 #include "OpenGL.h"
 
 #pragma comment (lib, "Glew/libx86/glew32.lib") /* link Microsoft OpenGL lib   */
 
 #define checkImageWidth 64
 #define checkImageHeight 64
+
+using namespace std;
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -22,17 +20,9 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 
-	GLubyte checkImage[checkImageHeight][checkImageWidth][4];
-
-	for (int i = 0; i < checkImageHeight; i++) {
-		for (int j = 0; j < checkImageWidth; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}
+	// Assimp, first steps -------------------------
+	warrior_fbx = App->load_fbx->LoadFile("Library/warrior.fbx");
+	
 
 	/*
 	my_id = 0;
@@ -116,17 +106,16 @@ bool ModuleSceneIntro::Start()
 		4,5,0, 5,1,0 };
 
 	// Create vertice buffer
-	my_vertices = 0;
 	glGenBuffers(1, (GLuint*) &(my_vertices));
 	glBindBuffer(GL_ARRAY_BUFFER, my_vertices);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * 3, vertex, GL_STATIC_DRAW);
 
 	// Create indices buffer
-	my_indices = 0;
 	glGenBuffers(1, (GLuint*) &(my_indices)); 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices); 
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6 * 6, indices, GL_STATIC_DRAW);
 	*/
+
 	bool ret = true;
 
 	return ret;
@@ -144,24 +133,6 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	Plane(0, 1, 0, 0).Render();
-
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glShadeModel(GL_FLAT);
-	glEnable(GL_DEPTH_TEST);
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	glGenTextures(1, &ImageName);
-	glBindTexture(GL_TEXTURE_2D, ImageName);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-		GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-		GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth,
-		checkImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
 	// Paralepipedo 1 by triangles -----------------
 	float x = 1.0f;
@@ -241,6 +212,21 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	glEnd();
 	glLineWidth(1.0f);
+
+
+	// Assimp, first steps -------------------------
+	vector<MeshData>::iterator tmp_mesh = warrior_fbx.begin();
+
+	while (tmp_mesh != warrior_fbx.end())
+	{
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*tmp_mesh).id_indices);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glDrawElements(GL_TRIANGLES, (*tmp_mesh).num_indices, GL_UNSIGNED_INT, NULL);
+		glDisableClientState(GL_VERTEX_ARRAY);
+
+		tmp_mesh++;
+	}
 
 	/*
 	// Paralepipedo 2 by triangles -----------------
