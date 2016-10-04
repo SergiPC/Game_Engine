@@ -8,6 +8,7 @@ Application::Application()
 	capped_ms = 1000 / 60;
 	fps_counter = 0;
 
+	file_sys = new ModuleFileSystem(this, true, "/Library/");
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -23,6 +24,7 @@ Application::Application()
 	// They will CleanUp() in reverse order
 
 	// Main Modules
+	AddModule(file_sys);
 	AddModule(window);
 	AddModule(physics3D);
 	AddModule(renderer3D);
@@ -162,4 +164,16 @@ bool Application::CleanUp()
 void Application::AddModule(Module* mod)
 {
 	list_modules.add(mod);
+}
+
+// ---------------------------------------
+const char* Application::GetTitle() const
+{
+	return title.c_str();
+}
+
+// ---------------------------------------
+const char* Application::GetOrganizationName() const
+{
+	return organization.c_str();
 }

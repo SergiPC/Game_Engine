@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
+#include "ModuleFileSystem.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
@@ -17,6 +18,7 @@
 class Application
 {
 public:
+	ModuleFileSystem* file_sys;
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleAudio* audio;
@@ -39,6 +41,9 @@ private:
 	int		capped_ms;
 	p2List<Module*> list_modules;
 
+	std::string title;
+	std::string organization;
+
 public:
 
 	Application();
@@ -47,6 +52,10 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+
+	// Exposing some properties for reading
+	const char* GetTitle() const;
+	const char* GetOrganizationName() const;
 
 private:
 
