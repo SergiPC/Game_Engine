@@ -1,6 +1,14 @@
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 #include "OpenGL.h"
+#include "Devil/include/il.h"
+#include "Devil/include/il_wrap.h"
+#include "Devil/include/ilu.h"
+#include "Devil/include/ilu_region.h"
+#include "Devil/include/ilut.h"
+#include "Devil/include/ilut_config.h"
+#include "Devil/include/devil_internal_exports.h"
+
 
 #pragma comment (lib, "Glew/libx86/glew32.lib") /* link Microsoft OpenGL lib   */
 
@@ -20,9 +28,36 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 
+	ilutGLBindTexImage();
+
 	// Assimp, first steps -------------------------
-	warrior_fbx = App->load_fbx->LoadFile("Library/warrior.fbx");
-	
+	warrior_fbx = App->load_fbx->LoadFile("Game/Library/warrior.fbx");
+
+	GLubyte checkImage[checkImageHeight][checkImageWidth][4];
+	for (int i = 0; i < checkImageHeight; i++) {
+		for (int j = 0; j < checkImageWidth; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
+	// Create vertice buffer
+	glGenBuffers(1, (GLuint*) &(ImageName));
+	glBindBuffer(GL_ARRAY_BUFFER, ImageName);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * checkImageWidth * checkImageHeight * 3, vertex, GL_STATIC_DRAW);
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &ImageName);
+	glBindTexture(GL_TEXTURE_2D, ImageName);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth, checkImageHeight,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
 	/*
 	my_id = 0;
@@ -227,6 +262,8 @@ update_status ModuleSceneIntro::Update(float dt)
 
 		tmp_mesh++;
 	}
+
+
 
 	/*
 	// Paralepipedo 2 by triangles -----------------
