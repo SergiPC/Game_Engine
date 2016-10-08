@@ -18,6 +18,7 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	editor = new ModuleGuiEditor(this);
 	load_fbx = new ModuleLoadFBX(this);
+	go_manager = new ModuleGOManager(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -32,6 +33,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(load_fbx);
+	AddModule(go_manager);
 		
 	// Scenes
 	AddModule(scene_intro);

@@ -1,19 +1,23 @@
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneIntro.h"
-#include "OpenGL.h"
-#include "Devil/include/il.h"
-#include "Devil/include/il_wrap.h"
-#include "Devil/include/ilu.h"
-#include "Devil/include/ilu_region.h"
-#include "Devil/include/ilut.h"
-#include "Devil/include/ilut_config.h"
-#include "Devil/include/devil_internal_exports.h"
+#include "Primitive.h"
+#include "PhysBody3D.h"
+//#include "MathGeoLib\Math\float3.h"
+#include "Glew\include\glew.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include <vector>
 
-
-#pragma comment (lib, "Glew/libx86/glew32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
+#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "Glew/libx86/glew32.lib")
 
 #define checkImageWidth 64
 #define checkImageHeight 64
+
+static GLuint texName;
 
 using namespace std;
 
@@ -28,10 +32,15 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 
-	ilutGLBindTexImage();
-
 	// Assimp, first steps -------------------------
-	warrior_fbx = App->load_fbx->LoadFile("Game/Library/warrior.fbx");
+	//warrior_fbx = App->load_fbx->LoadFile("Game/Library/warrior.fbx");
+
+	glewInit();
+
+	// Checkmate texture ---------------------------
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glShadeModel(GL_FLAT);
+	glEnable(GL_TEXTURE_2D);
 
 	GLubyte checkImage[checkImageHeight][checkImageWidth][4];
 	for (int i = 0; i < checkImageHeight; i++) {
@@ -44,20 +53,16 @@ bool ModuleSceneIntro::Start()
 		}
 	}
 
-	// Create vertice buffer
-	glGenBuffers(1, (GLuint*) &(ImageName));
-	glBindBuffer(GL_ARRAY_BUFFER, ImageName);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * checkImageWidth * checkImageHeight * 3, vertex, GL_STATIC_DRAW);
-
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &ImageName);
-	glBindTexture(GL_TEXTURE_2D, ImageName);
+
+	glGenTextures(1, &texName);
+	glBindTexture(GL_TEXTURE_2D, texName);
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth, checkImageHeight,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth, checkImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
 	/*
 	my_id = 0;
@@ -167,7 +172,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane(0, 1, 0, 0).Render();
+	Plane(0, 1, 0, 0).Render(); 
 
 	// Paralepipedo 1 by triangles -----------------
 	float x = 1.0f;
@@ -179,75 +184,74 @@ update_status ModuleSceneIntro::Update(float dt)
 	float mz = z * 0.5f;
 	
 	glBegin(GL_TRIANGLES);
-	// Face -Z -------------------
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(-mx, -my, -mz);
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(-mx, my, -mz);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(mx, -my, -mz);
-
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(mx, -my, -mz);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(-mx, my, -mz);
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(mx, my, -mz);
-
-	// Face X -------------------
+	// X -------------------
 	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(mx, -my, -mz);
-	glVertex3f(mx, my, -mz);
-	glVertex3f(mx, -my, mz);
+	glTexCoord2f(1.f, 0.f); glVertex3f(mx, -my, mz); //A
+	glTexCoord2f(0.f, 1.f); glVertex3f(mx, my, -mz); //D
+	glTexCoord2f(1.f, 1.f); glVertex3f(mx, my, mz);  //B
 
 	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(mx, -my, mz);
-	glVertex3f(mx, my, -mz);
-	glVertex3f(mx, my, mz);
+	glTexCoord2f(1.f, 1.f); glVertex3f(mx, -my, -mz); //C
+	glTexCoord2f(0.f, 1.f); glVertex3f(mx, my, -mz); //D
+	glTexCoord2f(1.f, 0.f); glVertex3f(mx, -my, mz); //A
 
-	// Face Z -------------------
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-mx, -my, mz);
-	glVertex3f(mx, -my, mz);
-	glVertex3f(mx, my, mz);
-
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-mx, -my, mz);
-	glVertex3f(mx, my, mz);
-	glVertex3f(-mx, my, mz);
-
-	// Face -X ------------------
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(-mx, -my, -mz);
-	glVertex3f(-mx, -my, mz);
-	glVertex3f(-mx, my, mz);
-
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(-mx, -my, -mz);
-	glVertex3f(-mx, my, mz);
-	glVertex3f(-mx, my, -mz);
-
-	// Face Y -------------------
+    // Y -------------------
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(mx, my, mz);
-	glVertex3f(mx, my, -mz);
-	glVertex3f(-mx, my, -mz);
+	glTexCoord2f(1.f, 0.f); glVertex3f(mx, my, mz); //B
+	glTexCoord2f(1.f, 1.f); glVertex3f(mx, my, -mz); //D
+	glTexCoord2f(0.f, 1.f); glVertex3f(-mx, my, -mz); //E
 
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(mx, my, mz);
-	glVertex3f(-mx, my, -mz);
-	glVertex3f(-mx, my, mz);
+	glTexCoord2f(0.f, 1.f); glVertex3f(mx, my, mz); //B
+	glTexCoord2f(1.f, 0.f); glVertex3f(-mx, my, -mz); //E
+	glTexCoord2f(1.f, 1.f); glVertex3f(-mx, my, mz); //F
 
-	// Face -Y ------------------
+	// Z -------------------
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(1.f, 0.f); glVertex3f(-mx, -my, mz); //G
+	glTexCoord2f(1.f, 1.f); glVertex3f(mx, -my, mz); //A
+	glTexCoord2f(0.f, 1.f); glVertex3f(mx, my, mz); //B
+
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.f, 1.f); glVertex3f(-mx, -my, mz); //G
+	glTexCoord2f(1.f, 0.f); glVertex3f(mx, my, mz); //B
+	glTexCoord2f(1.f, 1.f); glVertex3f(-mx, my, mz); //F
+
+	// -X ------------------
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.f, 0.f); glVertex3f(-mx, -my, -mz);
+	glTexCoord2f(0.f, 1.f); glVertex3f(-mx, my, mz);
+	glTexCoord2f(1.f, 1.f); glVertex3f(-mx, my, -mz);
+
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.f, 0.f); glVertex3f(-mx, -my, -mz);
+	glTexCoord2f(1.f, 1.f); glVertex3f(-mx, -my, mz);
+	glTexCoord2f(0.f, 1.f); glVertex3f(-mx, my, mz);
+
+	// -Y ------------------
 	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(-mx, -my, mz);
-	glVertex3f(-mx, -my, -mz);
-	glVertex3f(mx, -my, -mz);
+	glTexCoord2f(1.f, 0.f); glVertex3f(-mx, -my, mz);
+	glTexCoord2f(1.f, 1.f); glVertex3f(-mx, -my, -mz);
+	glTexCoord2f(0.f, 1.f); glVertex3f(mx, -my, -mz);
 
 	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(-mx, -my, mz);
-	glVertex3f(mx, -my, -mz);
-	glVertex3f(mx, -my, mz);
+	glTexCoord2f(0.f, 1.f); glVertex3f(-mx, -my, mz);
+	glTexCoord2f(1.f, 0.f); glVertex3f(mx, -my, -mz);
+	glTexCoord2f(1.f, 1.f); glVertex3f(mx, -my, mz);
+
+	// -Z -------------------
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glTexCoord2f(0.f, 1.f); glVertex3f(mx, -my, -mz);
+	glTexCoord2f(1.f, 0.f); glVertex3f(-mx, my, -mz);
+	glTexCoord2f(1.f, 1.f); glVertex3f(mx, my, -mz);
+
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glTexCoord2f(1.f, 1.f); glVertex3f(-mx, -my, -mz);
+	glTexCoord2f(0.f, 1.f); glVertex3f(-mx, my, -mz);
+	glTexCoord2f(1.f, 0.f); glVertex3f(mx, -my, -mz);
+
 
 	glEnd();
-	glLineWidth(1.0f);
-
 
 	// Assimp, first steps -------------------------
 	vector<MeshData>::iterator tmp_mesh = warrior_fbx.begin();

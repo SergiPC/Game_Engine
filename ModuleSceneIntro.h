@@ -26,8 +26,6 @@ public:
 	uint my_indices = 0;
 	uint my_vertices = 0;
 	std::vector<MeshData> warrior_fbx;
-	uint ImageName = 0;
-	const char* FileName = "Game/Library/warrior.fbx";
 };
 
 #endif __MODULE_SCENE_INTRO__

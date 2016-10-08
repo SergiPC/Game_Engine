@@ -14,6 +14,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleGuiEditor.h"
 #include "ModuleLoadFBX.h"
+#include "ModuleGOManager.h"
 
 class Application
 {
@@ -28,6 +29,7 @@ public:
 	ModuleCamera3D* camera;
 	ModuleGuiEditor* editor;
 	ModuleLoadFBX* load_fbx;
+	ModuleGOManager* go_manager;
 
 private:
 

@@ -43,8 +43,8 @@
     <Filter Include="Sources\External\Assimp">
       <UniqueIdentifier>{0438b40e-c6a5-41ae-bda8-417940989657}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\External\Devil">
-      <UniqueIdentifier>{4ffdec66-cf11-4c1b-b296-0056e818462b}</UniqueIdentifier>
+    <Filter Include="Sources\Modules\GameObject">
+      <UniqueIdentifier>{c221da3e-4561-46ba-880d-02889bd47905}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -333,29 +333,14 @@
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Devil\include\config.h">
-      <Filter>Sources\External\Devil</Filter>
+    <ClInclude Include="ModuleGOManager.h">
+      <Filter>Sources\Modules\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Devil\include\devil_internal_exports.h">
-      <Filter>Sources\External\Devil</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>Sources\Modules\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Devil\include\il.h">
-      <Filter>Sources\External\Devil</Filter>
-    </ClInclude>
-    <ClInclude Include="Devil\include\il_wrap.h">
-      <Filter>Sources\External\Devil</Filter>
-    </ClInclude>
-    <ClInclude Include="Devil\include\ilu.h">
-      <Filter>Sources\External\Devil</Filter>
-    </ClInclude>
-    <ClInclude Include="Devil\include\ilu_region.h">
-      <Filter>Sources\External\Devil</Filter>
-    </ClInclude>
-    <ClInclude Include="Devil\include\ilut.h">
-      <Filter>Sources\External\Devil</Filter>
-    </ClInclude>
-    <ClInclude Include="Devil\include\ilut_config.h">
-      <Filter>Sources\External\Devil</Filter>
+    <ClInclude Include="Component.h">
+      <Filter>Sources\Modules\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +514,12 @@
     </ClCompile>
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleGOManager.cpp">
+      <Filter>Sources\Modules\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\Modules\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
