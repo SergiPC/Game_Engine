@@ -1,23 +1,18 @@
 #include "GameObject.h"
-#include "ModuleGOManager.h"
 #include "Globals.h"
 
 #include <sstream>
 
 using namespace std;
 
-GameObject::GameObject(GameObject* root = nullptr)
+GameObject::GameObject(GameObject* root)
 {
 	parent = root;
-	name = "NewGameObject";
+	name = "Game Object";
 
-	CheckName(name.c_str);
+	//CheckName(name.c_str);
 	// Set name with number ?
 	// Check if there is any other GameObject with that name:
-	ostringstream new_name;
-	new_name << name << index;
-	name = new_name.str();
-	index++;
 }
 
 GameObject::~GameObject()
@@ -26,7 +21,9 @@ GameObject::~GameObject()
 // -----------------------------------------------------------------
 bool GameObject::Start()
 {
+	bool ret = true;
 
+	return ret;
 }
 
 // -----------------------------------------------------------------
@@ -44,28 +41,44 @@ bool GameObject::CleanUp()
 }
 
 // -----------------------------------------------------------------
-Component* GameObject::AddComponents(Component* type)
+Component* GameObject::AddComponents(Type TIPE)
 {
+	Component* new_component;
 
+	if (TIPE == TRANSFORM)
+		new_component = new Transform();
+
+	components.push_back(new_component);
+	
+	return new_component;
 }
 
 // -----------------------------------------------------------------
 void GameObject::DelComponent(Component* comp)
 {
-
+	comp->CleanUp();
 }
 
 // -----------------------------------------------------------------
-Component* GameObject::FindComponent(Type type)
+Component* GameObject::FindComponent(Type TIPE)
 {
+	int i = 0;
 
+	while (components[i] != nullptr)
+	{
+		if (components[i]->GetType() == TIPE)
+		{
+			return components[i];
+		}
+		i++;
+	}
+
+	return nullptr;
 }
 
 // -----------------------------------------------------------------
-vector<Component*> GameObject::FindComponentsVec(Type type)
-{
-
-}
+//vector<Component*> GameObject::FindComponentsVec(Type TIPE)
+//{}
 
 // -----------------------------------------------------------------
 GameObject* GameObject::GetParent()
@@ -76,14 +89,12 @@ GameObject* GameObject::GetParent()
 // -----------------------------------------------------------------
 void GameObject::SetName(const char* new_name)
 {
-
+	name = new_name;
 }
 
 // -----------------------------------------------------------------
-const char* GameObject::CheckName(const char* new_name)
-{
-	GetGOVector();
-}
+//const char* GameObject::CheckName(const char* new_name)
+//{}
 
 // -----------------------------------------------------------------
 void GameObject::SetParent(GameObject* new_parent)
@@ -94,11 +105,11 @@ void GameObject::SetParent(GameObject* new_parent)
 // -----------------------------------------------------------------
 bool GameObject::IsEnable()
 {
-
+	return enabled;
 }
 
 // -----------------------------------------------------------------
 void GameObject::SetEnable(bool enable)
 {
-
+	enabled = enable;
 }

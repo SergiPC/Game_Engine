@@ -521,6 +521,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Sources\Modules\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\Modules\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl">

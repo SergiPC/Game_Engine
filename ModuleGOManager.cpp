@@ -4,10 +4,7 @@
 using namespace std;
 
 ModuleGOManager::ModuleGOManager(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-	root = new GameObject();
-	game_objects_list[0];
-}
+{}
 
 ModuleGOManager::~ModuleGOManager()
 {}
@@ -17,7 +14,8 @@ bool ModuleGOManager::Start()
 {
 	LOG("Setting up GOManager");
 
-	//GameObject root = new GameObject();
+	root = new GameObject();
+	game_objects_list.push_back(root);
 	root->SetName("Hierarchy");
 
 	bool ret = true;

@@ -3,22 +3,21 @@
 
 #include "Module.h"
 #include "GameObject.h"
-#include <vector>
 
-class ModuleGOManager : public Module 
+class ModuleGOManager : public Module
 {
 public:
 	ModuleGOManager(Application* app, bool start_enabled = true);
 	~ModuleGOManager();
 
-	bool Start();
-	update_status Update(float dt);
-	bool CleanUp();
+	bool			Start();
+	update_status	Update(float dt);
+	bool			CleanUp();
 
-	GameObject* CreateNewGO(GameObject* parent);
-	void DeleteGO(GameObject* go);
-	GameObject* DuplicateGO(GameObject* go);
-	void SetParent(GameObject* go, GameObject* parent);
+	GameObject*		CreateNewGO(GameObject* parent);
+	void			DeleteGO(GameObject* go);
+	GameObject*		DuplicateGO(GameObject* go);
+	void			SetParent(GameObject* go, GameObject* parent);
 
 	std::vector<GameObject*> GetGOVector();
 

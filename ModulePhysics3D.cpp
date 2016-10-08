@@ -4,7 +4,7 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "Bullet/src/btBulletDynamicsCommon.h"
-#include "Bullet\src\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
+#include "Bullet/src/BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/bin/BulletDynamics_debug.lib")
