@@ -1,7 +1,9 @@
 #ifndef __COMPONENT__
 #define __COMPONENT__
 
-#include "glmath.h"
+//#include "glmath.h"
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
 
 enum Type
 {
@@ -35,17 +37,20 @@ class Transform : public Component
 {
 public:
 	Transform();
-	void	Update();
-	void	SetPos(vec3 new_pos);
-	void	SetRotation(vec3 new_rotation);
-	void	SetScale(vec3 new_scale);
+	void		Update();
+	void		SetPos(float npos_x, float npos_y, float npos_z);
+	void		SetRotation(float nrot_x, float nrot_y, float nrot_z);
+	void		SetScale(float nscale_x, float nscale_y, float nscale_z);
+
+	float4x4	EulerMatrix(float psi, float theta, float phi);
+	float3		MatrixToEuler(float4x4 rot_mat);
 
 private:
-	vec3		position;
-	vec3		rotation;
-	vec3		scale;
-	mat4x4		tranform;
-	vec4		quat;
+	float3		position;
+	float3		rotation;
+	float3		scale;
+	float4x4	tranform;
+	float4		quat;
 };
 
 #endif __COMPONENT__

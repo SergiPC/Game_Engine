@@ -172,7 +172,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane(0, 1, 0, 0).Render(); 
+	PrimPlane(0, 1, 0, 0).Render(); 
 
 	// Paralepipedo 1 by triangles -----------------
 	float x = 1.0f;
@@ -183,6 +183,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	float my = y * 0.5f;
 	float mz = z * 0.5f;
 	
+	//TODO 01: Change Vertex
 	glBegin(GL_TRIANGLES);
 	// X -------------------
 	glNormal3f(1.0f, 0.0f, 0.0f);
