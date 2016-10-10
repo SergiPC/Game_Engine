@@ -32,6 +32,7 @@ protected:
 	Type	type;
 };
 
+// MUST DO 02: Better do it on another file
 // ============================================
 class Transform : public Component
 {

@@ -1,12 +1,14 @@
-#pragma once
+#ifndef __MENUS__
+#define __MENUS__
+
 #include "Globals.h"
-#include "SDL/include/SDL_scancode.h"
 
 enum MenuTypes
 {
 	Menu_Unknown,
 	Menu_Console,
-	Menu_About
+	Menu_About,
+	Menu_Hierarchy
 };
 
 class Menu
@@ -27,3 +29,5 @@ public:
 protected:
 	MenuTypes type;
 };
+
+#endif __MENUS__

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MENU_ABOUT__
+#define __MENU_ABOUT__
+
 #include "Menus.h"
 
 class MenuAbout : public Menu
@@ -9,3 +11,5 @@ public:
 
 	void Render();
 };
+
+#endif __MENU_ABOUT__

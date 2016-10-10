@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APPLICATION__
+#define __APPLICATION__
 
 #include "p2List.h"
 #include "Globals.h"
@@ -51,13 +52,14 @@ public:
 	Application();
 	~Application();
 
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+	bool			Init();
+	update_status	Update();
+	bool			CleanUp();
 
 	// Exposing some properties for reading
-	const char* GetTitle() const;
-	const char* GetOrganizationName() const;
+	const char*		GetTitle() const;
+	const char*		GetOrganizationName() const;
+	void			ExecuteBrowser(const char* path);
 
 private:
 
@@ -65,3 +67,7 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+
+extern Application* App;
+
+#endif __APPLICATION__

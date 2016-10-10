@@ -14,9 +14,10 @@ public:
 	update_status	Update(float dt);
 	bool			CleanUp();
 
-	GameObject*		CreateNewGO(GameObject* parent);
+	GameObject*		CreateNewGO(GameObject* parent = nullptr);
 	void			DeleteGO(GameObject* go);
 	GameObject*		DuplicateGO(GameObject* go);
+	GameObject*		GetParent();
 	void			SetParent(GameObject* go, GameObject* parent);
 
 	std::vector<GameObject*> GetGOVector();
@@ -25,7 +26,7 @@ public:
 	std::vector<GameObject*> game_objects_list;
 
 private:
-	GameObject* root;
+	GameObject* root = nullptr;
 };
 
 #endif __MODULE_GO_MANAGER__

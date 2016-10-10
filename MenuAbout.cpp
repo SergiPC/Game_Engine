@@ -4,10 +4,10 @@
 // ------------------------------------------------------------
 MenuAbout::MenuAbout() : Menu(Menu_About)
 {
-	width = 600;
-	height = 90;
 	pos_x = 350;
 	pos_y = 450;
+	width = 600;
+	height = 90;
 	active = false;
 }
 
@@ -20,7 +20,8 @@ void MenuAbout::Render()
 {
 	ImGui::Begin("Deku Engine", &active,
 		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoCollapse);
+		ImGuiWindowFlags_NoFocusOnAppearing |
+		ImGuiWindowFlags_HorizontalScrollbar);
 
 	ImGui::Text("3D game engine made for a college's subject.");
 	ImGui::Text("By Sergi Perez.");

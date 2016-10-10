@@ -441,6 +441,9 @@
     <ClInclude Include="Assimp\include\version.h">
       <Filter>Sources\External\Assimp</Filter>
     </ClInclude>
+    <ClInclude Include="MenuHierarchy.h">
+      <Filter>Sources\Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -622,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Sources\Modules\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuHierarchy.cpp">
+      <Filter>Sources\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

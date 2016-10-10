@@ -41,6 +41,12 @@ update_status ModuleGOManager::Update(float dt)
 // -----------------------------------------------------------------
 GameObject* ModuleGOManager::CreateNewGO(GameObject* parent)
 {
+	if (parent == nullptr)
+		parent = root;
+
+	// If else shortcut <-- Must known
+	//(parent == nullptr) ? (parent = root) : (parent == nullptr);
+
 	GameObject* new_go = new GameObject(parent);
 	game_objects_list.push_back(new_go);
 
@@ -60,6 +66,11 @@ GameObject* ModuleGOManager::DuplicateGO(GameObject* go)
 	copy_go = go;
 
 	return copy_go;
+}
+
+GameObject* ModuleGOManager::GetParent()
+{
+	return root;
 }
 
 // -----------------------------------------------------------------

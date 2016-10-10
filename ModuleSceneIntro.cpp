@@ -32,11 +32,13 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 
+	// MUST DO 04: Mesh Component
 	// Assimp, first steps -------------------------
 	//warrior_fbx = App->load_fbx->LoadFile("Game/Library/warrior.fbx");
 
 	glewInit();
 
+	// MUST DO 03: Texture/Material Component
 	// Checkmate texture ---------------------------
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
@@ -183,7 +185,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	float my = y * 0.5f;
 	float mz = z * 0.5f;
 	
-	//TODO 01: Change Vertex
+	// MUST DO 01: Change Vertex
 	glBegin(GL_TRIANGLES);
 	// X -------------------
 	glNormal3f(1.0f, 0.0f, 0.0f);

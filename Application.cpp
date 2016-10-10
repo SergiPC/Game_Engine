@@ -179,3 +179,9 @@ const char* Application::GetOrganizationName() const
 {
 	return organization.c_str();
 }
+
+// ---------------------------------------
+void Application::ExecuteBrowser(const char* path)
+{
+	ShellExecute(NULL, "open", path, NULL, NULL, SW_SHOWDEFAULT);
+}

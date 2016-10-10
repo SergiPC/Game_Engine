@@ -175,6 +175,7 @@
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="MenuAbout.h" />
+    <ClInclude Include="MenuHierarchy.h" />
     <ClInclude Include="Menus.h" />
     <ClInclude Include="ModuleFileSystem.h" />
     <ClInclude Include="ModuleGOManager.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="MenuAbout.cpp" />
+    <ClCompile Include="MenuHierarchy.cpp" />
     <ClCompile Include="ModuleFileSystem.cpp" />
     <ClCompile Include="ModuleGOManager.cpp" />
     <ClCompile Include="ModuleGuiEditor.cpp" />
