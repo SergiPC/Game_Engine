@@ -5,6 +5,7 @@
 #include "Menus.h"
 #include "MenuAbout.h"
 #include "MenuHierarchy.h"
+#include "MenuDiagnostic.h"
 
 #include "Glew\include\glew.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
@@ -32,6 +33,7 @@ bool ModuleGuiEditor::Init()
 	// Add Menus
 	menus_list.push_back(about_menu = new MenuAbout());
 	menus_list.push_back(hierarchy_menu = new MenuHierarchy());
+	menus_list.push_back(diagnostic_menu = new MenuDiagnostic());
 
 	return true;
 }
@@ -47,7 +49,7 @@ update_status ModuleGuiEditor::PreUpdate(float dt)
 update_status ModuleGuiEditor::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
-	static bool show_test_window = true;
+	static bool show_test_window = false;
 
 	if (show_test_window)
 	{
@@ -74,17 +76,30 @@ update_status ModuleGuiEditor::Update(float dt)
 					//ret = UPDATE_STOP;
 				}
 
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Quit", "    Esc"))
 					ret = UPDATE_STOP;
 
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::BeginMenu("View"))
+			if (ImGui::BeginMenu("Window"))
 			{				
-				if (ImGui::MenuItem("Open test window"))
-					show_test_window = !show_test_window;
+				if (ImGui::MenuItem("Hierarchy", "    Ctrl+1"))
+					hierarchy_menu->SwitchActive();
+
+				if (ImGui::MenuItem("Diagnostic", "    Ctrl+2"))
+					diagnostic_menu->SwitchActive();
 				
+				if (ImGui::MenuItem("Test", "    Ctrl+3"))
+					show_test_window = !show_test_window;
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Console", "    Ctrl+Shift+C"))
+					show_test_window = !show_test_window;
+
 				ImGui::EndMenu();
 			}
 
@@ -92,7 +107,9 @@ update_status ModuleGuiEditor::Update(float dt)
 			{
 				if (ImGui::MenuItem("About"))
 					about_menu->SwitchActive();
-
+				
+				ImGui::Separator();
+				
 				if (ImGui::MenuItem("Documentation", "    ->"))
 				{
 					//ShellExecute(NULL, "open", "https://github.com/SergiPC/Game_Engine/wiki", NULL, NULL, SW_SHOWDEFAULT);
@@ -130,6 +147,12 @@ update_status ModuleGuiEditor::Update(float dt)
 	ImGui::Render();
 
 	return ret;
+}
+
+void ModuleGuiEditor::CalcFPS(float current_fps)
+{
+	if (diagnostic_menu != nullptr)
+		diagnostic_menu->CalculateFPS(current_fps);
 }
 
 // Called before quitting -------------------------------------

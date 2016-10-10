@@ -11,8 +11,8 @@ MenuHierarchy::MenuHierarchy() : Menu(Menu_Hierarchy)
 {
 	pos_x = 2;
 	pos_y = 22;
-	width = 250;
-	height = 975;
+	width = 275;
+	height = 475;
 }
 
 // ------------------------------------------------------------

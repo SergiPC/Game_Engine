@@ -111,6 +111,7 @@ void Application::FinishUpdate()
 	//char t[50];
 	//sprintf_s(t, "FPS: %d", (int)last_fps);
 	//window->SetTitle(t);
+	editor->CalcFPS((float) last_fps);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules

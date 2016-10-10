@@ -444,6 +444,9 @@
     <ClInclude Include="MenuHierarchy.h">
       <Filter>Sources\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="MenuDiagnostic.h">
+      <Filter>Sources\Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -627,6 +630,9 @@
       <Filter>Sources\Modules\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="MenuHierarchy.cpp">
+      <Filter>Sources\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuDiagnostic.cpp">
       <Filter>Sources\Menus</Filter>
     </ClCompile>
   </ItemGroup>
