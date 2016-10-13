@@ -1,5 +1,5 @@
-#ifndef __ModuleWindow_H__
-#define __ModuleWindow_H__
+#ifndef __MODULE_WINDOW_H__
+#define __MODULE_WINDOW_H__
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
@@ -23,7 +23,9 @@ public:
 	void	SetResizable(bool enable);
 	void	SetFullscreen(bool enable);
 	void	SetWidth(int w);
-	void	SetHeigth(int h);
+	void	SetHeight(int h);
+	void	SetDefaultSize();
+	// Maybe I can implement a method to change size of "menus"
 
 	int		GetWidth();
 	int		GetHeight();
@@ -33,15 +35,15 @@ public:
 	bool	GetFullscreen();
 
 public:
-	//The window we'll be rendering to
+	// The window we'll be rendering to
 	SDL_Window* window;
 
-	//The surface contained by the window
+	// The surface contained by the window
 	SDL_Surface* screen_surface;
 
 private:
-	int		screen_w = 1280;
-	int		screen_h = 1024;
+	int		screen_w;
+	int		screen_h;
 	int		screen_scale = 1;
 	bool	fullscreen = false;
 	bool	resizable = true;
@@ -49,4 +51,4 @@ private:
 	bool	full_desktop = false;
 };
 
-#endif // __ModuleWindow_H__
+#endif // __MODULE_WINDOW_H__

@@ -2,8 +2,11 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 
+#define DEFAULT_WIDTH 1280
+#define DEFAULT_HEIGHT 800
+
 // ------------------------------------------------------------
-ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled), screen_w(DEFAULT_WIDTH), screen_h(DEFAULT_HEIGHT)
 {
 	window = NULL;
 	screen_surface = NULL;
@@ -87,7 +90,7 @@ void ModuleWindow::SetTitle(const char* title)
 // ------------------------------------------------------------
 void ModuleWindow::SetBorderless(bool enable)
 {
-	if (borderless != enable && fullscreen == false && full_desktop == false)
+	if (borderless != enable && fullscreen == false)
 	{
 		SDL_SetWindowBordered(window, (SDL_bool)borderless);
 		borderless = enable;
@@ -117,13 +120,23 @@ void ModuleWindow::SetFullscreen(bool enable)
 // ------------------------------------------------------------
 void ModuleWindow::SetWidth(int w)
 {
+	screen_w = w;
 	SDL_SetWindowSize(window, w, GetHeight());
 }
 
 // ------------------------------------------------------------
-void ModuleWindow::SetHeigth(int h)
+void ModuleWindow::SetHeight(int h)
 {
+	screen_h = h;
 	SDL_SetWindowSize(window, GetWidth(), h);
+}
+
+// ------------------------------------------------------------
+void ModuleWindow::SetDefaultSize()
+{
+	screen_w = DEFAULT_WIDTH;
+	screen_h = DEFAULT_HEIGHT;
+	SDL_SetWindowSize(window, screen_w, screen_h);
 }
 
 // ------------------------------------------------------------

@@ -10,9 +10,9 @@ using namespace std;
 MenuHierarchy::MenuHierarchy() : Menu(Menu_Hierarchy)
 {
 	pos_x = 2;
-	pos_y = 22;
-	width = 275;
-	height = 475;
+	pos_y = 21;
+	width = 250;
+	height = ((App->window->GetHeight()) - 19 - 6) / 2;	// Provisional :(
 }
 
 // ------------------------------------------------------------
