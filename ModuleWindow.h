@@ -18,7 +18,19 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	void SetTitle(const char* title);
+	void	SetTitle(const char* title);
+	void	SetBorderless(bool enable);
+	void	SetResizable(bool enable);
+	void	SetFullscreen(bool enable);
+	void	SetWidth(int w);
+	void	SetHeigth(int h);
+
+	int		GetWidth();
+	int		GetHeight();
+	int		GetScale();
+	bool	GetBorderlees();
+	bool	GetResizable();
+	bool	GetFullscreen();
 
 public:
 	//The window we'll be rendering to
@@ -26,6 +38,15 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
+
+private:
+	int		screen_w = 1280;
+	int		screen_h = 1024;
+	int		screen_scale = 1;
+	bool	fullscreen = false;
+	bool	resizable = true;
+	bool	borderless = false;
+	bool	full_desktop = false;
 };
 
 #endif // __ModuleWindow_H__

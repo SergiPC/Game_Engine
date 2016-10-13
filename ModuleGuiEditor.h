@@ -6,7 +6,7 @@
 class Menu;
 class MenuAbout;
 class MenuHierarchy;
-class MenuDiagnostic;
+class MenuConfig;
 
 class ModuleGuiEditor : public Module
 {
@@ -17,13 +17,13 @@ public:
 	bool			Init();
 	update_status	PreUpdate(float dt);
 	update_status	Update(float dt);
-	void			CalcFPS(float current_fps);
+	void			CalcPar(float current_fps, float current_ms);
 	bool			CleanUp();
 
 public:
-	MenuAbout* about_menu;
-	MenuHierarchy* hierarchy_menu;
-	MenuDiagnostic* diagnostic_menu;
+	MenuAbout*		about_menu;
+	MenuHierarchy*	hierarchy_menu;
+	MenuConfig*		diagnostic_menu;
 
 private:
 	std::vector<Menu*> menus_list;

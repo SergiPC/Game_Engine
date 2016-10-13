@@ -61,6 +61,8 @@ void MenuHierarchy::Render()
 		ImGui::EndMenu();
 	}
 
+	ImGui::Separator();
+
 	// MUST DO 06: draw the hierarchy
 	ImGui::End();
 }

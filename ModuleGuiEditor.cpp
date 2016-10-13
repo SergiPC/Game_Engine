@@ -5,7 +5,7 @@
 #include "Menus.h"
 #include "MenuAbout.h"
 #include "MenuHierarchy.h"
-#include "MenuDiagnostic.h"
+#include "MenuConfig.h"
 
 #include "Glew\include\glew.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
@@ -33,7 +33,7 @@ bool ModuleGuiEditor::Init()
 	// Add Menus
 	menus_list.push_back(about_menu = new MenuAbout());
 	menus_list.push_back(hierarchy_menu = new MenuHierarchy());
-	menus_list.push_back(diagnostic_menu = new MenuDiagnostic());
+	menus_list.push_back(diagnostic_menu = new MenuConfig());
 
 	return true;
 }
@@ -89,7 +89,7 @@ update_status ModuleGuiEditor::Update(float dt)
 				if (ImGui::MenuItem("Hierarchy", "    Ctrl+1"))
 					hierarchy_menu->SwitchActive();
 
-				if (ImGui::MenuItem("Diagnostic", "    Ctrl+2"))
+				if (ImGui::MenuItem("Configuration", "    Ctrl+2"))
 					diagnostic_menu->SwitchActive();
 				
 				if (ImGui::MenuItem("Test", "    Ctrl+3"))
@@ -149,10 +149,10 @@ update_status ModuleGuiEditor::Update(float dt)
 	return ret;
 }
 
-void ModuleGuiEditor::CalcFPS(float current_fps)
+void ModuleGuiEditor::CalcPar(float current_fps, float current_ms)
 {
-	if (diagnostic_menu != nullptr)
-		diagnostic_menu->CalculateFPS(current_fps);
+	if (diagnostic_menu->GetActive())
+		diagnostic_menu->CalculateParameters(current_fps, current_ms);
 }
 
 // Called before quitting -------------------------------------

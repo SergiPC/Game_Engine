@@ -444,7 +444,7 @@
     <ClInclude Include="MenuHierarchy.h">
       <Filter>Sources\Menus</Filter>
     </ClInclude>
-    <ClInclude Include="MenuDiagnostic.h">
+    <ClInclude Include="MenuConfig.h">
       <Filter>Sources\Menus</Filter>
     </ClInclude>
   </ItemGroup>
@@ -632,7 +632,7 @@
     <ClCompile Include="MenuHierarchy.cpp">
       <Filter>Sources\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="MenuDiagnostic.cpp">
+    <ClCompile Include="MenuConfig.cpp">
       <Filter>Sources\Menus</Filter>
     </ClCompile>
   </ItemGroup>
