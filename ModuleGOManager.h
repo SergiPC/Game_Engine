@@ -2,7 +2,8 @@
 #define __MODULE_GO_MANAGER__
 
 #include "Module.h"
-#include "GameObject.h"
+
+class GameObject;
 
 class ModuleGOManager : public Module
 {
@@ -16,17 +17,13 @@ public:
 
 	GameObject*		CreateNewGO(GameObject* parent = nullptr);
 	void			DeleteGO(GameObject* go);
-	GameObject*		DuplicateGO(GameObject* go);
-	GameObject*		GetParent();
-	void			SetParent(GameObject* go, GameObject* parent);
-
-	std::vector<GameObject*> GetGOVector();
-
-public:
-	std::vector<GameObject*> game_objects_list;
+	GameObject*		GetRoot();
 
 private:
 	GameObject* root = nullptr;
+
+	std::string name;
+	int index = 1;
 };
 
 #endif __MODULE_GO_MANAGER__

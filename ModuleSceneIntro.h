@@ -2,7 +2,7 @@
 #define __MODULE_SCENE_INTRO__
 
 #include "Module.h"
-#include "ModuleLoadFBX.h"
+#include "ModuleLoadMesh.h"
 
 #define BOUNCER_TIME 200
 
@@ -25,7 +25,6 @@ public:
 	uint my_id = 0;
 	uint my_indices = 0;
 	uint my_vertices = 0;
-	std::vector<MeshData> warrior_fbx;
 };
 
 #endif __MODULE_SCENE_INTRO__

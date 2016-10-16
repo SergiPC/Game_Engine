@@ -5,7 +5,9 @@
 #include "Menus.h"
 #include "MenuAbout.h"
 #include "MenuHierarchy.h"
+#include "MenuInspector.h"
 #include "MenuConfig.h"
+#include "GameObject.h"
 
 #include "Glew\include\glew.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
@@ -34,6 +36,7 @@ bool ModuleGuiEditor::Init()
 	menus_list.push_back(about_menu = new MenuAbout());
 	menus_list.push_back(hierarchy_menu = new MenuHierarchy());
 	menus_list.push_back(diagnostic_menu = new MenuConfig());
+	menus_list.push_back(inspector_menu = new MenuInspector());
 
 	return true;
 }
@@ -89,10 +92,13 @@ update_status ModuleGuiEditor::Update(float dt)
 				if (ImGui::MenuItem("Hierarchy", "    Ctrl+1"))
 					hierarchy_menu->SwitchActive();
 
-				if (ImGui::MenuItem("Configuration", "    Ctrl+2"))
+				if (ImGui::MenuItem("Inspector", "    Ctrl+2"))
+					inspector_menu->SwitchActive();
+
+				if (ImGui::MenuItem("Configuration", "    Ctrl+3"))
 					diagnostic_menu->SwitchActive();
 				
-				if (ImGui::MenuItem("Test", "    Ctrl+3"))
+				if (ImGui::MenuItem("Test", "    Ctrl+4"))
 					show_test_window = !show_test_window;
 
 				ImGui::Separator();
@@ -132,7 +138,7 @@ update_status ModuleGuiEditor::Update(float dt)
 	// Draw menus
 	vector<Menu*>::iterator tmp;	// declare an iterator for a vector
 
-	for (tmp = menus_list.begin(); tmp != menus_list.end(); tmp++)
+	for (tmp = menus_list.begin(); tmp != menus_list.end(); ++tmp)
 	{
 		Menu* current_menu = *tmp;
 

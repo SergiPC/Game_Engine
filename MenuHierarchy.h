@@ -10,9 +10,12 @@ public:
 	virtual ~MenuHierarchy();
 
 	void Render();
+	void RenderChildren(GameObject* _parent);
 
 public:
 	const char* name[50];
+	GameObject* h_root = nullptr;
+	GameObject* tmp_go = nullptr;
 };
 
 #endif __MENU_HIERARCHY__

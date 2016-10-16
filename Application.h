@@ -14,7 +14,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGuiEditor.h"
-#include "ModuleLoadFBX.h"
+#include "ModuleLoadMesh.h"
 #include "ModuleGOManager.h"
 
 class Application
@@ -29,7 +29,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleGuiEditor* editor;
-	ModuleLoadFBX* load_fbx;
+	ModuleLoadMesh* load_mesh;
 	ModuleGOManager* go_manager;
 
 private:

@@ -9,6 +9,7 @@ enum MenuTypes
 	Menu_Console,
 	Menu_About,
 	Menu_Hierarchy,
+	Menu_Inspector,
 	Menu_Config
 };
 

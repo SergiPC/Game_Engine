@@ -6,7 +6,9 @@
 class Menu;
 class MenuAbout;
 class MenuHierarchy;
+class MenuInspector;
 class MenuConfig;
+class GameObject;
 
 class ModuleGuiEditor : public Module
 {
@@ -23,7 +25,9 @@ public:
 public:
 	MenuAbout*		about_menu;
 	MenuHierarchy*	hierarchy_menu;
+	MenuInspector*	inspector_menu;
 	MenuConfig*		diagnostic_menu;
+	GameObject*		selected_go = nullptr;
 
 private:
 	std::vector<Menu*> menus_list;

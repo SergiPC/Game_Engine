@@ -5,11 +5,11 @@
 #include "MathGeoLib/MathBuildConfig.h"
 #include "MathGeoLib/MathGeoLib.h"
 
+class GameObject;
+
 enum Type
 {
 	TRANSFORM,
-	AUDIO,
-	CAMERA,
 	MATERIAL,
 	MESH
 };
@@ -17,41 +17,22 @@ enum Type
 class Component
 {
 public:
-	Component();
+	Component(GameObject* _parent, Type TIPE);
 
-	virtual void	Update(float dt);
+	virtual void	Update();
+	virtual void	OnEditor();
 	bool			IsEnable();
 	void			SetEnable(bool enable);
 	Type			GetType();
+	GameObject*		GetParent();
 	bool			CleanUp();
 
 private:
-	bool	enabled;
+	bool		enabled;
+	GameObject*	parent;
 
 protected:
 	Type	type;
-};
-
-// MUST DO 02: Better do it on another file
-// ============================================
-class Transform : public Component
-{
-public:
-	Transform();
-	void		Update();
-	void		SetPos(float npos_x, float npos_y, float npos_z);
-	void		SetRotation(float nrot_x, float nrot_y, float nrot_z);
-	void		SetScale(float nscale_x, float nscale_y, float nscale_z);
-
-	float4x4	EulerMatrix(float psi, float theta, float phi);
-	float3		MatrixToEuler(float4x4 rot_mat);
-
-private:
-	float3		position;
-	float3		rotation;
-	float3		scale;
-	float4x4	tranform;
-	float4		quat;
 };
 
 #endif __COMPONENT__

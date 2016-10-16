@@ -4,8 +4,6 @@
 class Application;
 struct PhysBody3D;
 
-//Application* App = nullptr;
-
 class Module
 {
 public:

@@ -1,9 +1,12 @@
 #include "Globals.h"
+#include "OpenGL.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
-#include "OpenGL.h"
+#include "ModuleLoadMesh.h"
 
 #pragma comment (lib, "Glew/libx86/glew32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "glu32.lib")
+#pragma comment (lib, "opengl32.lib")
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -154,4 +157,31 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::DrawMesh(MeshData _mesh, math::float4x4 trans_mat, uint _name_id)
+{
+	glPushMatrix();
+	glMultMatrixf(*trans_mat.Transposed().v);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_TEXTURE_2D);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _mesh.id_vertices);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _mesh.id_uvs);
+	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+	glBindTexture(GL_TEXTURE_2D, _name_id);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _mesh.id_indices);
+	glDrawElements(GL_TRIANGLES, _mesh.num_indices, GL_UNSIGNED_INT, NULL);
+	
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_TEXTURE_2D);
+
+	glPopMatrix();
 }

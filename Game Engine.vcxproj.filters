@@ -43,7 +43,10 @@
     <Filter Include="Sources\External\Assimp">
       <UniqueIdentifier>{0438b40e-c6a5-41ae-bda8-417940989657}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Modules\GameObject">
+    <Filter Include="Sources\External\Devil">
+      <UniqueIdentifier>{437f4551-9e3e-4365-ad04-0bb9fb032ba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\GameObject">
       <UniqueIdentifier>{c221da3e-4561-46ba-880d-02889bd47905}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -327,20 +330,17 @@
     <ClInclude Include="Geometry.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleLoadFBX.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleGOManager.h">
-      <Filter>Sources\Modules\GameObject</Filter>
+      <Filter>Sources\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Sources\Modules\GameObject</Filter>
+      <Filter>Sources\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Sources\Modules\GameObject</Filter>
+      <Filter>Sources\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Assimp\include\ai_assert.h">
       <Filter>Sources\External\Assimp</Filter>
@@ -445,6 +445,33 @@
       <Filter>Sources\Menus</Filter>
     </ClInclude>
     <ClInclude Include="MenuConfig.h">
+      <Filter>Sources\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleLoadMesh.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\il.h">
+      <Filter>Sources\External\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilut.h">
+      <Filter>Sources\External\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuInspector.h">
       <Filter>Sources\Menus</Filter>
     </ClInclude>
   </ItemGroup>
@@ -614,25 +641,37 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleLoadFBX.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleGOManager.cpp">
-      <Filter>Sources\Modules\GameObject</Filter>
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Sources\Modules\GameObject</Filter>
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>Sources\Modules\GameObject</Filter>
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="MenuHierarchy.cpp">
       <Filter>Sources\Menus</Filter>
     </ClCompile>
     <ClCompile Include="MenuConfig.cpp">
+      <Filter>Sources\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleLoadMesh.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuInspector.cpp">
       <Filter>Sources\Menus</Filter>
     </ClCompile>
   </ItemGroup>

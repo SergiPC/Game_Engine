@@ -1,5 +1,7 @@
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleGOManager.h"
+#include "GameObject.h"
 
 using namespace std;
 
@@ -14,9 +16,8 @@ bool ModuleGOManager::Start()
 {
 	LOG("Setting up GOManager");
 
-	root = new GameObject();
-	game_objects_list.push_back(root);
-	root->SetName("Hierarchy");
+	root = new GameObject(nullptr, "Root");
+	root->SetName("Root");
 
 	bool ret = true;
 
@@ -28,27 +29,34 @@ bool ModuleGOManager::CleanUp()
 {
 	LOG("Cleaning GOManager");
 
+	// root ----------
+	root->CleanUp();
+	RELEASE(root);
+
 	return true;
 }
 
 // -----------------------------------------------------------------
 update_status ModuleGOManager::Update(float dt)
 {
+	root->Update();
 
 	return UPDATE_CONTINUE;
 }
 
 // -----------------------------------------------------------------
-GameObject* ModuleGOManager::CreateNewGO(GameObject* parent)
+GameObject* ModuleGOManager::CreateNewGO(GameObject* _parent)
 {
-	if (parent == nullptr)
-		parent = root;
+	if (_parent == nullptr)
+		_parent = root;
 
-	// If else shortcut <-- Must known
-	//(parent == nullptr) ? (parent = root) : (parent == nullptr);
+	// Create name
+	string text = "GameObject ";
+	text += to_string(index);
+	name = text;
+	index++;
 
-	GameObject* new_go = new GameObject(parent);
-	game_objects_list.push_back(new_go);
+	GameObject* new_go = new GameObject(_parent, name.data());
 
 	return new_go;
 }
@@ -60,27 +68,7 @@ void ModuleGOManager::DeleteGO(GameObject* go)
 }
 
 // -----------------------------------------------------------------
-GameObject* ModuleGOManager::DuplicateGO(GameObject* go)
-{
-	GameObject* copy_go = new GameObject();
-	copy_go = go;
-
-	return copy_go;
-}
-
-GameObject* ModuleGOManager::GetParent()
+GameObject* ModuleGOManager::GetRoot()
 {
 	return root;
-}
-
-// -----------------------------------------------------------------
-void ModuleGOManager::SetParent(GameObject* go, GameObject* parent)
-{
-	go->SetParent(parent);
-}
-
-// -----------------------------------------------------------------
-std::vector<GameObject*> ModuleGOManager::GetGOVector()
-{
-	return game_objects_list;
 }
