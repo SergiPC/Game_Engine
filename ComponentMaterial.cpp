@@ -20,5 +20,10 @@ unsigned int ComponentMaterial::GetId()
 }
 
 // -----------------------------------------------------------------
-//void ComponentMaterial::OnEditor()
-//{}
+void ComponentMaterial::OnEditor()
+{
+	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Image((ImTextureID)name_id, ImVec2(200, 200));
+	}
+}

@@ -4,7 +4,10 @@
 // -----------------------------------------------------------------
 ComponentTransform::ComponentTransform(GameObject* _parent) : Component(_parent, TRANSFORM), 
 local_position(.0f, .0f, .0f), local_rotation(.0f, .0f, .0f), local_scale(1.0f, 1.0f, 1.0f)
-{}
+{
+	local_rotation_matrix = EulerMatrix(local_rotation.x, local_rotation.y, local_rotation.z);
+	local_transform = local_transform.FromTRS(local_position, local_rotation_matrix, local_scale);
+}
 
 // -----------------------------------------------------------------
 ComponentTransform::~ComponentTransform()
@@ -41,7 +44,7 @@ void ComponentTransform::SetPos(float new_pos_x, float new_pos_y, float new_pos_
 	local_position.y = new_pos_y;
 	local_position.z = new_pos_z;
 
-	SetTransform();
+	local_transform = local_transform.FromTRS(local_position, local_rotation_matrix, local_scale);
 }
 
 // -----------------------------------------------------------------
@@ -52,7 +55,7 @@ void ComponentTransform::SetRotation(float new_rot_x, float new_rot_y, float new
 	local_rotation.z = new_rot_z;
 
 	local_rotation_matrix = EulerMatrix(local_rotation.x, local_rotation.y, local_rotation.z);
-	SetTransform();
+	local_transform = local_transform.FromTRS(local_position, local_rotation_matrix, local_scale);
 }
 
 // -----------------------------------------------------------------
@@ -62,12 +65,6 @@ void ComponentTransform::SetScale(float new_scale_x, float new_scale_y, float ne
 	local_scale.y = new_scale_y;
 	local_scale.z = new_scale_z;
 
-	SetTransform();
-}
-
-// -----------------------------------------------------------------
-void ComponentTransform::SetTransform()
-{
 	local_transform = local_transform.FromTRS(local_position, local_rotation_matrix, local_scale);
 }
 
@@ -91,6 +88,12 @@ float3 ComponentTransform::GetLocalScale()
 
 // -----------------------------------------------------------------
 float4x4 ComponentTransform::GetLocalTransform()
+{
+	return local_transform;
+}
+
+// -----------------------------------------------------------------
+float4x4 ComponentTransform::GetWorldTransform()
 {
 	return local_transform;
 }

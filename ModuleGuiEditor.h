@@ -19,6 +19,7 @@ public:
 	bool			Init();
 	update_status	PreUpdate(float dt);
 	update_status	Update(float dt);
+	void			UpdatePosSize();
 	void			CalcPar(float current_fps, float current_ms);
 	bool			CleanUp();
 

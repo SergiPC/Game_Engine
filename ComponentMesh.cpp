@@ -45,3 +45,21 @@ void ComponentMesh::SetMesh(MeshData new_mesh)
 {
 	mesh = new_mesh;
 }
+
+// -----------------------------------------------------------------
+void ComponentMesh::OnEditor()
+{
+	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		int num_triangles = mesh.num_indices / 3;
+
+		ImGui::Text("Triangles:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", num_triangles);
+
+		ImGui::Text("Vertices:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.num_vertices);
+
+		ImGui::Text("Indices:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.num_indices);
+	}
+}

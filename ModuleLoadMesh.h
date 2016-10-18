@@ -36,8 +36,8 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	std::vector<MeshData> LoadFile(const char* path);
-	void LoadNode(const aiScene* scene, aiNode* child_node, GameObject* _parent, const char* _path);
+	std::vector<GameObject*> LoadFile(const char* path);
+	GameObject* LoadNode(const aiScene* scene, aiNode* child_node, GameObject* _parent, const char* _path);
 	uint LoadTexture(const char* _path);
 };
 

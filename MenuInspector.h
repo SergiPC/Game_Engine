@@ -10,6 +10,7 @@ public:
 	virtual ~MenuInspector();
 
 	void Render();
+	void UpdatePosSize();
 };
 
 #endif // !__MENU_INSPECTOR__

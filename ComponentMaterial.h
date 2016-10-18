@@ -10,7 +10,7 @@ public:
 	~ComponentMaterial();
 
 	void Update();
-	//void OnEditor();
+	void OnEditor();
 	unsigned int GetId();
 
 public:

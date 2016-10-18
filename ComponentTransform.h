@@ -14,12 +14,12 @@ public:
 	void		SetPos(float new_pos_x, float new_pos_y, float new_pos_z);
 	void		SetRotation(float new_rot_x, float new_rot_y, float new_rot_z);
 	void		SetScale(float new_scale_x, float new_scale_y, float new_scale_z);
-	void		SetTransform();
 
 	float3		GetLocalPosition();
 	float3		GetLocalRotation();
 	float3		GetLocalScale();
 	float4x4	GetLocalTransform();
+	float4x4	GetWorldTransform();
 
 	float4x4	EulerMatrix(float psi, float theta, float phi);
 	float3		MatrixToEuler(float4x4 rot_mat);

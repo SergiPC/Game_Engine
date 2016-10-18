@@ -11,6 +11,7 @@ public:
 
 	void Render();
 	void RenderChildren(GameObject* _parent);
+	void UpdatePosSize();
 
 public:
 	const char* name[50];

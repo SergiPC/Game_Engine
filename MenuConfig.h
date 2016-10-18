@@ -11,6 +11,7 @@ public:
 	virtual ~MenuConfig();
 
 	void Render();
+	void UpdatePosSize();
 	void CalculateParameters(float current_fps, float current_ms);
 
 private:

@@ -14,7 +14,7 @@ public:
 
 	void Update();
 	void SetMesh(MeshData new_mesh);
-	//void OnEditor();
+	void OnEditor();
 
 private:
 	MeshData mesh;

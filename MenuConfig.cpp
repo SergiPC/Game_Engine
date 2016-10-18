@@ -7,10 +7,7 @@
 // ------------------------------------------------------------
 MenuConfig::MenuConfig() : Menu(Menu_Config), fps(GRAPH_SIZE), ms(GRAPH_SIZE), new_width(App->window->GetWidth()), new_height(App->window->GetHeight())
 {
-	pos_x = 2;
-	pos_y = (App->window->GetHeight()) - (((App->window->GetHeight()) - 19 - 6) / 2) - 2;	// Provisional :(
-	width = 250;
-	height = (((App->window->GetHeight()) - 19 - 6) / 2);
+	UpdatePosSize();
 	
 	// Hardware window ----------------------------
 	SDL_version sdl_compiled;
@@ -69,24 +66,21 @@ void MenuConfig::Render()
 			App->window->SetDefaultSize();
 			new_width = App->window->GetWidth();
 			new_height = App->window->GetHeight();
+			App->editor->UpdatePosSize();
 		}
 
 		ImGui::Separator();	// ------
 
 		if (ImGui::DragInt("Width", &new_width, 1, 800, 1680))
 		{
-			ImGui::SameLine();
-			ShowHelpMarker("Click and drag to edit value.\nHold SHIFT/ALT for faster/slower edit.\nDouble-click or CTRL+click to input value.");
 			App->window->SetWidth(new_width);
-			// SetMenuPos();
+			App->editor->UpdatePosSize();
 		}
 
 		if (ImGui::DragInt("Height", &new_height, 1, 600, 1050))
 		{
-			ImGui::SameLine();
-			ShowHelpMarker("Click and drag to edit value.\nHold SHIFT/ALT for faster/slower edit.\nDouble-click or CTRL+click to input value.");
 			App->window->SetHeight(new_height);
-			// SetMenuPos(); & SetMenuSize();
+			App->editor->UpdatePosSize();
 		}
 
 		ImGui::Separator();	// ------
@@ -131,6 +125,15 @@ void MenuConfig::Render()
 	}
 	
 	ImGui::End();
+}
+
+// ------------------------------------------------------------
+void MenuConfig::UpdatePosSize()
+{
+	pos_x = (App->window->GetWidth()) - 504;
+	pos_y = (App->window->GetHeight()) - (((App->window->GetHeight()) - 19 - 6) / 2) - 2;
+	width = 250;
+	height = (((App->window->GetHeight()) - 19 - 6) / 2);
 }
 
 // ------------------------------------------------------------

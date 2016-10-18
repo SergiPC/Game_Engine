@@ -26,6 +26,10 @@ void Menu::Render()
 {}
 
 // ------------------------------------------------------------
+void Menu::UpdatePosSize()
+{}
+
+// ------------------------------------------------------------
 MenuTypes Menu::GetType() const
 {
 	return type;
@@ -49,16 +53,4 @@ void Menu::ColorButton(int i_color)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImColor::HSV(i_color / 7.0f, 0.7f, 0.7f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImColor::HSV(i_color / 7.0f, 0.8f, 0.8f));
 
-}
-
-/*
---------------------------------------------------------------
-Show a little help text.
---------------------------------------------------------------
-*/
-void Menu::ShowHelpMarker(const char* desc)
-{
-	ImGui::TextDisabled("(?)");
-	if (ImGui::IsItemHovered())
-		ImGui::SetTooltip(desc);
 }

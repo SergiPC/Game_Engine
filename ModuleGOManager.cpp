@@ -17,7 +17,6 @@ bool ModuleGOManager::Start()
 	LOG("Setting up GOManager");
 
 	root = new GameObject(nullptr, "Root");
-	root->SetName("Root");
 
 	bool ret = true;
 
@@ -64,7 +63,7 @@ GameObject* ModuleGOManager::CreateNewGO(GameObject* _parent)
 // -----------------------------------------------------------------
 void ModuleGOManager::DeleteGO(GameObject* go)
 {
-	go->CleanUp();
+	go->GetParent()->DelChild(go);
 }
 
 // -----------------------------------------------------------------

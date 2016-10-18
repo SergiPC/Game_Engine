@@ -155,6 +155,21 @@ update_status ModuleGuiEditor::Update(float dt)
 	return ret;
 }
 
+// ------------------------------------------------------------
+void ModuleGuiEditor::UpdatePosSize()
+{
+	vector<Menu*>::iterator tmp;	// declare an iterator for a vector
+
+	for (tmp = menus_list.begin(); tmp != menus_list.end(); ++tmp)
+	{
+		Menu* current_menu = *tmp;
+
+		current_menu->UpdatePosSize();
+	}
+}
+
+
+// ------------------------------------------------------------
 void ModuleGuiEditor::CalcPar(float current_fps, float current_ms)
 {
 	if (diagnostic_menu->GetActive())

@@ -21,22 +21,11 @@ public:
 
 	bool			IsEnable();
 	void			SetEnable(bool enable);
-	void			SetName(const char* new_name);
 
-	// Add a standard component
 	Component*		AddComponent(Type TIPE);
-	void			DelComponent(Component* comp);
 	Component*		GetComponent(Type TIPE);
-
-	// Add especific component
-	//ComponentTransform*	AddTransform();
-	//ComponentMesh*		AddMesh(MeshData _mesh);
-	//ComponentMaterial*	AddMaterial(size_t _name_id);
-
-	void			Translate(float3 new_pos);
-	void			Rotate(float3 new_euler);
-	void			Rotate(Quat new_quat);
-	void			Scale(float3 new_scale);
+	void			DelComponent(Component* comp);
+	void			DelChild(GameObject* go_child);
 
 	GameObject*		GetParent();
 	void			SetParent(GameObject* parent);
@@ -49,12 +38,6 @@ public:
 private:
 	GameObject*		parent;
 	bool			enabled;
-
-	float3			position;
-	float3			euler_rotation;
-	Quat			quat_rotation;
-	float3			scale;
-	float4x4		tranform;
 };
 
 #endif __GAME_OBJECT__

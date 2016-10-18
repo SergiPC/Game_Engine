@@ -14,6 +14,7 @@ using namespace std;
 GameObject::GameObject(GameObject* _parent, const char* _name) : name(_name)
 {
 	parent = _parent;
+	name.resize(20);
 
 	if (parent)
 		parent->children.push_back(this);
@@ -88,15 +89,15 @@ void GameObject::SetEnable(bool enable)
 }
 
 // -----------------------------------------------------------------
-void GameObject::SetName(const char* new_name)
-{
-	name = new_name;
-}
-
-// -----------------------------------------------------------------
 Component* GameObject::AddComponent(Type TIPE)
 {
 	Component* new_component = nullptr;
+
+	// We can't add two components with the same type
+	new_component = GetComponent(TIPE);
+
+	if (new_component != nullptr)
+		return new_component;
 
 	switch (TIPE)
 	{
@@ -116,12 +117,6 @@ Component* GameObject::AddComponent(Type TIPE)
 }
 
 // -----------------------------------------------------------------
-void GameObject::DelComponent(Component* comp)
-{
-	comp->CleanUp();
-}
-
-// I need to limit the number of components ------------------------
 Component* GameObject::GetComponent(Type TIPE)
 {
 	Component* new_component = nullptr;
@@ -137,59 +132,28 @@ Component* GameObject::GetComponent(Type TIPE)
 
 	return new_component;
 }
-/*
+
 // -----------------------------------------------------------------
-ComponentTransform* GameObject::AddTransform()
+void GameObject::DelComponent(Component* comp)
 {
-	ComponentTransform* new_trans = new ComponentTransform(this);
-
-	components.push_back(new_trans);
-
-	return new_trans;
+	comp->CleanUp();
 }
 
 // -----------------------------------------------------------------
-ComponentMesh* GameObject::AddMesh(MeshData _mesh)
+void GameObject::DelChild(GameObject* go_child)
 {
-	ComponentMesh* new_mesh = new ComponentMesh(this, _mesh);
+	bool ret = false;
 
-	components.push_back(new_mesh);
-
-	return new_mesh;
-}
-
-// -----------------------------------------------------------------
-ComponentMaterial* GameObject::AddMaterial(size_t _name_id)
-{
-	ComponentMaterial* new_material = new ComponentMaterial(this, _name_id);
-
-	components.push_back(new_material);
-
-	return new_material;
-}
-*/
-// -----------------------------------------------------------------
-void GameObject::Translate(float3 new_pos)
-{
-	position = new_pos;
-}
-
-// -----------------------------------------------------------------
-void GameObject::Rotate(float3 new_euler)
-{
-	euler_rotation = new_euler;
-}
-
-// -----------------------------------------------------------------
-void GameObject::Rotate(Quat new_quat)
-{
-	quat_rotation = new_quat;
-}
-
-// -----------------------------------------------------------------
-void GameObject::Scale(float3 new_scale)
-{
-	scale = new_scale;
+	for (vector<GameObject*>::iterator item = children.begin(); item != children.end(); ++item)
+	{
+		if ((*item) == go_child)
+		{
+			children.erase(item);
+			go_child->CleanUp();
+			RELEASE(go_child);
+			ret = true;
+		}
+	}
 }
 
 // -----------------------------------------------------------------

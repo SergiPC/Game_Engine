@@ -22,9 +22,11 @@ public:
 	void SwitchActive();
 	bool GetActive() const;
 	virtual void Render();
-	MenuTypes GetType() const;	
+
+	virtual void UpdatePosSize();
+	MenuTypes GetType() const;
+
 	void ColorButton(int i_color);
-	void ShowHelpMarker(const char* desc);
 
 public:
 	int width, height, pos_x, pos_y;

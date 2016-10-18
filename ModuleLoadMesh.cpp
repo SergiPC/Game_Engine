@@ -41,9 +41,9 @@ bool ModuleLoadMesh::Init()
 }
 
 // -----------------------------------------------------------------
-vector<MeshData> ModuleLoadMesh::LoadFile(const char* path)
+std::vector<GameObject*> ModuleLoadMesh::LoadFile(const char* path)
 {
-	vector<MeshData> all_mesh;
+	vector<GameObject*> go_list;
 	
 	// Start from aiScene::mRootNode then go recursive from there.
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
@@ -53,14 +53,15 @@ vector<MeshData> ModuleLoadMesh::LoadFile(const char* path)
 		aiNode* parent_node = scene->mRootNode;
 
 		GameObject* parent_go = App->go_manager->CreateNewGO();
-		const char* tmp_str = parent_node->mName.data;
-		parent_go->SetName(tmp_str);
+		parent_go->name = parent_node->mName.C_Str();
+		go_list.push_back(parent_go);
 
 		// Then loop aiNode::mNumChildren
 		for (int j = 0; j < parent_node->mNumChildren; j++)
 		{
 			// ... then deal with each aiNode::mChildren[n]
-			LoadNode(scene, parent_node->mChildren[j], parent_go, path);
+			GameObject* child_go = LoadNode(scene, parent_node->mChildren[j], parent_go, path);
+			go_list.push_back(child_go);
 		}
 
 		aiReleaseImport(scene);
@@ -69,15 +70,14 @@ vector<MeshData> ModuleLoadMesh::LoadFile(const char* path)
 	else
 		LOG("Error loading scene %s", path);
 
-	return all_mesh;
+	return go_list;
 }
 
 // -----------------------------------------------------------------
-void ModuleLoadMesh::LoadNode(const aiScene* scene, aiNode* child_node, GameObject* _parent, const char* _path)
+GameObject* ModuleLoadMesh::LoadNode(const aiScene* scene, aiNode* child_node, GameObject* _parent, const char* _path)
 {
 	GameObject* child_go = App->go_manager->CreateNewGO(_parent);
-	const char* tmp2_str = child_node->mName.data;
-	child_go->SetName(tmp2_str);
+	child_go->name = child_node->mName.C_Str();
 
 	if (child_node->mNumMeshes > 0)
 	{
@@ -221,6 +221,8 @@ void ModuleLoadMesh::LoadNode(const aiScene* scene, aiNode* child_node, GameObje
 	{
 		LoadNode(scene, child_node->mChildren[n], child_go, _path);
 	}
+
+	return child_go;
 }
 
 // -----------------------------------------------------------------

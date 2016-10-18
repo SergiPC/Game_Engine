@@ -11,10 +11,7 @@ using namespace std;
 // ------------------------------------------------------------
 MenuHierarchy::MenuHierarchy() : Menu(Menu_Hierarchy)
 {
-	pos_x = 2;
-	pos_y = 21;
-	width = 250;
-	height = ((App->window->GetHeight()) - 19 - 6) / 2;	// Provisional :(
+	UpdatePosSize();
 }
 
 // ------------------------------------------------------------
@@ -100,4 +97,13 @@ void MenuHierarchy::RenderChildren(GameObject* _parent)
 			}
 		}
 	}
+}
+
+// ------------------------------------------------------------
+void MenuHierarchy::UpdatePosSize()
+{
+	pos_x = (App->window->GetWidth()) - 504;
+	pos_y = 21;
+	width = 250;
+	height = ((App->window->GetHeight()) - 19 - 6) / 2;
 }

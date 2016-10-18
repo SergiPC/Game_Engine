@@ -10,10 +10,7 @@ using namespace std;
 // ------------------------------------------------------------
 MenuInspector::MenuInspector() : Menu(Menu_Inspector)
 {
-	pos_x = (App->window->GetWidth()) - 252;
-	pos_y = 21;
-	width = 250;
-	height = ((App->window->GetHeight()) - 19 - 6) / 2;	// Provisional :(
+	UpdatePosSize();
 }
 
 // ------------------------------------------------------------
@@ -67,4 +64,13 @@ void MenuInspector::Render()
 	}
 
 	ImGui::End();
+}
+
+// ------------------------------------------------------------
+void MenuInspector::UpdatePosSize()
+{
+	pos_x = (App->window->GetWidth()) - 252;
+	pos_y = 21;
+	width = 250;
+	height = (App->window->GetHeight()) - 19 - 4;
 }

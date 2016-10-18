@@ -121,14 +121,16 @@ void ModuleWindow::SetFullscreen(bool enable)
 void ModuleWindow::SetWidth(int w)
 {
 	screen_w = w;
-	SDL_SetWindowSize(window, w, GetHeight());
+	SDL_SetWindowSize(window, screen_w, screen_h);
+	App->renderer3D->OnResize(screen_w, screen_h);
 }
 
 // ------------------------------------------------------------
 void ModuleWindow::SetHeight(int h)
 {
 	screen_h = h;
-	SDL_SetWindowSize(window, GetWidth(), h);
+	SDL_SetWindowSize(window, screen_w, screen_h);
+	App->renderer3D->OnResize(screen_w, screen_h);
 }
 
 // ------------------------------------------------------------
@@ -137,6 +139,7 @@ void ModuleWindow::SetDefaultSize()
 	screen_w = DEFAULT_WIDTH;
 	screen_h = DEFAULT_HEIGHT;
 	SDL_SetWindowSize(window, screen_w, screen_h);
+	App->renderer3D->OnResize(screen_w, screen_h);
 }
 
 // ------------------------------------------------------------
