@@ -1,8 +1,9 @@
-#include "Globals.h"
-#include "Application.h"
 #include "ModuleGOManager.h"
 #include "GameObject.h"
-
+#include "Component.h"
+#include "Imgui\imgui.h"
+#include <vector>
+#include <string>
 using namespace std;
 
 ModuleGOManager::ModuleGOManager(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -12,26 +13,17 @@ ModuleGOManager::~ModuleGOManager()
 {}
 
 // -----------------------------------------------------------------
-bool ModuleGOManager::Start()
+bool ModuleGOManager::Init()
 {
-	LOG("Setting up GOManager");
-
-	root = new GameObject(nullptr, "Root");
-
-	bool ret = true;
-
-	return ret;
+	root = new GameObject(nullptr);
+	return true;
 }
 
 // -----------------------------------------------------------------
 bool ModuleGOManager::CleanUp()
 {
-	LOG("Cleaning GOManager");
-
-	// root ----------
 	root->CleanUp();
 	RELEASE(root);
-
 	return true;
 }
 
@@ -40,34 +32,81 @@ update_status ModuleGOManager::Update(float dt)
 {
 	root->Update();
 
+	//HierarchyPanel();
+	//InspectorPanel();
 	return UPDATE_CONTINUE;
 }
 
 // -----------------------------------------------------------------
-GameObject* ModuleGOManager::CreateNewGO(GameObject* _parent)
+GameObject* ModuleGOManager::AddGameObject(GameObject* parent)
 {
-	if (_parent == nullptr)
-		_parent = root;
+	if (parent == nullptr)
+		parent = root;
 
-	// Create name
-	string text = "GameObject ";
-	text += to_string(index);
-	name = text;
-	index++;
+	GameObject* object;
 
-	GameObject* new_go = new GameObject(_parent, name.data());
+	object = new GameObject(parent);
+	parent->children.push_back(object);
+	numObjects++;
+	object->name += std::to_string(numObjects);
 
-	return new_go;
+	return object;
 }
 
 // -----------------------------------------------------------------
-void ModuleGOManager::DeleteGO(GameObject* go)
+bool ModuleGOManager::RemoveGameObject(GameObject* go)
 {
-	go->GetParent()->DelChild(go);
+	numObjects--;
+	return go->root->RemoveChild(go);
+}
+/*
+// -----------------------------------------------------------------
+void ModuleGOManager::HierarchyPanel()
+{
+	ImGui::Begin("Hierarchy");
+
+	for (vector<GameObject*>::iterator item = root->children.begin(); item != root->children.end(); ++item)
+		HierarchyShowChilds(*item);
+
+	ImGui::End();
 }
 
 // -----------------------------------------------------------------
-GameObject* ModuleGOManager::GetRoot()
+void ModuleGOManager::HierarchyShowChilds(GameObject* gameObject)
 {
-	return root;
+		uint flag = 0;
+
+		if (focusGo == gameObject)
+			flag |= ImGuiTreeNodeFlags_Selected;
+
+		if (gameObject->children.size() == 0)
+			flag |= ImGuiTreeNodeFlags_Bullet;
+
+		if (ImGui::TreeNodeEx(gameObject->name.data(), flag))
+		{
+			if (ImGui::IsItemClicked(0))
+			{
+				focusGo = gameObject;
+			}
+
+			for (vector<GameObject*>::iterator item = gameObject->children.begin(); item != gameObject->children.end(); ++item)
+				HierarchyShowChilds(*item);
+
+			ImGui::TreePop();
+		}
 }
+
+// -----------------------------------------------------------------
+void ModuleGOManager::InspectorPanel() 
+{
+	ImGui::Begin("Inspector");
+
+	if (focusGo != nullptr)
+	{
+		for (vector<Component*>::iterator item = focusGo->components.begin(); item != focusGo->components.end(); ++item)
+			(*item)->OnEditor();
+	}
+
+	ImGui::End();
+}
+*/

@@ -8,7 +8,7 @@
 #pragma comment (lib, "glut/glut32.lib")
 
 // ------------------------------------------------------------
-Primitive::Primitive() : transform(IdentityMatrix), color(White), wire(false), axis(true), type(PrimitiveTypes::Primitive_Point)
+Primitive::Primitive() : transform(IdentityMatrix), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
 {}
 
 // ------------------------------------------------------------
@@ -100,17 +100,17 @@ void Primitive::Scale(float x, float y, float z)
 }
 
 // CUBE ============================================
-PrimCube::PrimCube() : Primitive(), size(1.0f, 1.0f, 1.0f)
+Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 }
 
-PrimCube::PrimCube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, sizeY, sizeZ)
+Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, sizeY, sizeZ)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 }
 
-void PrimCube::InnerRender() const
+void Cube::InnerRender() const
 {	
 	float sx = size.x * 0.5f;
 	float sy = size.y * 0.5f;
@@ -157,35 +157,35 @@ void PrimCube::InnerRender() const
 	glEnd();
 }
 
-// SHPERE ============================================
-PrimSphere::PrimSphere() : Primitive(), radius(1.0f)
+// SPHERE ============================================
+Sphere::Sphere() : Primitive(), radius(1.0f)
 {
 	type = PrimitiveTypes::Primitive_Sphere;
 }
 
-PrimSphere::PrimSphere(float radius) : Primitive(), radius(radius)
+Sphere::Sphere(float radius) : Primitive(), radius(radius)
 {
 	type = PrimitiveTypes::Primitive_Sphere;
 }
 
-void PrimSphere::InnerRender() const
+void Sphere::InnerRender() const
 {
 	glutSolidSphere(radius, 25, 25);
 }
 
 
 // CYLINDER ============================================
-PrimCylinder::PrimCylinder() : Primitive(), radius(1.0f), height(1.0f)
+Cylinder::Cylinder() : Primitive(), radius(1.0f), height(1.0f)
 {
 	type = PrimitiveTypes::Primitive_Cylinder;
 }
 
-PrimCylinder::PrimCylinder(float radius, float height) : Primitive(), radius(radius), height(height)
+Cylinder::Cylinder(float radius, float height) : Primitive(), radius(radius), height(height)
 {
 	type = PrimitiveTypes::Primitive_Cylinder;
 }
 
-void PrimCylinder::InnerRender() const
+void Cylinder::InnerRender() const
 {
 	int n = 30;
 
@@ -222,17 +222,17 @@ void PrimCylinder::InnerRender() const
 }
 
 // LINE ==================================================
-PrimLine::PrimLine() : Primitive(), origin(0, 0, 0), destination(1, 1, 1)
+Line::Line() : Primitive(), origin(0, 0, 0), destination(1, 1, 1)
 {
 	type = PrimitiveTypes::Primitive_Line;
 }
 
-PrimLine::PrimLine(float x, float y, float z) : Primitive(), origin(0, 0, 0), destination(x, y, z)
+Line::Line(float x, float y, float z) : Primitive(), origin(0, 0, 0), destination(x, y, z)
 {
 	type = PrimitiveTypes::Primitive_Line;
 }
 
-void PrimLine::InnerRender() const
+void Line::InnerRender() const
 {
 	glLineWidth(2.0f);
 
@@ -247,17 +247,17 @@ void PrimLine::InnerRender() const
 }
 
 // PLANE ==================================================
-PrimPlane::PrimPlane() : Primitive(), normal(0, 1, 0), constant(1)
+Plane::Plane() : Primitive(), normal(0, 1, 0), constant(1)
 {
 	type = PrimitiveTypes::Primitive_Plane;
 }
 
-PrimPlane::PrimPlane(float x, float y, float z, float d) : Primitive(), normal(x, y, z), constant(d)
+Plane::Plane(float x, float y, float z, float d) : Primitive(), normal(x, y, z), constant(d)
 {
 	type = PrimitiveTypes::Primitive_Plane;
 }
 
-void PrimPlane::InnerRender() const
+void Plane::InnerRender() const
 {
 	glLineWidth(1.0f);
 

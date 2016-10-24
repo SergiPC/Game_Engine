@@ -8,7 +8,6 @@ Application::Application()
 	capped_ms = 1000 / 60;
 	fps_counter = 0;
 
-	file_sys = new ModuleFileSystem(this, true, "/Library/");
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -17,27 +16,31 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	editor = new ModuleGuiEditor(this);
+	fs = new ModuleFileSystem(this);
 	load_mesh = new ModuleLoadMesh(this);
+	tex = new ModuleLoadTextures(this);
 	go_manager = new ModuleGOManager(this);
-
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
-
+	
 	// Main Modules
-	AddModule(file_sys);
 	AddModule(window);
 	AddModule(physics3D);
 	AddModule(renderer3D);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(audio);
+	AddModule(fs);
 	AddModule(load_mesh);
+	AddModule(tex);
 	AddModule(go_manager);
-		
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(editor);
+	
+	// Characters
+	
 }
 
 Application::~Application()
@@ -111,7 +114,7 @@ void Application::FinishUpdate()
 	//char t[50];
 	//sprintf_s(t, "FPS: %d", (int)last_fps);
 	//window->SetTitle(t);
-	editor->CalcPar((float) last_fps, (float)last_frame_ms);
+	editor->CalcPar((float)last_fps, (float)last_frame_ms);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules

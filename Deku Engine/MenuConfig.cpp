@@ -8,12 +8,12 @@
 MenuConfig::MenuConfig() : Menu(Menu_Config), fps(GRAPH_SIZE), ms(GRAPH_SIZE), new_width(App->window->GetWidth()), new_height(App->window->GetHeight())
 {
 	UpdatePosSize();
-	
+
 	// Hardware window ----------------------------
 	SDL_version sdl_compiled;
 	SDL_VERSION(&sdl_compiled);
 	sprintf_s(sdl_compiled_info, 20, "%i.%i.%i", sdl_compiled.major, sdl_compiled.minor, sdl_compiled.patch);
-	
+
 	cpu_number = SDL_GetCPUCount();
 	cpu_cache = SDL_GetCPUCacheLineSize();
 	system_ram = SDL_GetSystemRAM();	// MB
@@ -36,14 +36,14 @@ MenuConfig::~MenuConfig()
 // ------------------------------------------------------------
 void MenuConfig::Render()
 {
-	
+
 	ImGui::Begin("Configuration", &active,
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoFocusOnAppearing |
 		ImGuiWindowFlags_HorizontalScrollbar);
 
 	// CalculateParameters();
-	
+
 	// Graph window ----------------------------
 	if (ImGui::CollapsingHeader("Graphs"))
 	{
@@ -71,13 +71,13 @@ void MenuConfig::Render()
 
 		ImGui::Separator();	// ------
 
-		if (ImGui::DragInt("Width", &new_width, 1, 800, 1680))
+		if (ImGui::DragInt("Width", &new_width, 1, 1120, 1760))
 		{
 			App->window->SetWidth(new_width);
 			App->editor->UpdatePosSize();
 		}
 
-		if (ImGui::DragInt("Height", &new_height, 1, 600, 1050))
+		if (ImGui::DragInt("Height", &new_height, 1, 630, 990))
 		{
 			App->window->SetHeight(new_height);
 			App->editor->UpdatePosSize();
@@ -123,7 +123,7 @@ void MenuConfig::Render()
 		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%s%s", caps_avx2 ? "AVX2," : "",
 			caps_altivec ? "ALTIVEC" : "");
 	}
-	
+
 	ImGui::End();
 }
 

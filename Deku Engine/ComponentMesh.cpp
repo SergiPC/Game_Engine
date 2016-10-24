@@ -1,65 +1,75 @@
-#include "Globals.h"
-#include "Application.h"
 #include "ComponentMesh.h"
-#include "ModuleLoadMesh.h"
-#include "GameObject.h"
-#include "Component.h"
-#include "OpenGL.h"
+#include "Application.h"
+
+
+#include "ModuleRenderer3D.h"
 #include "Imgui\imgui.h"
 
-// -----------------------------------------------------------------
-ComponentMesh::ComponentMesh(GameObject* _parent) : Component(_parent, MESH)
+#include "ComponentTransform.h"
+#include "ComponentMaterial.h"
+#include "GameObject.h"
+#include "MathGeoLib\src\MathGeoLib.h"
+using namespace std;
+
+//Initialize the mesh for security
+ComponentMesh::ComponentMesh(GameObject* go) : Component(Meshes,go)
 {
-	MeshData new_mesh;
-	mesh = new_mesh;
+	MeshT _mesh;
+	Cmesh = _mesh;
+	
 }
 
-// -----------------------------------------------------------------
+
 ComponentMesh::~ComponentMesh()
-{}
-
-// -----------------------------------------------------------------
-void ComponentMesh::Update()
 {
-	float4x4 matrix;
-
-	ComponentTransform* new_trans = (ComponentTransform*)GetParent()->GetComponent(TRANSFORM);
-	matrix = new_trans->GetLocalTransform();
-
-	if (new_trans == nullptr)
-		matrix = float4x4::identity;
-
-	uint id;
-
-	ComponentMaterial* new_mat = (ComponentMaterial*)GetParent()->GetComponent(MESH);
-	id = new_mat->name_id;
-
-	if (new_mat == nullptr)
-		id = 0;
-
-	App->renderer3D->DrawMesh(mesh, matrix, id);
 }
 
-// -----------------------------------------------------------------
-void ComponentMesh::SetMesh(MeshData new_mesh)
+//Renders the current Mesh
+bool ComponentMesh::Update()
 {
-	mesh = new_mesh;
+	ComponentTransform* transform = (ComponentTransform*)gameObject->GetComponent(Transform);
+	ComponentMaterial* material = (ComponentMaterial*)gameObject->GetComponent(Material);
+
+	if (transform == nullptr && material == nullptr)
+		App->renderer3D->RenderMesh(Cmesh, math::float4x4::identity, 0);
+	else if( material == nullptr)
+		App->renderer3D->RenderMesh(Cmesh, transform->GetWorldTransform(), 0);
+	else if (transform == nullptr)
+		App->renderer3D->RenderMesh(Cmesh, math::float4x4::identity, material->textureId);
+	else
+		App->renderer3D->RenderMesh(Cmesh, transform->GetWorldTransform(), material->textureId);
+
+	return true;
 }
 
-// -----------------------------------------------------------------
 void ComponentMesh::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		int num_triangles = mesh.num_indices / 3;
+		int numTriangles = Cmesh.numIndices/3;
 
 		ImGui::Text("Triangles:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", num_triangles);
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", numTriangles);
 
 		ImGui::Text("Vertices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.num_vertices);
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", Cmesh.numVertices);
 
 		ImGui::Text("Indices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.num_indices);
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", Cmesh.numIndices);
 	}
+}
+//If there is no mesh adds a mesh if there is a mesh changes the current Mesh
+bool ComponentMesh::AddMesh(MeshT _mesh)
+{
+	Cmesh = _mesh;
+	gameObject->GenerateBoundingBox(Cmesh.vertices, Cmesh.numVertices);
+	return true;
+}
+
+//Deletes the current Mesh
+bool ComponentMesh::DeleteMesh()
+{
+	MeshT _mesh;
+	Cmesh = _mesh;
+	return true;
 }

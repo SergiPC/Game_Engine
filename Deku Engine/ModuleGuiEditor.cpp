@@ -1,17 +1,16 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleGuiEditor.h"
-#include "ModuleWindow.h"
 #include "Menus.h"
-#include "MenuAbout.h"
-#include "MenuHierarchy.h"
-#include "MenuInspector.h"
 #include "MenuConfig.h"
+#include "MenuInspector.h"
+#include "MenuHierarchy.h"
 #include "GameObject.h"
 
-#include "Glew\include\glew.h"
-#include "Imgui\imgui_impl_sdl_gl3.h"
 #include "Imgui\imgui.h"
+#include "Imgui\imgui_impl_sdl_gl3.h"
+#include "Glew\include\glew.h"
+#pragma comment (lib, "Glew/libx86/glew32.lib")
 
 using namespace std;
 
@@ -33,7 +32,7 @@ bool ModuleGuiEditor::Init()
 	ImGui_ImplSdlGL3_Init(App->window->window);
 
 	// Add Menus
-	menus_list.push_back(about_menu = new MenuAbout());
+	//menus_list.push_back(about_menu = new MenuAbout());
 	menus_list.push_back(hierarchy_menu = new MenuHierarchy());
 	menus_list.push_back(diagnostic_menu = new MenuConfig());
 	menus_list.push_back(inspector_menu = new MenuInspector());
@@ -88,7 +87,7 @@ update_status ModuleGuiEditor::Update(float dt)
 			}
 
 			if (ImGui::BeginMenu("Window"))
-			{				
+			{
 				if (ImGui::MenuItem("Hierarchy", "    Ctrl+1"))
 					hierarchy_menu->SwitchActive();
 
@@ -97,7 +96,7 @@ update_status ModuleGuiEditor::Update(float dt)
 
 				if (ImGui::MenuItem("Configuration", "    Ctrl+3"))
 					diagnostic_menu->SwitchActive();
-				
+
 				if (ImGui::MenuItem("Test", "    Ctrl+4"))
 					show_test_window = !show_test_window;
 
@@ -112,29 +111,29 @@ update_status ModuleGuiEditor::Update(float dt)
 			if (ImGui::BeginMenu("Help"))
 			{
 				if (ImGui::MenuItem("About"))
-					about_menu->SwitchActive();
-				
+					//about_menu->SwitchActive();
+
 				ImGui::Separator();
-				
+
 				if (ImGui::MenuItem("Documentation", "    ->"))
 				{
 					//ShellExecute(NULL, "open", "https://github.com/SergiPC/Game_Engine/wiki", NULL, NULL, SW_SHOWDEFAULT);
 					App->ExecuteBrowser("https://github.com/SergiPC/Game_Engine/wiki");
 				}
-				
+
 				if (ImGui::MenuItem("Download latest", "    ->"))
 					App->ExecuteBrowser("https://github.com/SergiPC/Game_Engine/releases");
 
 				if (ImGui::MenuItem("Report a bug", "    ->"))
 					App->ExecuteBrowser("https://github.com/SergiPC/Game_Engine/issues");
-				
+
 				ImGui::EndMenu();
 			}
 
 			ImGui::EndMainMenuBar();
 		}
 	}
-	
+
 	// Draw menus
 	vector<Menu*>::iterator tmp;	// declare an iterator for a vector
 
@@ -149,7 +148,7 @@ update_status ModuleGuiEditor::Update(float dt)
 			current_menu->Render();
 		}
 	}
-	
+
 	ImGui::Render();
 
 	return ret;

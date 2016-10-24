@@ -1,29 +1,28 @@
 #include "ComponentMaterial.h"
 #include "Imgui\imgui.h"
+#include "GameObject.h"
 
-// -----------------------------------------------------------------
-ComponentMaterial::ComponentMaterial(GameObject* _parent) : Component(_parent, MATERIAL)
-{}
 
-// -----------------------------------------------------------------
-ComponentMaterial::~ComponentMaterial()
-{}
-
-// -----------------------------------------------------------------
-void ComponentMaterial::Update()
-{}
-
-// -----------------------------------------------------------------
-unsigned int ComponentMaterial::GetId()
+ComponentMaterial::ComponentMaterial(GameObject* go) : Component(Material, go)
 {
-	return name_id;
 }
 
-// -----------------------------------------------------------------
+
+ComponentMaterial::~ComponentMaterial()
+{
+}
+
+
+bool ComponentMaterial::Update()
+{
+	return true;
+}
+
+//If there is a texture, shows the Image on the Inspector
 void ComponentMaterial::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::Image((ImTextureID)name_id, ImVec2(200, 200));
+		ImGui::Image((ImTextureID)textureId, ImVec2(200, 200));
 	}
 }

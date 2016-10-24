@@ -7,14 +7,15 @@
 #include "Bullet/src/BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
 
 #ifdef _DEBUG
-	#pragma comment (lib, "Bullet/bin/BulletDynamics_debug.lib")
-	#pragma comment (lib, "Bullet/bin/BulletCollision_debug.lib")
-	#pragma comment (lib, "Bullet/bin/LinearMath_debug.lib")
+	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
+	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
+	#pragma comment (lib, "Bullet/libx86/LinearMath_debug.lib")
 #else
-	#pragma comment (lib, "Bullet/bin/BulletDynamics.lib")
-	#pragma comment (lib, "Bullet/bin/BulletCollision.lib")
-	#pragma comment (lib, "Bullet/bin/LinearMath.lib")
+	#pragma comment (lib, "Bullet/libx86/BulletDynamics.lib")
+	#pragma comment (lib, "Bullet/libx86/BulletCollision.lib")
+	#pragma comment (lib, "Bullet/libx86/LinearMath.lib")
 #endif
+
 
 ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -54,13 +55,12 @@ bool ModulePhysics3D::Start()
 	world = new btDiscreteDynamicsWorld(dispatcher, broad_phase, solver, collision_conf);
 	world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
-	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 
 	return true;
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const PrimCube& cube, float mass)
+PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 
@@ -87,7 +87,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const PrimCube& cube, float mass)
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const PrimSphere& sphere, float mass)
+PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 {
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.add(colShape);
@@ -113,7 +113,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const PrimSphere& sphere, float mass)
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const PrimCylinder& cylinder, float mass)
+PhysBody3D* ModulePhysics3D::AddBody(const Cylinder& cylinder, float mass)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius*2, 0.0f));
 	shapes.add(colShape);
@@ -139,7 +139,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const PrimCylinder& cylinder, float mass)
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const PrimPlane& plane)
+PhysBody3D* ModulePhysics3D::AddBody(const Plane& plane)
 {
 	btCollisionShape* colShape = new btStaticPlaneShape(btVector3(plane.normal.x, plane.normal.y, plane.normal.z), plane.constant);
 	shapes.add(colShape);
@@ -299,21 +299,21 @@ update_status ModulePhysics3D::Update(float dt)
 		// drop some primitives on 1,2,3
 		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
-			PrimSphere s(1);
+			Sphere s(1);
 			s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			App->physics3D->AddBody(s);
 		}
 
 		if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 		{
-			PrimCube c(1, 1, 1);
+			Cube c(1, 1, 1);
 			c.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			App->physics3D->AddBody(c);
 		}
 
 		if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 		{
-			PrimCylinder c(0.5, 1);
+			Cylinder c(0.5, 1);
 			c.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			App->physics3D->AddBody(c);
 		}
@@ -363,16 +363,8 @@ bool ModulePhysics3D::CleanUp()
 	}
 	bodies.clear();
 
-	p2List_item<PhysVehicle3D*>* v_item = vehicles.getFirst();
-	while(v_item)
-	{
-		delete v_item->data;
-		v_item = v_item->next;
-	}
-	vehicles.clear();
 	
 	// Order matters !
-	delete vehicle_raycaster;
 	delete world;
 
 	return true;

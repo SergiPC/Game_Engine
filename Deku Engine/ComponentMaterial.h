@@ -1,20 +1,17 @@
-#ifndef __COMPONENT_MATERIAL__
-#define __COMPONENT_MATERIAL__
+#ifndef __COMPONENTMATERIAL_H__
+#define __COMPONENTMATERIAL_H__
 
 #include "Component.h"
 
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial(GameObject* _parent);
+	ComponentMaterial(GameObject* go);
 	~ComponentMaterial();
 
-	void Update();
+	bool Update();
 	void OnEditor();
-	unsigned int GetId();
-
-public:
-	unsigned int name_id;
-
+	unsigned int textureId = 0;
 };
-#endif // !__COMPONENT_MATERIAL__
+
+#endif // !__COMPONENTMATERIAL_H__

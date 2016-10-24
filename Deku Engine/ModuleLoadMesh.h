@@ -1,29 +1,29 @@
-#ifndef __MODULE_FBX__
-#define __MODULE_FBX__
+#ifndef  __MODULELOADMESHES_H__
+#define __MODULELOADMESHES_H__
 
-#include "Globals.h"
 #include "Module.h"
+#include <cstdint>
 #include <vector>
-
 class aiNode;
 class aiScene;
 class GameObject;
 
-struct MeshData {
-	uint id_vertices = 0; // id in VRAM 
-	uint num_vertices = 0; 
+struct MeshT
+{
+	uint idVertices = 0;
+	uint numVertices = 0;
 	uint* vertices = nullptr;
 
-	uint id_indices = 0; // id in VRAM 
-	uint num_indices = 0; 
+	uint idIndices = 0;
+	uint numIndices = 0;
 	uint* indices = nullptr;
 
-	uint id_normals = 0;
-	uint num_normals = 0;
+	uint idNormals = 0;
+	uint numNormals = 0;
 	float* normals = nullptr;
 
-	uint id_uvs = 0;
-	uint num_uvs = 0;
+	uint idUvs = 0;
+	uint numUvs = 0;
 	float* uvs = nullptr;
 };
 
@@ -36,9 +36,9 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	std::vector<GameObject*> LoadFile(const char* path);
-	GameObject* LoadNode(const aiScene* scene, aiNode* child_node, GameObject* _parent, const char* _path);
-	uint LoadTexture(const char* _path);
+	std::vector<GameObject*> Load(const char* path);
+	GameObject* LoadMesh(const aiScene* scene, aiNode* node, const char* path, GameObject* parent);
+	uint LoadTexture(const char* path);
 };
 
-#endif __MODULE_FBX__
+#endif // __MODULEMESHES_H__

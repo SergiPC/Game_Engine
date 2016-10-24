@@ -26,10 +26,10 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	PhysBody3D*		AddBody(const PrimCube& cube, float mass = 1.0f);
-	PhysBody3D*		AddBody(const PrimSphere& sphere, float mass = 1.0f);
-	PhysBody3D*		AddBody(const PrimCylinder& cylinder, float mass = 1.0f);
-	PhysBody3D*		AddBody(const PrimPlane& plane);
+	PhysBody3D*		AddBody(const Cube& cube, float mass = 1.0f);
+	PhysBody3D*		AddBody(const Sphere& sphere, float mass = 1.0f);
+	PhysBody3D*		AddBody(const Cylinder& cylinder, float mass = 1.0f);
+	PhysBody3D*		AddBody(const Plane& plane);
 	PhysBody3D*		AddHeighField(const char* filename, int width, int height);
 
 	void DeleteBody(PhysBody3D* body);
@@ -43,12 +43,10 @@ private:
 	btBroadphaseInterface*				broad_phase;
 	btSequentialImpulseConstraintSolver* solver;
 	btDiscreteDynamicsWorld*			world;
-	btDefaultVehicleRaycaster*			vehicle_raycaster;
 	DebugDrawer*						debug_draw;
 
 	p2List<btCollisionShape*> shapes;
 	p2List<PhysBody3D*> bodies;
-	p2List<PhysVehicle3D*> vehicles;
 };
 
 class DebugDrawer : public btIDebugDraw
@@ -65,6 +63,6 @@ public:
 	int	 getDebugMode() const;
 
 	DebugDrawModes mode;
-	PrimLine line;
+	Line line;
 	Primitive point;
 };

@@ -4,6 +4,7 @@
 #include "ModuleGuiEditor.h"
 #include "Imgui/imgui.h"
 #include "GameObject.h"
+#include "Component.h"
 #include <vector>
 
 using namespace std;
@@ -30,21 +31,21 @@ void MenuHierarchy::Render()
 	if (ImGui::BeginMenu("Create"))
 	{
 		if (ImGui::MenuItem("Create Empty"))
-			(App->editor->selected_go != nullptr) ? (App->go_manager->CreateNewGO(App->editor->selected_go)) : (App->go_manager->CreateNewGO());
+			(App->editor->selected_go != nullptr) ? (App->go_manager->AddGameObject(App->editor->selected_go)) : (App->go_manager->AddGameObject(nullptr));
 
 		if (ImGui::BeginMenu("Create with..."))
 		{
 			if (ImGui::MenuItem("Transform"))
 			{
-				tmp_go = App->go_manager->CreateNewGO();
-				tmp_go->AddComponent(TRANSFORM);
+				tmp_go = App->go_manager->AddGameObject(nullptr);
+				tmp_go->AddComponent(Transform);
 			}
 
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::MenuItem("Load..."))
-			App->go_manager->CreateNewGO();
+			App->go_manager->AddGameObject(nullptr);
 
 		ImGui::EndMenu();
 	}
@@ -52,7 +53,7 @@ void MenuHierarchy::Render()
 	ImGui::Separator();
 
 	// MUST DO 06: draw the hierarchy
-	h_root = App->go_manager->GetRoot();
+	h_root = App->go_manager->root;
 	if (h_root->children.size() > 0)
 		RenderChildren(h_root);
 
@@ -69,8 +70,8 @@ void MenuHierarchy::RenderChildren(GameObject* _parent)
 		uint flags = 0;
 
 		if ((*it_child) == App->editor->selected_go)
-			flags = ImGuiTreeNodeFlags_Selected;		
-			
+			flags = ImGuiTreeNodeFlags_Selected;
+
 		if ((*it_child)->children.size() != 0)
 		{
 			if (ImGui::TreeNodeEx((*it_child)->name.data(), flags))

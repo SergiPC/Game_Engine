@@ -1,11 +1,9 @@
-#ifndef __APPLICATION__
-#define __APPLICATION__
+#pragma once
 
 #include "p2List.h"
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
-#include "ModuleFileSystem.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
@@ -14,13 +12,14 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGuiEditor.h"
+#include "ModuleFileSystem.h"
 #include "ModuleLoadMesh.h"
+#include "ModuleLoadTextures.h"
 #include "ModuleGOManager.h"
 
 class Application
 {
 public:
-	ModuleFileSystem* file_sys;
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleAudio* audio;
@@ -29,9 +28,10 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleGuiEditor* editor;
+	ModuleFileSystem* fs;
 	ModuleLoadMesh* load_mesh;
+	ModuleLoadTextures* tex;
 	ModuleGOManager* go_manager;
-
 private:
 
 	Timer	ms_timer;
@@ -56,7 +56,6 @@ public:
 	update_status	Update();
 	bool			CleanUp();
 
-	// Exposing some properties for reading
 	const char*		GetTitle() const;
 	const char*		GetOrganizationName() const;
 	void			ExecuteBrowser(const char* path);
@@ -68,6 +67,5 @@ private:
 	void FinishUpdate();
 };
 
+//To get acces to app from outside modules
 extern Application* App;
-
-#endif __APPLICATION__

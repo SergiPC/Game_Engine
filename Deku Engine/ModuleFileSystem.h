@@ -1,19 +1,26 @@
-#ifndef __MODULE_FILE_SYSTEM__
-#define __MODULE_FILE_SYSTEM__
+#ifndef __ModuleFileSystem_H__
+#define __ModuleFileSystem_H__
 
 #include "Module.h"
 
 struct SDL_RWops;
+
 int close_sdl_rwops(SDL_RWops *rw);
 
 class ModuleFileSystem : public Module
 {
 public:
-	ModuleFileSystem(Application* app, bool start_enabled = true, const char* game_path = nullptr);
-	~ModuleFileSystem();
 
-	// Called before render is available
+	ModuleFileSystem(Application* app, bool start_enabled = true);
+
+	// Destructor
+	virtual ~ModuleFileSystem();
+
 	bool Init();
+
+
+	// Called before quitting
+	bool CleanUp();
 
 	// Utility functions
 	bool AddPath(const char* path_or_zip, const char* mount_point = nullptr);
@@ -24,18 +31,14 @@ public:
 		return "save/";
 	}
 
-	//Sets a Write Directory
-	bool SetWriteDirectory();
-	bool SaveFileExists();
-	bool DeleteSaveFile();
-
 	// Open for Read/Write
 	unsigned int Load(const char* file, char** buffer) const;
 	SDL_RWops* Load(const char* file) const;
+
 	unsigned int Save(const char* file, const char* buffer, unsigned int size) const;
 
-	// Called before quitting
-	bool CleanUp();
+private:
+
 };
 
-#endif //__MODULE_FILE_SYSTEM__
+#endif // __ModuleFileSystem_H__

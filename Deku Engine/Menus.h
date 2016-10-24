@@ -1,8 +1,6 @@
 #ifndef __MENUS__
 #define __MENUS__
 
-#include "Globals.h"
-
 enum MenuTypes
 {
 	Menu_Unknown,

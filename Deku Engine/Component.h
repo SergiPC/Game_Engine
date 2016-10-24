@@ -1,38 +1,32 @@
-#ifndef __COMPONENT__
-#define __COMPONENT__
+#ifndef __COMPONENT_H__
+#define __COMPONENT_H__
 
-//#include "glmath.h"
-#include "MathGeoLib/MathBuildConfig.h"
-#include "MathGeoLib/MathGeoLib.h"
 
 class GameObject;
-
-enum Type
+enum componentType
 {
-	TRANSFORM,
-	MATERIAL,
-	MESH
+	Transform,
+	Meshes,
+	Texture,
+	Material
 };
 
 class Component
 {
 public:
-	Component(GameObject* _parent, Type TIPE);
+	Component();
+	Component(componentType _type, GameObject* go);
+	~Component();
 
-	virtual void	Update();
-	virtual void	OnEditor();
-	bool			IsEnable();
-	void			SetEnable(bool enable);
-	Type			GetType();
-	GameObject*		GetParent();
-	bool			CleanUp();
-
+	componentType type;
+	virtual bool Init();
+	virtual void Active();
+	virtual bool Update();
+	virtual void OnEditor();
+	GameObject* gameObject = nullptr;
 private:
-	bool		enabled;
-	GameObject*	parent;
-
-protected:
-	Type	type;
+	bool active = true;
+	
 };
 
-#endif __COMPONENT__
+#endif // !__COMPONENT_H__

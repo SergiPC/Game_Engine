@@ -3,7 +3,7 @@
 #include "MenuInspector.h"
 #include "Imgui/imgui.h"
 #include "GameObject.h"
-
+#include "Component.h"
 
 using namespace std;
 
@@ -33,7 +33,7 @@ void MenuInspector::Render()
 
 		if (ImGui::Checkbox("", &go_enable))
 			sel_go->SetEnable(go_enable);
-		
+
 		// Name --------------------------------
 		ImGui::SameLine();  ImGui::Text(sel_go->name.data());
 
@@ -51,13 +51,13 @@ void MenuInspector::Render()
 		if (ImGui::BeginMenu("Add Component"))
 		{
 			if (ImGui::MenuItem("Transform"))
-				sel_go->AddComponent(TRANSFORM);
+				sel_go->AddComponent(Transform);
 
 			if (ImGui::MenuItem("Mesh"))
-				sel_go->AddComponent(MESH);
+				sel_go->AddComponent(Meshes);
 
 			if (ImGui::MenuItem("Material"))
-				sel_go->AddComponent(MATERIAL);
+				sel_go->AddComponent(Material);
 
 			ImGui::EndMenu();
 		}

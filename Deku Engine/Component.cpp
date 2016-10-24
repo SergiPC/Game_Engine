@@ -1,43 +1,40 @@
 #include "Component.h"
+#include "GameObject.h"
 
-// -----------------------------------------------------------------
-Component::Component(GameObject* _parent, Type TIPE) : enabled(true), parent(_parent), type(TIPE)
-{}
-
-// -----------------------------------------------------------------
-void Component::Update()
-{}
-
-// -----------------------------------------------------------------
-void Component::OnEditor()
-{}
-
-// -----------------------------------------------------------------
-bool Component::IsEnable()
+Component::Component()
 {
-	return enabled;
 }
 
-// -----------------------------------------------------------------
-void Component::SetEnable(bool enable)
+Component::Component(componentType _type, GameObject* go)
 {
-	enabled = enable;
+	type = _type;
+	gameObject = go;
 }
 
-// -----------------------------------------------------------------
-Type Component::GetType()
+Component::~Component()
 {
-	return type;
+
 }
 
-// -----------------------------------------------------------------
-GameObject* Component::GetParent()
+bool Component::Init()
 {
-	return parent;
-}
 
-// -----------------------------------------------------------------
-bool Component::CleanUp()
-{
 	return true;
+}
+
+//Enable disable component
+void Component::Active()
+{
+	active = !active;
+}
+
+bool Component::Update()
+{
+
+	return true;
+}
+
+void Component::OnEditor()
+{
+
 }

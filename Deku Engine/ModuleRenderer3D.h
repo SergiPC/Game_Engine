@@ -1,15 +1,12 @@
-#ifndef __MODULE_RENDERER__
-#define __MODULE_RENDERER__
-
+#pragma once
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
 #include "Light.h"
 
-#include "MathGeoLib/MathBuildConfig.h"
-#include "MathGeoLib/MathGeoLib.h"
-
 #define MAX_LIGHTS 8
+struct MeshT;
+namespace math { class float4x4; }
 
 class ModuleRenderer3D : public Module
 {
@@ -22,16 +19,16 @@ public:
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
+	
+	void RenderMesh(MeshT mesh,math::float4x4 transform, uint tex_id);
 
 	void OnResize(int width, int height);
 
-	// for mesh ----
-	void DrawMesh(MeshData _mesh, math::float4x4 trans_mat, uint _name_id);
-
 public:
+
+	uint my_id = 0;
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 };
-#endif // !__MODULE_RENDERER__

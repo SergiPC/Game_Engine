@@ -25,7 +25,6 @@ public:
 	void	SetWidth(int w);
 	void	SetHeight(int h);
 	void	SetDefaultSize();
-	// Maybe I can implement a method to change size of "menus"
 
 	int		GetWidth();
 	int		GetHeight();
@@ -35,10 +34,10 @@ public:
 	bool	GetFullscreen();
 
 public:
-	// The window we'll be rendering to
+	//The window we'll be rendering to
 	SDL_Window* window;
 
-	// The surface contained by the window
+	//The surface contained by the window
 	SDL_Surface* screen_surface;
 
 private:

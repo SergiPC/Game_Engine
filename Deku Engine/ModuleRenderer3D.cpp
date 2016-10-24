@@ -1,12 +1,15 @@
 #include "Globals.h"
-#include "OpenGL.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "Glew\include\glew.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 #include "ModuleLoadMesh.h"
-
-#pragma comment (lib, "Glew/libx86/glew32.lib") /* link Microsoft OpenGL lib   */
-#pragma comment (lib, "glu32.lib")
-#pragma comment (lib, "opengl32.lib")
+#include "MathGeoLib\src\MathGeoLib.h"
+#pragma comment (lib, "Glew/libx86/glew32.lib")
+#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
+#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -19,6 +22,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init()
 {
+	
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
 	
@@ -101,6 +105,7 @@ bool ModuleRenderer3D::Init()
 	
 	App->camera->Look(vec3(1.75f, 1.75f, 5.0f), vec3(0.0f, 0.0f, 0.0f));
 
+
 	return ret;
 }
 
@@ -125,6 +130,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // Update: debug camera
 update_status ModuleRenderer3D::Update(float dt)
 {
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -145,7 +151,6 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
-
 void ModuleRenderer3D::OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -159,25 +164,24 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::DrawMesh(MeshData _mesh, math::float4x4 trans_mat, uint _name_id)
+void ModuleRenderer3D::RenderMesh(MeshT mesh, math::float4x4 transform, uint tex_id)
 {
 	glPushMatrix();
-	glMultMatrixf(*trans_mat.Transposed().v);
+	glMultMatrixf(*transform.Transposed().v);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);
 
-	glBindBuffer(GL_ARRAY_BUFFER, _mesh.id_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.idVertices);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	glBindBuffer(GL_ARRAY_BUFFER, _mesh.id_uvs);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.idUvs);
 	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
-	glBindTexture(GL_TEXTURE_2D, _name_id);
+	glBindTexture(GL_TEXTURE_2D, tex_id);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _mesh.id_indices);
-	glDrawElements(GL_TRIANGLES, _mesh.num_indices, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.idIndices);
+	glDrawElements(GL_TRIANGLES, mesh.numIndices, GL_UNSIGNED_INT, NULL);
 	
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

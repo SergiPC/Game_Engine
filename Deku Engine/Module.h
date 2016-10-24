@@ -1,12 +1,17 @@
-#ifndef __MODULE__
-#define __MODULE__
+#pragma once
 
 class Application;
 struct PhysBody3D;
+#include "Globals.h"
 
 class Module
 {
+private :
+	bool enabled;
+
 public:
+	Application* App;
+
 	Module(Application* parent, bool start_enabled = true) : App(parent), enabled(start_enabled)
 	{}
 
@@ -68,12 +73,4 @@ public:
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{ }
-
-public:
-	Application* App = nullptr;
-
-private:
-	bool enabled;
 };
-
-#endif __MENU__

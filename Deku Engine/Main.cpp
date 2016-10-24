@@ -15,7 +15,7 @@ enum main_states
 	MAIN_EXIT
 };
 
-Application* App = nullptr;
+Application* App = NULL;
 
 int main(int argc, char ** argv)
 {
@@ -23,6 +23,7 @@ int main(int argc, char ** argv)
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
+	
 
 	while (state != MAIN_EXIT)
 	{

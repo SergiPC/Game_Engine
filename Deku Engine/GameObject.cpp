@@ -1,79 +1,73 @@
 #include "GameObject.h"
-#include "Globals.h"
+#include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-#include "ModuleLoadMesh.h"
-
-#include <sstream>
-
-class ModuleGOManager;
-
+#include "Math.h"
 using namespace std;
 
-GameObject::GameObject(GameObject* _parent, const char* _name) : name(_name)
+GameObject::GameObject()
 {
-	parent = _parent;
+	root = nullptr;
 	name.resize(20);
+	name = "GameObject";
+}
 
-	if (parent)
-		parent->children.push_back(this);
+GameObject::GameObject(GameObject* parent)
+{
+	root = parent;
+	name.resize(20);
+	name = "GameObject";
 }
 
 GameObject::~GameObject()
-{}
-
-// -----------------------------------------------------------------
-bool GameObject::Start()
 {
-	bool ret = true;
-
-	return ret;
-}
-
-// -----------------------------------------------------------------
-void GameObject::Update()
-{
-	vector<Component*>::iterator tmp_comp = components.begin();
-
-	while (tmp_comp != components.end())
-	{
-		(*tmp_comp)->Update();
-		tmp_comp++;
-	}
-
-	vector<GameObject*>::iterator tmp_go = children.begin();
-
-	while (tmp_go != children.end())
-	{
-		(*tmp_go)->Update();
-		tmp_go++;
-	}
+	root = nullptr;
 }
 
 // -----------------------------------------------------------------
 bool GameObject::CleanUp()
 {
-	LOG("Cleaning GameObject");
-
-	vector<Component*>::iterator tmp_comp = components.begin();
-
-	while (tmp_comp != components.end())
+	for (vector<GameObject*>::iterator item = children.begin(); item != children.end(); ++item)
 	{
-		RELEASE(*tmp_comp);
-		tmp_comp++;
+		(*item)->CleanUp();
+		RELEASE(*item);
 	}
+	children.clear();
 
-	vector<GameObject*>::iterator tmp_go = children.begin();
-
-	while (tmp_go != children.end())
+	for (vector<Component*>::iterator item = components.begin(); item != components.end(); ++item)
 	{
-		(*tmp_go)->CleanUp();
-		RELEASE(*tmp_go);
-		tmp_go++;
+		RELEASE(*item);	
 	}
+	components.clear();
 
 	return true;
+}
+
+// -----------------------------------------------------------------
+bool GameObject::Start()
+{
+	return true;
+}
+
+// -----------------------------------------------------------------
+bool GameObject::Update()
+{
+	bool ret = true;
+
+	//Call each Component Update
+	for (vector<Component*>::iterator item = components.begin(); item != components.end(); ++item)
+	{
+		(*item)->Update();
+	}
+
+	//Call each Child Update
+	for (vector<GameObject*>::iterator item = children.begin(); item != children.end(); ++item)
+	{
+		(*item)->Update();
+	}
+
+	return ret;
 }
 
 // -----------------------------------------------------------------
@@ -89,81 +83,73 @@ void GameObject::SetEnable(bool enable)
 }
 
 // -----------------------------------------------------------------
-Component* GameObject::AddComponent(Type TIPE)
+Component* GameObject::AddComponent(componentType _type)
 {
-	Component* new_component = nullptr;
+	Component* component = NULL;
+	//Check there are no duplicate components
+	component = GetComponent(_type);
+	if (component != nullptr)
+		return component;
 
-	// We can't add two components with the same type
-	new_component = GetComponent(TIPE);
-
-	if (new_component != nullptr)
-		return new_component;
-
-	switch (TIPE)
+	switch (_type)
 	{
-	case TRANSFORM: new_component = new ComponentTransform(this);
-		break;
+		case Transform: component = new ComponentTransform(this); 
+			break;
 
-	case MESH: new_component = new ComponentMesh(this);
-		break;
+		case Meshes: component = new ComponentMesh(this);
+			break;
 
-	case MATERIAL: new_component = new ComponentMaterial(this);
-		break;
+		case Material: component = new ComponentMaterial(this);
+			break;
+
+		default: component = new ComponentTransform(this); 
+			break;
 	}
 
-	components.push_back(new_component);
-	
-	return new_component;
+	components.push_back(component);
+	return component;
 }
 
 // -----------------------------------------------------------------
-Component* GameObject::GetComponent(Type TIPE)
+Component* GameObject::GetComponent(componentType _type)
 {
-	Component* new_component = nullptr;
 
-	for (vector<Component*>::iterator comp_it = components.begin(); comp_it != components.end(); ++comp_it)
+	Component* component = NULL;
+
+	for (vector<Component*>::iterator item = components.begin(); item != components.end(); ++item)
 	{
-		if ((*comp_it)->GetType() == TIPE)
+		if ((*item)->type == _type)
 		{
-			new_component = (*comp_it);
+			component = (*item);
 			break;
 		}
 	}
 
-	return new_component;
+	return component;
 }
 
 // -----------------------------------------------------------------
-void GameObject::DelComponent(Component* comp)
-{
-	comp->CleanUp();
-}
-
-// -----------------------------------------------------------------
-void GameObject::DelChild(GameObject* go_child)
+bool GameObject::RemoveChild(GameObject* child)
 {
 	bool ret = false;
 
 	for (vector<GameObject*>::iterator item = children.begin(); item != children.end(); ++item)
 	{
-		if ((*item) == go_child)
+		if ((*item) == child)
 		{
 			children.erase(item);
-			go_child->CleanUp();
-			RELEASE(go_child);
+			child->CleanUp();
+			RELEASE(child);
 			ret = true;
 		}
 	}
+
+	return ret;
 }
 
 // -----------------------------------------------------------------
-GameObject* GameObject::GetParent()
+void GameObject::GenerateBoundingBox(uint* vertices,uint numVertices)
 {
-	return parent;
-}
-
-// -----------------------------------------------------------------
-void GameObject::SetParent(GameObject* new_parent)
-{
-	parent = new_parent;
+	gBox.SetNegativeInfinity();
+	gBox.Enclose((float3*)vertices, numVertices);
 }

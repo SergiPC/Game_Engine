@@ -1,12 +1,13 @@
-#ifndef __MODULE_SCENE_INTRO__
-#define __MODULE_SCENE_INTRO__
-
+#pragma once
 #include "Module.h"
-#include "ModuleLoadMesh.h"
-
+#include "p2DynArray.h"
+#include "Globals.h"
+#include <vector>
 #define BOUNCER_TIME 200
 
-struct MeshData;
+struct PhysBody3D;
+class Cube;
+class GameObject;
 
 class ModuleSceneIntro : public Module
 {
@@ -16,15 +17,11 @@ public:
 
 	bool Start();
 	update_status Update(float dt);
+	update_status PreUpdate(float dt);
 	bool CleanUp();
-
+	update_status PostUpdate(float dt);
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
-
-	uint my_id = 0;
-	uint my_indices = 0;
-	uint my_vertices = 0;
+	std::vector<GameObject*> sceneObjects;
 };
-
-#endif __MODULE_SCENE_INTRO__
