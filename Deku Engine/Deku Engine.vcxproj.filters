@@ -297,9 +297,6 @@
     <ClInclude Include="glmath.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="AusRandom.h">
-      <Filter>Sources\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -359,6 +356,9 @@
     </ClInclude>
     <ClInclude Include="MenuHierarchy.h">
       <Filter>Sources\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="DekuRNG.h">
+      <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -512,9 +512,6 @@
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="AusRandom.cpp">
-      <Filter>Sources\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
@@ -556,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="MenuHierarchy.cpp">
       <Filter>Sources\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="DekuRNG.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

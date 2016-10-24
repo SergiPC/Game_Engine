@@ -1,23 +1,18 @@
-// ----------------------------------------------------
-// AusRandom.cpp
-// Class to generate random numbers
-// ----------------------------------------------------
-
-#include "AusRandom.h"
+#include "DekuRNG.h"
 #include <random>
 #include <map>
 // ---------------------------------------------
-AusRandom::AusRandom()
+DekuRNG::DekuRNG()
 {
 
 }
-void AusRandom::Start()
+void DekuRNG::Start()
 {
 	
 	
 }
 // Returns a float between 0 and 1
-float AusRandom::RandZeroAndOne()
+float DekuRNG::RandZeroAndOne()
 {
 	float num = 0.0f;
 	
@@ -37,7 +32,7 @@ float AusRandom::RandZeroAndOne()
 }
 
 // Returns and integrer between RAND_MAX and RAND_MIN
-void AusRandom::RandMinMax()
+void DekuRNG::RandMinMax()
 {
 
 }

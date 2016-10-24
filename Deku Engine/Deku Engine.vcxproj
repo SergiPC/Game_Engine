@@ -178,12 +178,12 @@
     <ClInclude Include="PhysBody3D.h" />
     <ClInclude Include="PhysFS\include\physfs.h" />
     <ClInclude Include="Primitive.h" />
-    <ClInclude Include="AusRandom.h" />
+    <ClInclude Include="DekuRNG.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="AusRandom.cpp" />
+    <ClCompile Include="DekuRNG.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />

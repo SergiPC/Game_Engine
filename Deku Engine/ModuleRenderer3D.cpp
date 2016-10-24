@@ -103,7 +103,7 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(App->window->GetWidth(), App->window->GetHeight());
 	
-	App->camera->Look(vec3(1.75f, 1.75f, 5.0f), vec3(0.0f, 0.0f, 0.0f));
+	App->camera->Look(vec3(60.0f, 60.0f, 60.0f), vec3(0.0f, 0.0f, 0.0f));
 
 
 	return ret;
