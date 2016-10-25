@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <vector>
 
 class Menu;
 class MenuAbout;

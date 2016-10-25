@@ -57,16 +57,16 @@ void ComponentMesh::OnEditor()
 
 		ImGui::Separator();	// -------
 
-		int numTriangles = mesh.numIndices/3;
+		int numTriangles = mesh.num_indices/3;
 
 		ImGui::Text("Triangles:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", numTriangles);
 
 		ImGui::Text("Vertices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.numVertices);
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.num_vertices);
 
 		ImGui::Text("Indices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.numIndices);
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.num_indices);
 	}
 }
 
@@ -74,6 +74,6 @@ void ComponentMesh::OnEditor()
 bool ComponentMesh::SetMesh(MeshData new_mesh)
 {
 	mesh = new_mesh;
-	//owner->GenerateBoundingBox(mesh.vertices, Cmesh.numVertices);
+	//owner->GenerateBoundingBox(mesh.vertices, MeshData.numVertices);
 	return true;
 }

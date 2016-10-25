@@ -173,15 +173,15 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);
 
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.idVertices);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertices);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.idUvs);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uvs);
 	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
 	glBindTexture(GL_TEXTURE_2D, tex_id);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.idIndices);
-	glDrawElements(GL_TRIANGLES, mesh.numIndices, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_indices);
+	glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, NULL);
 	
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

@@ -47,180 +47,185 @@ bool ModuleLoadMesh::CleanUp()
 	return true;
 }
 
-vector<GameObject*> ModuleLoadMesh::Load(const char* path)
+vector<GameObject*> ModuleLoadMesh::LoadFile(const char* path)
 {
-	vector<GameObject*> gameObjects;
+	vector<GameObject*> go_list;
 
 	// Start from aiScene::mRootNode then go recursive from there.
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		aiNode* rootNode = scene->mRootNode;
+		aiNode* parent_node = scene->mRootNode;
 
-		GameObject* parent = App->go_manager->CreateNewGO(nullptr);
-		parent->name = rootNode->mName.C_Str();
-		gameObjects.push_back(parent);
+		GameObject* parent_go = App->go_manager->CreateNewGO(nullptr);
+		parent_go->name = parent_node->mName.C_Str();
+		go_list.push_back(parent_go);
 
 		// Then loop aiNode::mNumChildren
-		for (int i = 0; i < rootNode->mNumChildren; ++i)
+		for (int i = 0; i < parent_node->mNumChildren; ++i)
 		{
 			// ... then deal with each aiNode::mChildren[n]
-			GameObject* child = LoadMesh(scene, rootNode->mChildren[i], path, parent);
-			gameObjects.push_back(child);
+			GameObject* child_go = LoadMesh(scene, parent_node->mChildren[i], parent_go, path);
+			go_list.push_back(child_go);
 		}
 
 		aiReleaseImport(scene);
 	}
 
-	return gameObjects;
+	return go_list;
 }
 
-GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const char* path, GameObject* parent)
+GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, GameObject* parent, const char* path)
 {
-	GameObject* child = App->go_manager->CreateNewGO(parent);
-	child->name = node->mName.C_Str();
+	GameObject* child_go = App->go_manager->CreateNewGO(parent);
+	child_go->name = child_node->mName.C_Str();
 
-	if (node->mNumMeshes <= 0)
+	if (child_node->mNumMeshes <= 0)
 	{
 		// Get transformations --------------------------
-		aiVector3D translation;
-		aiVector3D scaling;
-		aiQuaternion rotation;
+		aiVector3D trans;
+		aiQuaternion rot;
+		aiVector3D sca;
 
-		node->mTransformation.Decompose(scaling, rotation, translation);
+		child_node->mTransformation.Decompose(sca, rot, trans);
 
-		float3 position(translation.x, translation.y, translation.z);
-		float3 scale(scaling.x, scaling.y, scaling.z);
-		Quat _rotation(rotation.x, rotation.y, rotation.z, rotation.w);
+		float3 position(trans.x, trans.y, trans.z);
+		Quat rot_quat(rot.x, rot.y, rot.z, rot.w);
+		float3 scale(sca.x, sca.y, sca.z);
 
 		// Add ComponentTransform -->
-		ComponentTransform* Ctransform = (ComponentTransform*)child->AddComponent(TRANSFORM);
-		Ctransform->SetPosition(position);
-		Ctransform->SetRotationQuat(_rotation);
-		Ctransform->SetScale(scale);
+		ComponentTransform* trans_comp = (ComponentTransform*)child_go->AddComponent(TRANSFORM);
+		trans_comp->SetPosition(position);
+		trans_comp->SetRotationQuat(rot_quat);
+		trans_comp->SetScale(scale);
 	}
 	else
 	{
-		for (int i = 0; i < node->mNumMeshes; i++)
+		for (int i = 0; i < child_node->mNumMeshes; i++)
 		{
-			aiMesh* aimesh = scene->mMeshes[node->mMeshes[i]];
-			MeshData mesh = MeshData();
+			aiMesh* new_mesh = scene->mMeshes[child_node->mMeshes[i]];
+			MeshData m = MeshData();
 
 			// copy vertices ------------------------------------
-			mesh.numVertices = aimesh->mNumVertices;
-			mesh.vertices = new uint[mesh.numVertices * 3];
-			memcpy(mesh.vertices, aimesh->mVertices, sizeof(float)*mesh.numVertices * 3);
-			LOG("New mesh with %d vertices", mesh.numVertices);
+			m.num_vertices = new_mesh->mNumVertices;
+			m.vertices = new uint[m.num_vertices * 3];
+			memcpy(m.vertices, new_mesh->mVertices, sizeof(float)*m.num_vertices * 3);
+			LOG("New m with %d vertices", m.num_vertices);
 
 			// Create vertice buffer
-			glGenBuffers(1, (GLuint*)&(mesh.idVertices));
-			glBindBuffer(GL_ARRAY_BUFFER, mesh.idVertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh.numVertices, mesh.vertices, GL_STATIC_DRAW);
+			glGenBuffers(1, (GLuint*)&(m.id_vertices));
+			glBindBuffer(GL_ARRAY_BUFFER, m.id_vertices);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_vertices, m.vertices, GL_STATIC_DRAW);
 
 			// copy indices -------------------------------------
 			// copy faces 
-			if (aimesh->HasFaces())
+			if (new_mesh->HasFaces())
 			{
-				mesh.numIndices = aimesh->mNumFaces * 3;
-				mesh.indices = new uint[mesh.numIndices];
-				for (uint j = 0; j < aimesh->mNumFaces; j++)
+				m.num_indices = new_mesh->mNumFaces * 3;
+				m.indices = new uint[m.num_indices];
+				for (uint j = 0; j < new_mesh->mNumFaces; j++)
 				{
-					if (aimesh->mFaces[j].mNumIndices == 3)
+					if (new_mesh->mFaces[j].mNumIndices == 3)
 					{
-						memcpy(&mesh.indices[j * 3], aimesh->mFaces[j].mIndices, 3 * sizeof(uint));
+						memcpy(&m.indices[j * 3], new_mesh->mFaces[j].mIndices, 3 * sizeof(uint));
 					}
 				}
 
 				// Create indices buffer
-				glGenBuffers(1, (GLuint*)&(mesh.idIndices));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.idIndices);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * mesh.numIndices, mesh.indices, GL_STATIC_DRAW);
+				glGenBuffers(1, (GLuint*)&(m.id_indices));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_indices);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * m.num_indices, m.indices, GL_STATIC_DRAW);
 			}
 
 			// copy UVS ------------------------------------- 
-			if (aimesh->HasTextureCoords(mesh.idUvs))
+			if (new_mesh->HasTextureCoords(m.id_uvs))
 			{
-				mesh.numUvs = aimesh->mNumVertices;
-				mesh.uvs = new float[mesh.numUvs * 2];
+				m.num_uvs = new_mesh->mNumVertices;
+				m.uvs = new float[m.num_uvs * 2];
 
-				for (int i = 0; i < aimesh->mNumVertices; ++i)
+				for (int i = 0; i < new_mesh->mNumVertices; ++i)
 				{
-					memcpy(&mesh.uvs[i * 2], &aimesh->mTextureCoords[0][i].x, sizeof(float));
-					memcpy(&mesh.uvs[(i * 2) + 1], &aimesh->mTextureCoords[0][i].y, sizeof(float));
+					memcpy(&m.uvs[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+					memcpy(&m.uvs[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
 				}
 
 				// Create UVS buffer
-				glGenBuffers(1, (GLuint*)&(mesh.idUvs));
-				glBindBuffer(GL_ARRAY_BUFFER, mesh.idUvs);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * mesh.numUvs, mesh.uvs, GL_STATIC_DRAW);
+				glGenBuffers(1, (GLuint*)&(m.id_uvs));
+				glBindBuffer(GL_ARRAY_BUFFER, m.id_uvs);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * m.num_uvs, m.uvs, GL_STATIC_DRAW);
 			}
 
 			// copy normals -------------------------------------
-			if (aimesh->HasNormals())
+			if (new_mesh->HasNormals())
 			{
-				mesh.numNormals = aimesh->mNumVertices;
-				mesh.normals = new float[mesh.numNormals * 3];
-				memcpy(mesh.normals, aimesh->mNormals, sizeof(float) * mesh.numNormals * 3);
-				LOG("New mesh with %d normals", mesh.numNormals);
+				m.num_normals = new_mesh->mNumVertices;
+				m.normals = new float[m.num_normals * 3];
+				memcpy(m.normals, new_mesh->mNormals, sizeof(float) * m.num_normals * 3);
+				LOG("New m with %d normals", m.num_normals);
 
 				// Create normals buffer
-				glGenBuffers(1, (GLuint*)&(mesh.idNormals));
-				glBindBuffer(GL_ARRAY_BUFFER, mesh.idNormals);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh.numNormals, mesh.normals, GL_STATIC_DRAW);
+				glGenBuffers(1, (GLuint*)&(m.id_normals));
+				glBindBuffer(GL_ARRAY_BUFFER, m.id_normals);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_normals, m.normals, GL_STATIC_DRAW);
 			}
 
 			// Get transformations --------------------------
-			aiVector3D translation;
-			aiVector3D scaling;
-			aiQuaternion rotation;
+			aiVector3D trans;
+			aiVector3D sca;
+			aiQuaternion rot;
 
-			node->mTransformation.Decompose(scaling, rotation, translation);
+			child_node->mTransformation.Decompose(sca, rot, trans);
 
-			float3 position(translation.x, translation.y, translation.z);
-			float3 scale(scaling.x, scaling.y, scaling.z);
-			Quat _rotation(rotation.x, rotation.y, rotation.z, rotation.w);
+			float3 position(trans.x, trans.y, trans.z);
+			float3 scale(sca.x, sca.y, sca.z);
+			Quat rot_quat(rot.x, rot.y, rot.z, rot.w);
 			
 			// Add ComponentTransform -->
-			ComponentTransform* Ctransform = (ComponentTransform*)child->AddComponent(TRANSFORM);
-			Ctransform->SetPosition(position);
-			Ctransform->SetRotationQuat(_rotation);
-			Ctransform->SetScale(scale);
+			ComponentTransform* trans_comp = (ComponentTransform*)child_go->AddComponent(TRANSFORM);
+			trans_comp->SetPosition(position);
+			trans_comp->SetRotationQuat(rot_quat);
+			trans_comp->SetScale(scale);
 
 			// Add ComponentMesh -->
-			ComponentMesh* Cmesh = (ComponentMesh*)child->AddComponent(MESH);
-			Cmesh->SetMesh(mesh);
+			ComponentMesh* mesh_comp = (ComponentMesh*)child_go->AddComponent(MESH);
+			mesh_comp->SetMesh(m);
 
-			aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
-
-			if (material)
+			if (scene->HasMaterials())
 			{
-				aiString path;
-				material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+				aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 
-				if (path.length > 0)
+				if (material != nullptr)
 				{
-					std::string basePath = "../Game/Assets/Textures/";
-					std::string finalpath = path.data;
-					finalpath.erase(0, finalpath.find_last_of("\\") + 1);
-					basePath += finalpath;
+					aiString new_path;
 
-					ComponentMaterial* c_material = (ComponentMaterial*)child->AddComponent(MATERIAL);
-					c_material->name_id = LoadTexture(basePath.c_str());
+					material->GetTexture(aiTextureType_DIFFUSE, 0, &new_path);
 
-					finalpath.clear();
-					basePath.clear();
+					if (new_path.length > 0)
+					{
+						std::string texture_path = "../Game/Library/Textures/";
+						std::string real_path = new_path.data;
+
+						real_path.erase(0, real_path.find_last_of("\\") + 1);
+						texture_path += real_path;
+
+						ComponentMaterial* mat_comp = (ComponentMaterial*)child_go->AddComponent(MATERIAL);
+						mat_comp->name_id = LoadTexture(texture_path.c_str());
+
+						real_path.clear();
+						texture_path.clear();
+					}
 				}
-			}
+			}			
 		}
 	}
 
-	for (int i = 0; i < node->mNumChildren; i++)
+	for (int i = 0; i < child_node->mNumChildren; i++)
 	{
-		LoadMesh(scene, node->mChildren[i], path, child);
+		LoadMesh(scene, child_node->mChildren[i], child_go, path);
 	}
 
-	return child;
+	return child_go;
 }
 
 uint ModuleLoadMesh::LoadTexture(const char* path)

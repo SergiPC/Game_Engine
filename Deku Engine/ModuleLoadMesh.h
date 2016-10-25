@@ -10,20 +10,20 @@ class GameObject;
 
 struct MeshData
 {
-	uint idVertices = 0;
-	uint numVertices = 0;
+	uint id_vertices = 0;
+	uint num_vertices = 0;
 	uint* vertices = nullptr;
 
-	uint idIndices = 0;
-	uint numIndices = 0;
+	uint id_indices = 0;
+	uint num_indices = 0;
 	uint* indices = nullptr;
 
-	uint idNormals = 0;
-	uint numNormals = 0;
+	uint id_normals = 0;
+	uint num_normals = 0;
 	float* normals = nullptr;
 
-	uint idUvs = 0;
-	uint numUvs = 0;
+	uint id_uvs = 0;
+	uint num_uvs = 0;
 	float* uvs = nullptr;
 };
 
@@ -36,8 +36,8 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	std::vector<GameObject*> Load(const char* path);
-	GameObject* LoadMesh(const aiScene* scene, aiNode* node, const char* path, GameObject* parent);
+	std::vector<GameObject*> LoadFile(const char* path);
+	GameObject* LoadMesh(const aiScene* scene, aiNode* node, GameObject* parent, const char* path);
 	uint LoadTexture(const char* path);
 };
 
