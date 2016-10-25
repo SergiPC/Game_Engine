@@ -1,21 +1,21 @@
-#ifndef __COMPONENTMESH_H__
-#define __COMPONENTMESH_H__
+#ifndef __COMPONENT_MESH_H__
+#define __COMPONENT_MESH_H__
 
 #include "Component.h"
-
 #include "ModuleLoadMesh.h"
 
 class ComponentMesh : public Component
 {
 public:
-	ComponentMesh(GameObject* go);
+	ComponentMesh(GameObject* owner);
 	~ComponentMesh();
 	
 	bool Update();
-	bool AddMesh(MeshT _mesh);
-	bool DeleteMesh();
 	void OnEditor();
-	MeshT Cmesh;
+	bool SetMesh(MeshData new_mesh);
+
+private:
+	MeshData mesh;
 };
 
-#endif // !__COMPONENTMESH_H__
+#endif // !__COMPONENT_MESH_H__

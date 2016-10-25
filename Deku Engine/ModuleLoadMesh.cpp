@@ -105,7 +105,7 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const c
 		for (int i = 0; i < node->mNumMeshes; i++)
 		{
 			aiMesh* aimesh = scene->mMeshes[node->mMeshes[i]];
-			MeshT mesh = MeshT();
+			MeshData mesh = MeshData();
 
 			// copy vertices ------------------------------------
 			mesh.numVertices = aimesh->mNumVertices;
@@ -189,7 +189,7 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const c
 
 			// Add ComponentMesh -->
 			ComponentMesh* Cmesh = (ComponentMesh*)child->AddComponent(MESH);
-			Cmesh->AddMesh(mesh);
+			Cmesh->SetMesh(mesh);
 
 			aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
 
@@ -206,7 +206,7 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const c
 					basePath += finalpath;
 
 					ComponentMaterial* c_material = (ComponentMaterial*)child->AddComponent(MATERIAL);
-					c_material->textureId = LoadTexture(basePath.c_str());
+					c_material->name_id = LoadTexture(basePath.c_str());
 
 					finalpath.clear();
 					basePath.clear();

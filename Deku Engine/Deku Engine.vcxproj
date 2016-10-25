@@ -155,6 +155,7 @@
     <ClInclude Include="MathGeoLib\src\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\src\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\src\Time\Clock.h" />
+    <ClInclude Include="MenuAbout.h" />
     <ClInclude Include="MenuConfig.h" />
     <ClInclude Include="MenuHierarchy.h" />
     <ClInclude Include="MenuInspector.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="MathGeoLib\src\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\src\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\src\Time\Clock.cpp" />
+    <ClCompile Include="MenuAbout.cpp" />
     <ClCompile Include="MenuConfig.cpp" />
     <ClCompile Include="MenuHierarchy.cpp" />
     <ClCompile Include="MenuInspector.cpp" />

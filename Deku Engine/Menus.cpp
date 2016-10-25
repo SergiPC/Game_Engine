@@ -16,7 +16,7 @@ void Menu::SwitchActive()
 }
 
 // ------------------------------------------------------------
-bool Menu::GetActive() const
+bool Menu::IsActive() const
 {
 	return active;
 }

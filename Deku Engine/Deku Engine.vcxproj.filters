@@ -40,6 +40,9 @@
     <Filter Include="Sources\External\Imgui">
       <UniqueIdentifier>{e76e4fb1-e430-40b8-9265-d38ea0b34ae9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Main">
+      <UniqueIdentifier>{ab4bce75-7f4e-4659-a987-6b679de64036}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -71,12 +74,6 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Sources\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="Primitive.h">
       <Filter>Sources\Helpers</Filter>
@@ -360,6 +357,15 @@
     <ClInclude Include="DekuRNG.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Sources\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Sources\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuAbout.h">
+      <Filter>Sources\Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -382,12 +388,6 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Sources\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>Sources\Helpers</Filter>
@@ -556,6 +556,15 @@
     </ClCompile>
     <ClCompile Include="DekuRNG.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Sources\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Sources\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuAbout.cpp">
+      <Filter>Sources\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

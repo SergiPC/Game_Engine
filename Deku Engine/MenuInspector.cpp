@@ -46,6 +46,7 @@ void MenuInspector::Render()
 		}
 
 		ImGui::Separator();
+		ImGui::Separator();
 
 		// Add components ----------------------
 		if (ImGui::BeginMenu("Add Component"))

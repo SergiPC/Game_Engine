@@ -28,7 +28,7 @@ public:
 
 public:
 	GameObject* owner = nullptr;
-	bool enabled = false;
+	bool enabled = true;
 
 protected:
 	Type type = AMBIGUOUS;

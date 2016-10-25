@@ -5,6 +5,7 @@
 #include "MenuConfig.h"
 #include "MenuInspector.h"
 #include "MenuHierarchy.h"
+#include "MenuAbout.h"
 #include "GameObject.h"
 
 #include "Imgui\imgui.h"
@@ -16,13 +17,11 @@ using namespace std;
 
 // ------------------------------------------------------------
 ModuleGuiEditor::ModuleGuiEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-}
+{}
 
 // Destructor -------------------------------------------------
 ModuleGuiEditor::~ModuleGuiEditor()
-{
-}
+{}
 
 // Called before render is available --------------------------
 bool ModuleGuiEditor::Init()
@@ -32,7 +31,7 @@ bool ModuleGuiEditor::Init()
 	ImGui_ImplSdlGL3_Init(App->window->window);
 
 	// Add Menus
-	//menus_list.push_back(about_menu = new MenuAbout());
+	menus_list.push_back(about_menu = new MenuAbout());
 	menus_list.push_back(hierarchy_menu = new MenuHierarchy());
 	menus_list.push_back(diagnostic_menu = new MenuConfig());
 	menus_list.push_back(inspector_menu = new MenuInspector());
@@ -111,7 +110,7 @@ update_status ModuleGuiEditor::Update(float dt)
 			if (ImGui::BeginMenu("Help"))
 			{
 				if (ImGui::MenuItem("About"))
-					//about_menu->SwitchActive();
+					about_menu->SwitchActive();
 
 				ImGui::Separator();
 
@@ -141,7 +140,7 @@ update_status ModuleGuiEditor::Update(float dt)
 	{
 		Menu* current_menu = *tmp;
 
-		if (current_menu->GetActive() == true)
+		if (current_menu->IsActive() == true)
 		{
 			ImGui::SetNextWindowPos(ImVec2((float)current_menu->pos_x, (float)current_menu->pos_y), ImGuiSetCond_Always);
 			ImGui::SetNextWindowSize(ImVec2((float)current_menu->width, (float)current_menu->height), ImGuiSetCond_Always);
@@ -171,7 +170,7 @@ void ModuleGuiEditor::UpdatePosSize()
 // ------------------------------------------------------------
 void ModuleGuiEditor::CalcPar(float current_fps, float current_ms)
 {
-	if (diagnostic_menu->GetActive())
+	if (diagnostic_menu->IsActive())
 		diagnostic_menu->CalculateParameters(current_fps, current_ms);
 }
 

@@ -1,5 +1,5 @@
-#ifndef __MENUS__
-#define __MENUS__
+#ifndef __MENUS_H__
+#define __MENUS_H__
 
 enum MenuTypes
 {
@@ -17,21 +17,24 @@ public:
 	Menu(MenuTypes type = Menu_Unknown);
 	virtual ~Menu();
 
-	void SwitchActive();
-	bool GetActive() const;
-	virtual void Render();
+	void			SwitchActive();
+	bool			IsActive() const;
+	virtual void	Render();
 
-	virtual void UpdatePosSize();
-	MenuTypes GetType() const;
+	virtual void	UpdatePosSize();
+	MenuTypes		GetType() const;
 
-	void ColorButton(int i_color);
+	void			ColorButton(int i_color);
 
 public:
-	int width, height, pos_x, pos_y;
-	bool active = true;
+	int		width = 0;
+	int		height = 0;
+	int		pos_x = 0;
+	int		pos_y = 0;
+	bool	active = true;
 
 protected:
 	MenuTypes type;
 };
 
-#endif __MENUS__
+#endif __MENUS_H__

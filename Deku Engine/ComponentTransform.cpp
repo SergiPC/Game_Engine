@@ -4,7 +4,7 @@
 #include "Math.h"
 
 // -----------------------------------------------------------------
-ComponentTransform::ComponentTransform(GameObject* go) : Component(go, TRANSFORM),
+ComponentTransform::ComponentTransform(GameObject* owner) : Component(owner, TRANSFORM),
 position(.0f, .0f, .0f), rot_angles(.0f, .0f, .0f), scale(1.0f, 1.0f, 1.0f)
 {
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
@@ -27,6 +27,15 @@ void ComponentTransform::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		bool comp_enable = this->enabled;
+
+		if (ImGui::Checkbox("", &comp_enable))
+			this->enabled = comp_enable;
+
+		ImGui::SameLine();  ImGui::Text("Active");
+
+		ImGui::Separator();	// -------
+
 		if (ImGui::DragFloat3("Position", position.ptr(), 0.1f))
 			SetPosition(position);
 

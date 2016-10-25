@@ -164,7 +164,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::RenderMesh(MeshT mesh, math::float4x4 transform, uint tex_id)
+void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint tex_id)
 {
 	glPushMatrix();
 	glMultMatrixf(*transform.Transposed().v);

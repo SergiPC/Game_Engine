@@ -1,11 +1,8 @@
 #include "Component.h"
 
 // -----------------------------------------------------------------
-Component::Component(GameObject* owner, Type type)
-{
-	this->type = type;
-	this->owner = owner;
-}
+Component::Component(GameObject* owner, Type type) : type(type), owner(owner)
+{}
 
 // -----------------------------------------------------------------
 Component::~Component()

@@ -7,7 +7,7 @@
 using namespace std;
 
 // -----------------------------------------------------------------
-GameObject::GameObject(GameObject* parent)
+GameObject::GameObject(GameObject* parent) : enabled(true)
 {
 	this->parent = parent;
 	name = "GameObject";

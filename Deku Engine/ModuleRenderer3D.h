@@ -5,7 +5,8 @@
 #include "Light.h"
 
 #define MAX_LIGHTS 8
-struct MeshT;
+
+struct MeshData;
 namespace math { class float4x4; }
 
 class ModuleRenderer3D : public Module
@@ -20,7 +21,7 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 	
-	void RenderMesh(MeshT mesh,math::float4x4 transform, uint tex_id);
+	void RenderMesh(MeshData mesh,math::float4x4 transform, uint tex_id);
 
 	void OnResize(int width, int height);
 

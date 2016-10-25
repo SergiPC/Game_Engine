@@ -5,7 +5,7 @@
 #include "Globals.h"
 
 class Menu;
-//class MenuAbout;
+class MenuAbout;
 class MenuHierarchy;
 class MenuInspector;
 class MenuConfig;
@@ -25,7 +25,7 @@ public:
 	bool			CleanUp();
 
 public:
-	//MenuAbout*		about_menu;
+	MenuAbout*		about_menu;
 	MenuHierarchy*	hierarchy_menu;
 	MenuInspector*	inspector_menu;
 	MenuConfig*		diagnostic_menu;

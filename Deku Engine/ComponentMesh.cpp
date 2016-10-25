@@ -1,75 +1,79 @@
 #include "ComponentMesh.h"
 #include "Application.h"
-
-
 #include "ModuleRenderer3D.h"
-#include "Imgui\imgui.h"
-
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "GameObject.h"
 #include "MathGeoLib\src\MathGeoLib.h"
+#include "Imgui\imgui.h"
+
 using namespace std;
 
-//Initialize the mesh for security
-ComponentMesh::ComponentMesh(GameObject* go) : Component(go, MESH)
+// -----------------------------------------------------------------
+ComponentMesh::ComponentMesh(GameObject* owner) : Component(owner, MESH)
 {
-	MeshT _mesh;
-	Cmesh = _mesh;
-	
+	MeshData new_mesh;
+	mesh = new_mesh;	
 }
 
-
+// -----------------------------------------------------------------
 ComponentMesh::~ComponentMesh()
-{
-}
+{}
 
-//Renders the current Mesh
+// -----------------------------------------------------------------
 bool ComponentMesh::Update()
 {
-	ComponentTransform* transform = (ComponentTransform*)owner->GetComponent(TRANSFORM);
-	ComponentMaterial* material = (ComponentMaterial*)owner->GetComponent(MATERIAL);
+	bool ret = true;
 
-	if (transform == nullptr && material == nullptr)
-		App->renderer3D->RenderMesh(Cmesh, math::float4x4::identity, 0);
-	else if( material == nullptr)
-		App->renderer3D->RenderMesh(Cmesh, transform->GetWorldTransform(), 0);
-	else if (transform == nullptr)
-		App->renderer3D->RenderMesh(Cmesh, math::float4x4::identity, material->textureId);
+	ComponentTransform* new_trans = (ComponentTransform*)owner->GetComponent(TRANSFORM);
+	ComponentMaterial* new_mat = (ComponentMaterial*)owner->GetComponent(MATERIAL);
+
+	if (new_trans == nullptr && new_mat == nullptr)
+		App->renderer3D->RenderMesh(mesh, math::float4x4::identity, 0);
+
+	else if(new_mat == nullptr)
+		App->renderer3D->RenderMesh(mesh, new_trans->GetWorldTransform(), 0);
+
+	else if (new_trans == nullptr)
+		App->renderer3D->RenderMesh(mesh, math::float4x4::identity, new_mat->name_id);
+
 	else
-		App->renderer3D->RenderMesh(Cmesh, transform->GetWorldTransform(), material->textureId);
+		App->renderer3D->RenderMesh(mesh, new_trans->GetWorldTransform(), new_mat->name_id);
 
-	return true;
+	return ret;
 }
 
+// -----------------------------------------------------------------
 void ComponentMesh::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		int numTriangles = Cmesh.numIndices/3;
+		bool comp_enable = this->enabled;
+
+		if (ImGui::Checkbox("", &comp_enable))
+			this->enabled = comp_enable;
+
+		ImGui::SameLine();  ImGui::Text("Active");
+
+		ImGui::Separator();	// -------
+
+		int numTriangles = mesh.numIndices/3;
 
 		ImGui::Text("Triangles:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", numTriangles);
 
 		ImGui::Text("Vertices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", Cmesh.numVertices);
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.numVertices);
 
 		ImGui::Text("Indices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", Cmesh.numIndices);
+		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%d", mesh.numIndices);
 	}
 }
-//If there is no mesh adds a mesh if there is a mesh changes the current Mesh
-bool ComponentMesh::AddMesh(MeshT _mesh)
-{
-	Cmesh = _mesh;
-	owner->GenerateBoundingBox(Cmesh.vertices, Cmesh.numVertices);
-	return true;
-}
 
-//Deletes the current Mesh
-bool ComponentMesh::DeleteMesh()
+// -----------------------------------------------------------------
+bool ComponentMesh::SetMesh(MeshData new_mesh)
 {
-	MeshT _mesh;
-	Cmesh = _mesh;
+	mesh = new_mesh;
+	//owner->GenerateBoundingBox(mesh.vertices, Cmesh.numVertices);
 	return true;
 }

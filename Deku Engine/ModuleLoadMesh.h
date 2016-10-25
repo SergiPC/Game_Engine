@@ -8,7 +8,7 @@ class aiNode;
 class aiScene;
 class GameObject;
 
-struct MeshT
+struct MeshData
 {
 	uint idVertices = 0;
 	uint numVertices = 0;
