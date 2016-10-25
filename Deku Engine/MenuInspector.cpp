@@ -51,13 +51,13 @@ void MenuInspector::Render()
 		if (ImGui::BeginMenu("Add Component"))
 		{
 			if (ImGui::MenuItem("Transform"))
-				sel_go->AddComponent(Transform);
+				sel_go->AddComponent(TRANSFORM);
 
 			if (ImGui::MenuItem("Mesh"))
-				sel_go->AddComponent(Meshes);
+				sel_go->AddComponent(MESH);
 
 			if (ImGui::MenuItem("Material"))
-				sel_go->AddComponent(Material);
+				sel_go->AddComponent(MATERIAL);
 
 			ImGui::EndMenu();
 		}

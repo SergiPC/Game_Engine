@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 
-ComponentMaterial::ComponentMaterial(GameObject* go) : Component(Material, go)
+ComponentMaterial::ComponentMaterial(GameObject* go) : Component(go, MATERIAL)
 {
 }
 

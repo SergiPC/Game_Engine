@@ -1,32 +1,37 @@
 #ifndef __COMPONENT_H__
 #define __COMPONENT_H__
 
-
 class GameObject;
-enum componentType
+
+enum Type
 {
-	Transform,
-	Meshes,
-	Texture,
-	Material
+	AMBIGUOUS,
+	TRANSFORM,
+	MATERIAL,
+	MESH
 };
 
 class Component
 {
 public:
-	Component();
-	Component(componentType _type, GameObject* go);
+	Component(GameObject* owner, Type type);
 	~Component();
 
-	componentType type;
-	virtual bool Init();
-	virtual void Active();
-	virtual bool Update();
-	virtual void OnEditor();
-	GameObject* gameObject = nullptr;
-private:
-	bool active = true;
-	
+	virtual bool	Init();
+	virtual bool	Update();
+
+	virtual bool	IsEnable();
+	virtual void	SetEnable(bool enable);
+
+	virtual void	OnEditor();
+	virtual Type	GetType() const;
+
+public:
+	GameObject* owner = nullptr;
+	bool enabled = false;
+
+protected:
+	Type type = AMBIGUOUS;
 };
 
 #endif // !__COMPONENT_H__

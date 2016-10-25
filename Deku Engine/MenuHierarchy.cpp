@@ -31,21 +31,21 @@ void MenuHierarchy::Render()
 	if (ImGui::BeginMenu("Create"))
 	{
 		if (ImGui::MenuItem("Create Empty"))
-			(App->editor->selected_go != nullptr) ? (App->go_manager->AddGameObject(App->editor->selected_go)) : (App->go_manager->AddGameObject(nullptr));
+			(App->editor->selected_go != nullptr) ? (App->go_manager->CreateNewGO(App->editor->selected_go)) : (App->go_manager->CreateNewGO(nullptr));
 
 		if (ImGui::BeginMenu("Create with..."))
 		{
 			if (ImGui::MenuItem("Transform"))
 			{
-				tmp_go = App->go_manager->AddGameObject(nullptr);
-				tmp_go->AddComponent(Transform);
+				tmp_go = App->go_manager->CreateNewGO(nullptr);
+				tmp_go->AddComponent(TRANSFORM);
 			}
 
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::MenuItem("Load..."))
-			App->go_manager->AddGameObject(nullptr);
+			App->go_manager->CreateNewGO(nullptr);
 
 		ImGui::EndMenu();
 	}

@@ -3,51 +3,28 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-#include "Math.h"
+
 using namespace std;
 
-GameObject::GameObject()
-{
-	root = nullptr;
-	name.resize(20);
-	name = "GameObject";
-}
-
+// -----------------------------------------------------------------
 GameObject::GameObject(GameObject* parent)
 {
-	root = parent;
-	name.resize(20);
+	this->parent = parent;
 	name = "GameObject";
-}
-
-GameObject::~GameObject()
-{
-	root = nullptr;
 }
 
 // -----------------------------------------------------------------
-bool GameObject::CleanUp()
+GameObject::~GameObject()
 {
-	for (vector<GameObject*>::iterator item = children.begin(); item != children.end(); ++item)
-	{
-		(*item)->CleanUp();
-		RELEASE(*item);
-	}
-	children.clear();
-
-	for (vector<Component*>::iterator item = components.begin(); item != components.end(); ++item)
-	{
-		RELEASE(*item);	
-	}
-	components.clear();
-
-	return true;
+	parent = nullptr;
 }
 
 // -----------------------------------------------------------------
 bool GameObject::Start()
 {
-	return true;
+	bool ret = true;
+
+	return ret;
 }
 
 // -----------------------------------------------------------------
@@ -55,19 +32,56 @@ bool GameObject::Update()
 {
 	bool ret = true;
 
-	//Call each Component Update
-	for (vector<Component*>::iterator item = components.begin(); item != components.end(); ++item)
+	// Update all components -----
+	vector<Component*>::iterator tmp_comp = components.begin();
+
+	while (tmp_comp != components.end())
 	{
-		(*item)->Update();
+		(*tmp_comp)->Update();
+		tmp_comp++;
 	}
 
-	//Call each Child Update
-	for (vector<GameObject*>::iterator item = children.begin(); item != children.end(); ++item)
+	// Update all children -------
+	vector<GameObject*>::iterator tmp_go = children.begin();
+
+	while (tmp_go != children.end())
 	{
-		(*item)->Update();
+		(*tmp_go)->Update();
+		tmp_go++;
 	}
 
 	return ret;
+}
+
+// -----------------------------------------------------------------
+bool GameObject::CleanUp()
+{
+	LOG("Cleaning GameObject");
+
+	// CleanUp all components ----
+	vector<Component*>::iterator tmp_comp = components.begin();
+
+	while (tmp_comp != components.end())
+	{
+		RELEASE(*tmp_comp);
+		tmp_comp++;
+	}
+
+	components.clear();
+
+	// CleanUp all children ------
+	vector<GameObject*>::iterator tmp_go = children.begin();
+
+	while (tmp_go != children.end())
+	{
+		(*tmp_go)->CleanUp();
+		RELEASE(*tmp_go);
+		tmp_go++;
+	}
+
+	children.clear();
+
+	return true;
 }
 
 // -----------------------------------------------------------------
@@ -80,56 +94,12 @@ bool GameObject::IsEnable()
 void GameObject::SetEnable(bool enable)
 {
 	enabled = enable;
+
+	// If enable == false ----> put all components & children == false
 }
 
 // -----------------------------------------------------------------
-Component* GameObject::AddComponent(componentType _type)
-{
-	Component* component = NULL;
-	//Check there are no duplicate components
-	component = GetComponent(_type);
-	if (component != nullptr)
-		return component;
-
-	switch (_type)
-	{
-		case Transform: component = new ComponentTransform(this); 
-			break;
-
-		case Meshes: component = new ComponentMesh(this);
-			break;
-
-		case Material: component = new ComponentMaterial(this);
-			break;
-
-		default: component = new ComponentTransform(this); 
-			break;
-	}
-
-	components.push_back(component);
-	return component;
-}
-
-// -----------------------------------------------------------------
-Component* GameObject::GetComponent(componentType _type)
-{
-
-	Component* component = NULL;
-
-	for (vector<Component*>::iterator item = components.begin(); item != components.end(); ++item)
-	{
-		if ((*item)->type == _type)
-		{
-			component = (*item);
-			break;
-		}
-	}
-
-	return component;
-}
-
-// -----------------------------------------------------------------
-bool GameObject::RemoveChild(GameObject* child)
+bool GameObject::DeleteChild(GameObject* child)
 {
 	bool ret = false;
 
@@ -145,6 +115,61 @@ bool GameObject::RemoveChild(GameObject* child)
 	}
 
 	return ret;
+}
+
+// -----------------------------------------------------------------
+Component* GameObject::AddComponent(Type type)
+{
+	Component* new_component = NULL;
+
+	// For now, we can't add two components with the same type
+	new_component = GetComponent(type);
+
+	if (new_component != nullptr)
+		return new_component;
+
+	switch (type)
+	{
+		case TRANSFORM: new_component = new ComponentTransform(this); 
+			break;
+
+		case MESH: new_component = new ComponentMesh(this);
+			break;
+
+		case MATERIAL: new_component = new ComponentMaterial(this);
+			break;
+
+		default: new_component = new ComponentTransform(this); 
+			break;
+	}
+
+	components.push_back(new_component);
+
+	return new_component;
+}
+
+// -----------------------------------------------------------------
+Component* GameObject::GetComponent(Type type)
+{
+
+	Component* new_component = nullptr;
+
+	for (vector<Component*>::iterator comp_it = components.begin(); comp_it != components.end(); ++comp_it)
+	{
+		if ((*comp_it)->GetType() == type)
+		{
+			new_component = (*comp_it);
+			break;
+		}
+	}
+
+	return new_component;
+}
+
+// -----------------------------------------------------------------
+void GameObject::DeleteComponent(Component* comp)
+{
+	//comp->CleanUp();
 }
 
 // -----------------------------------------------------------------

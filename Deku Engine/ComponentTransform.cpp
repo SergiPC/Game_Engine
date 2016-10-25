@@ -3,52 +3,26 @@
 #include "Imgui\imgui.h"
 #include "Math.h"
 
-ComponentTransform::ComponentTransform(GameObject* go) : Component(Transform,go)
+// -----------------------------------------------------------------
+ComponentTransform::ComponentTransform(GameObject* go) : Component(go, TRANSFORM),
+position(.0f, .0f, .0f), rot_angles(.0f, .0f, .0f), scale(1.0f, 1.0f, 1.0f)
 {
-	position = { 0,0,0 };
-	angles = { 0,0,0 };
-	scale = { 1,1,1 };
-	local_transform = local_transform.FromTRS(position, rotation, scale);
+	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 }
 
-//By the Moment this constructors are usless
-ComponentTransform::ComponentTransform(math::float3 _position, math::float3 _rotationAngles, math::float3 _scale, GameObject* go) : Component(Transform,go)
-{
-	position = _position;
-	angles = DegToRad(_rotationAngles);
-	scale = _scale;
-	SetRotation(angles);
-	local_transform = local_transform.FromTRS(position, rotation, scale);
-}
-
-ComponentTransform::ComponentTransform(math::float3 _position, math::float3 _rotationAngles, GameObject* go) : Component(Transform,go)
-{
-	position = _position;
-	angles = DegToRad(_rotationAngles);
-	scale = {1,1,1};
-	SetRotation(angles);
-	local_transform = local_transform.FromTRS(position, rotation, scale);
-}
-
-ComponentTransform::ComponentTransform(math::float3 _position, GameObject* go) : Component(Transform,go)
-{
-	position = _position;
-	angles = { 0,0,0 };
-	scale = { 1,1,1 };
-	local_transform = local_transform.FromTRS(position, rotation, scale);
-}
-
+// -----------------------------------------------------------------
 ComponentTransform::~ComponentTransform()
-{
-}
+{}
 
-
+// -----------------------------------------------------------------
 bool ComponentTransform::Update()
 {
-	return true;
+	bool ret = true;
+
+	return ret;
 }
 
-//Shows Position, Euler angles in degrees and scale, and allows the user to modify them
+// -----------------------------------------------------------------
 void ComponentTransform::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
@@ -56,95 +30,161 @@ void ComponentTransform::OnEditor()
 		if (ImGui::DragFloat3("Position", position.ptr(), 0.1f))
 			SetPosition(position);
 
-		if (ImGui::DragFloat3("Rotation", angles.ptr(), 0.1f))
-			SetRotation(angles);
+		if (ImGui::DragFloat3("Rotation", rot_angles.ptr(), 0.1f))
+			SetRotation(rot_angles);
 
 		if (ImGui::DragFloat3("Scale", scale.ptr(), 0.1f))
 			SetScale(scale);
 	}
 }
 
-void ComponentTransform::SetPosition(math::float3 _position)
+// -----------------------------------------------------------------
+void ComponentTransform::SetPosition(float3 new_pos)
 {
-	position = _position;
-	local_transform = local_transform.FromTRS(position, rotation, scale);
+	position = new_pos;
+
+	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();
-	tmpObb = gameObject->gBox.Transform(world_transform);
-	gameObject->gBox.Enclose(tmpObb);
+
+	//tmpObb = owner->gBox.Transform(world_transform);
+	//owner->gBox.Enclose(tmpObb);
 }
 
-void ComponentTransform::SetRotation(math::float3 _rotationAngles)
+// -----------------------------------------------------------------
+void ComponentTransform::SetRotation(float3 new_rot)
 {
-	angles = _rotationAngles;
-	anglesRad = DegToRad(_rotationAngles);
-	rotation = rotation.FromEulerXYZ(anglesRad.z, anglesRad.y, anglesRad.x);
-	local_transform = local_transform.FromTRS(position, rotation, scale);
+	rot_angles = new_rot;
+	rot_quat = rot_quat.FromEulerXYZ((rot_angles.z * pi) / 180, (rot_angles.y * pi) / 180, (rot_angles.x * pi) / 180);
+	
+	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();
-	tmpObb = gameObject->gBox.Transform(world_transform);
-	gameObject->gBox.Enclose(tmpObb);
-}
-void ComponentTransform::SetRotationQuat(math::Quat _rotation)
-{
-	angles = _rotation.ToEulerXYZ();
-	rotation = _rotation;
-	local_transform = local_transform.FromTRS(position, rotation, scale);
-	world_transform = GetWorldTransform();
-	tmpObb = gameObject->gBox.Transform(world_transform);
-	gameObject->gBox.Enclose(tmpObb);
-}
-void ComponentTransform::SetScale(math::float3 _scale)
-{
-	scale = _scale;
-	local_transform = local_transform.FromTRS(position, rotation, scale);
-	world_transform = GetWorldTransform();
-	tmpObb = gameObject->gBox.Transform(world_transform);
-	gameObject->gBox.Enclose(tmpObb);
+
+	//tmpObb = owner->gBox.Transform(world_transform);
+	//owner->gBox.Enclose(tmpObb);
 }
 
-math::float3 ComponentTransform::GetPosition() const
+// -----------------------------------------------------------------
+void ComponentTransform::SetRotationQuat(Quat new_quat)
+{
+	rot_angles = new_quat.ToEulerXYZ();
+	rot_quat = new_quat;
+
+	local_transform = local_transform.FromTRS(position, rot_quat, scale);
+	world_transform = GetWorldTransform();
+
+	//tmpObb = owner->gBox.Transform(world_transform);
+	//owner->gBox.Enclose(tmpObb);
+}
+
+// -----------------------------------------------------------------
+void ComponentTransform::SetScale(float3 new_scale)
+{
+	scale = new_scale;
+
+	local_transform = local_transform.FromTRS(position, rot_quat, scale);
+	world_transform = GetWorldTransform();
+	//tmpObb = owner->gBox.Transform(world_transform);
+	//owner->gBox.Enclose(tmpObb);
+}
+
+// -----------------------------------------------------------------
+float3 ComponentTransform::GetPosition() const
 {
 	return position;
 }
 
-math::float3 ComponentTransform::GetCurrentAngles() const
+// -----------------------------------------------------------------
+float3 ComponentTransform::GetRotationAngles() const
 {
-	return angles;
+	return rot_angles;
 }
 
-math::float3 ComponentTransform::GetScale() const
+// -----------------------------------------------------------------
+float3 ComponentTransform::GetScale() const
 {
 	return scale;
 }
 
-math::float3 ComponentTransform::GetWorldPosition() const 
+// -----------------------------------------------------------------
+float4x4 ComponentTransform::GetWorldTransform() const
 {
-	math::float3 tmpposition = position;
+	math::float4x4 tmp_trans = local_transform;
 
-	if (gameObject->root != nullptr)
+	if (owner->parent != nullptr)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*)gameObject->root->GetComponent(Transform);
-		if (parentTransform != nullptr)
-			tmpposition += parentTransform->GetWorldPosition();
-	}
-
-	return tmpposition;
-}
-
-math::float4x4 ComponentTransform::GetWorldTransform() const
-{
-	math::float4x4 tmptransform = local_transform;
-
-	if (gameObject->root != nullptr)
-	{
-		ComponentTransform* parentTransform = (ComponentTransform*)gameObject->root->GetComponent(Transform);
+		ComponentTransform* parentTransform = (ComponentTransform*)owner->parent->GetComponent(TRANSFORM);
+		
 		if(parentTransform != nullptr)
-			tmptransform =  parentTransform->GetWorldTransform() * tmptransform;
+			tmp_trans =  parentTransform->GetWorldTransform() * tmp_trans;
 	}
 
-	return tmptransform;
+	return tmp_trans;
 }
 
-math::float4x4 ComponentTransform::GetLocalTransform() const
+// -----------------------------------------------------------------
+float4x4 ComponentTransform::GetLocalTransform() const
 {
 	return local_transform;
+}
+
+// -----------------------------------------------------------------
+float4x4 ComponentTransform::EulerMatrix(float3 euler_angle) const
+{
+	// x = psi
+	// y = theta
+	// z = phi
+
+	float cU = cos((euler_angle.x * pi) / 180);	// angle in radians = angle in degrees * pi/180
+	float sU = sin((euler_angle.x * pi) / 180);
+
+	float cO = cos((euler_angle.y * pi) / 180);
+	float sO = sin((euler_angle.y * pi) / 180);
+
+	float co = cos((euler_angle.z * pi) / 180);
+	float so = sin((euler_angle.z * pi) / 180);
+
+	float4x4 R = float4x4(cO*co, cO*so, -sO, 0.0f,
+		(co*sU*sO) - (cU*so), (sU*sO*so) + (co*cU), cO*sU, 0.0f,
+		(cU*co*sO) + (sU*so), (cU*sO*so) - (co*sU), cO*cU, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f);
+
+	return R;
+}
+
+// -----------------------------------------------------------------
+float3 ComponentTransform::MatrixToEuler(float4x4 rot_mat)
+{
+	//float3 rot_euler = rot_mat.ToEulerXYZ();
+
+	// x = psi
+	// y = theta
+	// z = phi
+
+	float tol = 1E-16;
+
+	if (rot_mat[1][3] < 1.0f)
+	{
+		if (rot_mat[1][3] > -1.0f)
+		{
+			rot_euler.x = atan2(-1.0f * rot_mat[2][3], rot_mat[3][3]);
+			rot_euler.y = asin(rot_mat[1][3]);
+			rot_euler.z = atan2(-1.0f * rot_mat[1][2], rot_mat[1][1]);
+		}
+
+		else
+		{
+			rot_euler.x = -1.0f * atan2(rot_mat[2][1], rot_mat[2][2]);
+			rot_euler.y = -pi / 2;
+			rot_euler.z = 0.0f;
+		}
+	}
+
+	else
+	{
+		rot_euler.x = atan2(rot_mat[2][1], rot_mat[2][2]);
+		rot_euler.y = pi / 2;
+		rot_euler.z = 0.0f;
+	}
+
+	return rot_euler;
 }

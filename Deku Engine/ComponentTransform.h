@@ -1,5 +1,5 @@
-#ifndef __COMPONENTTRANSFORM_H__
-#define __COMPONENTTRANSFORM_H__
+#ifndef __COMPONENT_TRANSFORM_H__
+#define __COMPONENT_TRANSFORM_H__
 
 #include "Component.h"
 #include "MathGeoLib/src/MathGeoLib.h"
@@ -7,38 +7,34 @@
 class ComponentTransform : public Component
 {
 public:
-	ComponentTransform(GameObject* go);
-	ComponentTransform(math::float3 _position, math::float3 _rotation , math::float3 _scale, GameObject* go);
-	ComponentTransform(math::float3 _position, math::float3 _rotation, GameObject* go);
-	ComponentTransform(math::float3 _position, GameObject* go);
+	ComponentTransform(GameObject* owner);
 	~ComponentTransform();
 	
-	bool Update();
-	void OnEditor();
+	bool		Update();
+	void		OnEditor();
+	void		SetPosition(float3 new_pos);
+	void		SetRotation(float3 new_rot);
+	void		SetRotationQuat(Quat new_quat);
+	void		SetScale(float3 new_scale);
 
-	void SetPosition(math::float3 _position);
-	void SetRotation(math::float3 _rotation);
-	void SetRotationQuat(math::Quat _rotationAngles);
-	void SetScale(math::float3 _scale);
+	float3		GetPosition() const;
+	float3		GetRotationAngles() const;
+	float3		GetScale() const;
 
-	math::float3 GetPosition() const;
-	math::float3 GetCurrentAngles() const;
-	math::float3 GetScale() const;
+	float4x4	GetLocalTransform() const;
+	float4x4	GetWorldTransform() const;
+	float4x4	EulerMatrix(float3 euler_angle) const;
+	float3		MatrixToEuler(float4x4 rot_mat);
 
-	math::float3 GetWorldPosition() const;
-
-	math::float4x4 GetWorldTransform() const;
-	math::float4x4 GetLocalTransform() const;
 private:
-	//Made this private because its the local transform and it depends on the parent.
-	math::float3 position = math::float3::zero;
-	math::Quat rotation = math::Quat::identity;
-	math::float3 angles = math::float3::zero;
-	math::float3 anglesRad = math::float3::zero;
-	math::float3 scale = math::float3::zero;
-	math::float4x4 local_transform = math::float4x4::zero;
-	math::float4x4 world_transform = math::float4x4::zero;
-	math::OBB tmpObb;
+	float3		position = float3::zero;
+	float3		rot_angles = float3::zero;
+	float3		rot_euler = float3::zero;
+	Quat		rot_quat = Quat::identity;
+	float3		scale = float3::zero;
+	float4x4	local_transform = float4x4::zero;
+	float4x4	world_transform = float4x4::zero;
+	//math::OBB	tmp_Obb;
 };
 
-#endif // !__COMPONENTTRANSFORM_H__
+#endif __COMPONENT_TRANSFORM_H__

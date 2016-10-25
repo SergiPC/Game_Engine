@@ -1,19 +1,17 @@
-#ifndef __GAMEOBJECT_H__
-#define __GAMEOBJECT_H__
+#ifndef __GAME_OBJECT_H__
+#define __GAME_OBJECT_H__
+
 #include "Globals.h"
+#include "Component.h"
 #include <vector>
 
 #include "MathGeoLib\src\MathGeoLib.h"
-
-class Component;
-enum componentType;
 
 class OBB;
 
 class GameObject
 {
 public:
-	GameObject();
 	GameObject(GameObject* parent);
 	~GameObject();
 
@@ -24,24 +22,22 @@ public:
 	bool			IsEnable();
 	void			SetEnable(bool enable);
 
-	bool			RemoveChild(GameObject* child);
-	Component*		AddComponent(componentType _type);
-	Component*		GetComponent(componentType _type);
+	bool			DeleteChild(GameObject* child);
+	Component*		AddComponent(Type type);
+	Component*		GetComponent(Type type);
+	void			DeleteComponent(Component* comp);
 	
 	void			GenerateBoundingBox(uint* vertices, uint numVertices);
 	
 public:
-	std::string		name;
+	GameObject*	parent = nullptr;
+	std::string name;
 	std::vector<GameObject*> children;
 	std::vector<Component*>	components;
 
-	GameObject* gameobject = this;
-	GameObject* root;
-
-	math::AABB gBox = math::AABB::AABB();
-
 private:
-	bool			enabled;
+	bool enabled = false;
+	math::AABB gBox = math::AABB::AABB();
 };
 
-#endif // !__GAMEOBJECT_H__
+#endif __GAME_OBJECT_H__

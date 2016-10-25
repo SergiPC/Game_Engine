@@ -1,5 +1,5 @@
-#ifndef __MODULEGAMEOBJECTMANAGER_H__
-#define __MODULEGAMEOBJECTMANAGER_H__
+#ifndef __MODULE_GO_MANAGER_H__
+#define __MODULE_GO_MANAGER_H__
 
 #include "Module.h"
 
@@ -9,26 +9,21 @@ class ModuleGOManager : public Module
 {
 public:
 	ModuleGOManager(Application* app, bool start_enabled = true);
-	~ModuleGOManager();
-	
-	GameObject* root;
+	~ModuleGOManager();	
 
-	bool Init();
-	bool CleanUp();
-	update_status Update(float dt);
+	bool			Init();
+	update_status	Update(float dt);
+	bool			CleanUp();
 
-	GameObject* AddGameObject(GameObject* parent);
-	bool RemoveGameObject(GameObject* go);
+	GameObject*		CreateNewGO(GameObject* parent);
+	bool			DeleteGO(GameObject* go);
 
-	//void HierarchyPanel();
-	//void HierarchyShowChilds(GameObject* parent);
+public:
+	GameObject* root = nullptr;
 
-	//void InspectorPanel();
-
-	GameObject* focusGo= nullptr;
 private:
-	uint numObjects = 0;
+	uint index = 1;
 	
 };
 
-#endif //!__MODULEGAMEOBJECTMANAGER_H__
+#endif //!__MODULE_GO_MANAGER_H__

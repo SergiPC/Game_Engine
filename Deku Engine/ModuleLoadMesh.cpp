@@ -58,7 +58,7 @@ vector<GameObject*> ModuleLoadMesh::Load(const char* path)
 	{
 		aiNode* rootNode = scene->mRootNode;
 
-		GameObject* parent = App->go_manager->AddGameObject(nullptr);
+		GameObject* parent = App->go_manager->CreateNewGO(nullptr);
 		parent->name = rootNode->mName.C_Str();
 		gameObjects.push_back(parent);
 
@@ -78,7 +78,7 @@ vector<GameObject*> ModuleLoadMesh::Load(const char* path)
 
 GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const char* path, GameObject* parent)
 {
-	GameObject* child = App->go_manager->AddGameObject(parent);
+	GameObject* child = App->go_manager->CreateNewGO(parent);
 	child->name = node->mName.C_Str();
 
 	if (node->mNumMeshes <= 0)
@@ -95,7 +95,7 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const c
 		Quat _rotation(rotation.x, rotation.y, rotation.z, rotation.w);
 
 		// Add ComponentTransform -->
-		ComponentTransform* Ctransform = (ComponentTransform*)child->AddComponent(Transform);
+		ComponentTransform* Ctransform = (ComponentTransform*)child->AddComponent(TRANSFORM);
 		Ctransform->SetPosition(position);
 		Ctransform->SetRotationQuat(_rotation);
 		Ctransform->SetScale(scale);
@@ -182,13 +182,13 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const c
 			Quat _rotation(rotation.x, rotation.y, rotation.z, rotation.w);
 			
 			// Add ComponentTransform -->
-			ComponentTransform* Ctransform = (ComponentTransform*)child->AddComponent(Transform);
+			ComponentTransform* Ctransform = (ComponentTransform*)child->AddComponent(TRANSFORM);
 			Ctransform->SetPosition(position);
 			Ctransform->SetRotationQuat(_rotation);
 			Ctransform->SetScale(scale);
 
 			// Add ComponentMesh -->
-			ComponentMesh* Cmesh = (ComponentMesh*)child->AddComponent(Meshes);
+			ComponentMesh* Cmesh = (ComponentMesh*)child->AddComponent(MESH);
 			Cmesh->AddMesh(mesh);
 
 			aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
@@ -205,7 +205,7 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* node, const c
 					finalpath.erase(0, finalpath.find_last_of("\\") + 1);
 					basePath += finalpath;
 
-					ComponentMaterial* c_material = (ComponentMaterial*)child->AddComponent(Material);
+					ComponentMaterial* c_material = (ComponentMaterial*)child->AddComponent(MATERIAL);
 					c_material->textureId = LoadTexture(basePath.c_str());
 
 					finalpath.clear();

@@ -1,40 +1,46 @@
 #include "Component.h"
-#include "GameObject.h"
 
-Component::Component()
+// -----------------------------------------------------------------
+Component::Component(GameObject* owner, Type type)
 {
+	this->type = type;
+	this->owner = owner;
 }
 
-Component::Component(componentType _type, GameObject* go)
-{
-	type = _type;
-	gameObject = go;
-}
-
+// -----------------------------------------------------------------
 Component::~Component()
-{
+{}
 
-}
-
+// -----------------------------------------------------------------
 bool Component::Init()
 {
-
 	return true;
 }
 
-//Enable disable component
-void Component::Active()
-{
-	active = !active;
-}
-
+// -----------------------------------------------------------------
 bool Component::Update()
 {
-
 	return true;
 }
 
-void Component::OnEditor()
+// -----------------------------------------------------------------
+bool Component::IsEnable()
 {
+	return enabled;
+}
 
+// -----------------------------------------------------------------
+void Component::SetEnable(bool enable)
+{
+	enabled = enable;
+}
+
+// -----------------------------------------------------------------
+void Component::OnEditor()
+{}
+
+// Read only -------------------------------------------------------
+Type Component::GetType() const
+{
+	return type;
 }

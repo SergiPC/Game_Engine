@@ -12,7 +12,7 @@
 using namespace std;
 
 //Initialize the mesh for security
-ComponentMesh::ComponentMesh(GameObject* go) : Component(Meshes,go)
+ComponentMesh::ComponentMesh(GameObject* go) : Component(go, MESH)
 {
 	MeshT _mesh;
 	Cmesh = _mesh;
@@ -27,8 +27,8 @@ ComponentMesh::~ComponentMesh()
 //Renders the current Mesh
 bool ComponentMesh::Update()
 {
-	ComponentTransform* transform = (ComponentTransform*)gameObject->GetComponent(Transform);
-	ComponentMaterial* material = (ComponentMaterial*)gameObject->GetComponent(Material);
+	ComponentTransform* transform = (ComponentTransform*)owner->GetComponent(TRANSFORM);
+	ComponentMaterial* material = (ComponentMaterial*)owner->GetComponent(MATERIAL);
 
 	if (transform == nullptr && material == nullptr)
 		App->renderer3D->RenderMesh(Cmesh, math::float4x4::identity, 0);
@@ -62,7 +62,7 @@ void ComponentMesh::OnEditor()
 bool ComponentMesh::AddMesh(MeshT _mesh)
 {
 	Cmesh = _mesh;
-	gameObject->GenerateBoundingBox(Cmesh.vertices, Cmesh.numVertices);
+	owner->GenerateBoundingBox(Cmesh.vertices, Cmesh.numVertices);
 	return true;
 }
 
