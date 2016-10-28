@@ -151,6 +151,7 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
+// -----------------------------------------------------------------
 void ModuleRenderer3D::OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -164,6 +165,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
+// -----------------------------------------------------------------
 void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint tex_id, bool mat_enable)
 {
 	glPushMatrix();
@@ -191,4 +193,10 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 	glDisable(GL_TEXTURE_2D);
 
 	glPopMatrix();
+}
+
+// -----------------------------------------------------------------
+void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox)
+{
+	// Cube!
 }

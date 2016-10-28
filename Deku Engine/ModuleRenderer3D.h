@@ -7,7 +7,7 @@
 #define MAX_LIGHTS 8
 
 struct MeshData;
-namespace math { class float4x4; }
+namespace math { class float4x4; class AABB; }
 
 class ModuleRenderer3D : public Module
 {
@@ -22,6 +22,7 @@ public:
 	bool CleanUp();
 	
 	void RenderMesh(MeshData mesh, math::float4x4 transform, uint tex_id, bool mat_enable);
+	void RenderBBoxDebug(math::AABB bbox);
 
 	void OnResize(int width, int height);
 

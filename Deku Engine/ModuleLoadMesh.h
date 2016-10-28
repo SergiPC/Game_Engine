@@ -28,8 +28,6 @@ struct MeshData
 	uint id_uvs = 0;
 	uint num_uvs = 0;
 	float* uvs = nullptr;
-
-	AABB bbox_mesh;
 };
 
 class ModuleLoadMesh : public Module

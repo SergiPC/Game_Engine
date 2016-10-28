@@ -27,7 +27,9 @@ public:
 	Component*		GetComponent(Type type);
 	void			DeleteComponent(Component* comp);
 	
-	void			GenerateBoundingBox(uint* vertices, uint numVertices);
+	math::AABB		GetBBox();
+	void			GenerateBBox(uint* vertices, uint num_vertices);
+	void			UpdateBBox(float4x4 world_trans);
 	
 public:
 	GameObject*	parent = nullptr;
@@ -37,7 +39,8 @@ public:
 
 private:
 	bool enabled = false;
-	math::AABB gBox = math::AABB::AABB();
+	math::AABB bbox_go = math::AABB::AABB();
+	math::OBB tmp_obb;
 };
 
 #endif __GAME_OBJECT_H__

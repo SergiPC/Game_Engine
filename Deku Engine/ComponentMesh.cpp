@@ -69,16 +69,8 @@ void ComponentMesh::OnEditor()
 }
 
 // -----------------------------------------------------------------
-bool ComponentMesh::SetMesh(MeshData new_mesh)
+void ComponentMesh::SetMesh(MeshData new_mesh)
 {
 	mesh = new_mesh;
-	//owner->GenerateBoundingBox(mesh.vertices, MeshData.numVertices);
-	return true;
-}
-
-// -----------------------------------------------------------------
-void ComponentMesh::UpdateBBox(math::float4x4 world_trans)
-{
-	tmp_obb = mesh.bbox_mesh.Transform(world_trans);
-	mesh.bbox_mesh.Enclose(tmp_obb);
+	owner->GenerateBBox(mesh.vertices, mesh.num_vertices);
 }

@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -34,6 +35,9 @@ bool GameObject::Start()
 bool GameObject::Update()
 {
 	bool ret = true;
+
+	// Update all components -----
+	App->renderer3D->RenderBBoxDebug(bbox_go);
 
 	if (enabled)
 	{
@@ -178,8 +182,21 @@ void GameObject::DeleteComponent(Component* comp)
 }
 
 // -----------------------------------------------------------------
-void GameObject::GenerateBoundingBox(uint* vertices,uint numVertices)
+AABB GameObject::GetBBox()
 {
-	gBox.SetNegativeInfinity();
-	gBox.Enclose((float3*)vertices, numVertices);
+	return bbox_go;
+}
+
+// -----------------------------------------------------------------
+void GameObject::GenerateBBox(uint* vertices, uint num_vertices)
+{
+	bbox_go.SetNegativeInfinity();
+	bbox_go.Enclose((float3*)vertices, num_vertices);
+}
+
+// -----------------------------------------------------------------
+void GameObject::UpdateBBox(float4x4 world_trans)
+{
+	tmp_obb = bbox_go.Transform(world_trans);
+	bbox_go.Enclose(tmp_obb);
 }

@@ -13,7 +13,7 @@ public:
 	bool Update();
 	void OnEditor();
 
-	bool SetMesh(MeshData new_mesh);
+	void SetMesh(MeshData new_mesh);
 	void UpdateBBox(math::float4x4 world_trans);
 
 private:

@@ -21,7 +21,6 @@
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
 
-#pragma comment (lib, "Assimp/libx86/assimp.lib")
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
 using namespace std;
@@ -169,10 +168,6 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, G
 				glBindBuffer(GL_ARRAY_BUFFER, m.id_normals);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_normals, m.normals, GL_STATIC_DRAW);
 			}
-
-			// Generate bbox --------------------------------
-			m.bbox_mesh.SetNegativeInfinity();
-			m.bbox_mesh.Enclose((float3*)m.vertices, m.num_vertices);
 
 			// Get transformations --------------------------
 			aiVector3D trans;

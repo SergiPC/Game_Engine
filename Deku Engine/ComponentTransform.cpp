@@ -50,8 +50,8 @@ void ComponentTransform::SetPosition(float3 new_pos)
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();
 
-	//tmpObb = owner->gBox.Transform(world_transform);
-	//owner->gBox.Enclose(tmpObb);
+	// Update Bounding Box ----
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------
@@ -63,8 +63,8 @@ void ComponentTransform::SetRotation(float3 new_rot)
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();
 
-	//tmpObb = owner->gBox.Transform(world_transform);
-	//owner->gBox.Enclose(tmpObb);
+	// Update Bounding Box ----
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------
@@ -76,8 +76,8 @@ void ComponentTransform::SetRotationQuat(Quat new_quat)
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();
 
-	//tmpObb = owner->gBox.Transform(world_transform);
-	//owner->gBox.Enclose(tmpObb);
+	// Update Bounding Box ----
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------
@@ -87,8 +87,9 @@ void ComponentTransform::SetScale(float3 new_scale)
 
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();
-	//tmpObb = owner->gBox.Transform(world_transform);
-	//owner->gBox.Enclose(tmpObb);
+
+	// Update Bounding Box ----
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------
