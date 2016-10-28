@@ -21,7 +21,7 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 	
-	void RenderMesh(MeshData mesh,math::float4x4 transform, uint tex_id);
+	void RenderMesh(MeshData mesh, math::float4x4 transform, uint tex_id, bool mat_enable);
 
 	void OnResize(int width, int height);
 

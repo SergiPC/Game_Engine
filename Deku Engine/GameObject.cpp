@@ -11,6 +11,9 @@ GameObject::GameObject(GameObject* parent) : enabled(true)
 {
 	this->parent = parent;
 	name = "GameObject";
+
+	// Create new Component Transform
+	AddComponent(TRANSFORM);
 }
 
 // -----------------------------------------------------------------
@@ -32,22 +35,25 @@ bool GameObject::Update()
 {
 	bool ret = true;
 
-	// Update all components -----
-	vector<Component*>::iterator tmp_comp = components.begin();
-
-	while (tmp_comp != components.end())
+	if (enabled)
 	{
-		(*tmp_comp)->Update();
-		tmp_comp++;
-	}
+		// Update all components -----
+		vector<Component*>::iterator tmp_comp = components.begin();
 
-	// Update all children -------
-	vector<GameObject*>::iterator tmp_go = children.begin();
+		while (tmp_comp != components.end())
+		{
+			(*tmp_comp)->Update();
+			tmp_comp++;
+		}
 
-	while (tmp_go != children.end())
-	{
-		(*tmp_go)->Update();
-		tmp_go++;
+		// Update all children -------
+		vector<GameObject*>::iterator tmp_go = children.begin();
+
+		while (tmp_go != children.end())
+		{
+			(*tmp_go)->Update();
+			tmp_go++;
+		}
 	}
 
 	return ret;
@@ -93,9 +99,8 @@ bool GameObject::IsEnable()
 // -----------------------------------------------------------------
 void GameObject::SetEnable(bool enable)
 {
-	enabled = enable;
-
-	// If enable == false ----> put all components & children == false
+	if (enabled != enable)
+		enabled = enable;
 }
 
 // -----------------------------------------------------------------
@@ -103,11 +108,11 @@ bool GameObject::DeleteChild(GameObject* child)
 {
 	bool ret = false;
 
-	for (vector<GameObject*>::iterator item = children.begin(); item != children.end(); ++item)
+	for (vector<GameObject*>::iterator child_it = children.begin(); child_it != children.end(); ++child_it)
 	{
-		if ((*item) == child)
+		if ((*child_it) == child)
 		{
-			children.erase(item);
+			children.erase(child_it);
 			child->CleanUp();
 			RELEASE(child);
 			ret = true;

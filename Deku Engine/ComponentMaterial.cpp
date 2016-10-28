@@ -22,12 +22,13 @@ void ComponentMaterial::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		bool comp_enable = this->enabled;
+		bool comp_enable = enabled;
 
-		if (ImGui::Checkbox("", &comp_enable))
-			this->enabled = comp_enable;
+		if (ImGui::Checkbox("##Material", &comp_enable))
+			enabled = comp_enable;
 
-		ImGui::SameLine();  ImGui::Text("Active");
+		ImGui::SameLine();
+		(enabled) ? (ImGui::Text("(Active)")) : (ImGui::Text("(Desactivated)"));
 
 		ImGui::Separator();	// -------
 

@@ -27,11 +27,6 @@ void ComponentTransform::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		bool comp_enable = this->enabled;
-
-		if (ImGui::Checkbox("", &comp_enable))
-			this->enabled = comp_enable;
-
 		ImGui::SameLine();  ImGui::Text("Active");
 
 		ImGui::Separator();	// -------

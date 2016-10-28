@@ -48,6 +48,7 @@ GameObject* ModuleGOManager::CreateNewGO(GameObject* parent)
 	if (parent == nullptr)
 		parent = root;
 
+	// Create new GameObject -----
 	GameObject* new_go;
 
 	new_go = new GameObject(parent);

@@ -20,15 +20,15 @@ public:
 	virtual bool	Init();
 	virtual bool	Update();
 
-	virtual bool	IsEnable();
-	virtual void	SetEnable(bool enable);
+	bool			IsEnable();
+	void			SetEnable(bool enable);
 
 	virtual void	OnEditor();
 	virtual Type	GetType() const;
 
 public:
 	GameObject* owner = nullptr;
-	bool enabled = true;
+	bool enabled;
 
 protected:
 	Type type = AMBIGUOUS;

@@ -13,7 +13,7 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	// town ----------------------------------------
-	App->load_mesh->LoadFile("Library/Mesh/Street environment_V01.FBX");
+	//App->load_mesh->LoadFile("Library/Mesh/Street environment_V01.FBX");
 	//App->load_mesh->LoadFile("Library/Mesh/warrior.FBX");
 
 	// Checkmate texture ---------------------------

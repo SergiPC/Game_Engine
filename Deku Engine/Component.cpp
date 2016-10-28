@@ -1,8 +1,11 @@
 #include "Component.h"
+#include "GameObject.h"
 
 // -----------------------------------------------------------------
 Component::Component(GameObject* owner, Type type) : type(type), owner(owner)
-{}
+{
+	enabled = true;
+}
 
 // -----------------------------------------------------------------
 Component::~Component()

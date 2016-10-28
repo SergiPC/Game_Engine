@@ -25,20 +25,17 @@ bool ComponentMesh::Update()
 {
 	bool ret = true;
 
-	ComponentTransform* new_trans = (ComponentTransform*)owner->GetComponent(TRANSFORM);
-	ComponentMaterial* new_mat = (ComponentMaterial*)owner->GetComponent(MATERIAL);
+	if (enabled)
+	{
+		ComponentTransform* new_trans = (ComponentTransform*)owner->GetComponent(TRANSFORM);
+		ComponentMaterial* new_mat = (ComponentMaterial*)owner->GetComponent(MATERIAL);
 
-	if (new_trans == nullptr && new_mat == nullptr)
-		App->renderer3D->RenderMesh(mesh, math::float4x4::identity, 0);
+		if (new_mat == nullptr)
+			App->renderer3D->RenderMesh(mesh, new_trans->GetWorldTransform(), 0, false);
 
-	else if(new_mat == nullptr)
-		App->renderer3D->RenderMesh(mesh, new_trans->GetWorldTransform(), 0);
-
-	else if (new_trans == nullptr)
-		App->renderer3D->RenderMesh(mesh, math::float4x4::identity, new_mat->name_id);
-
-	else
-		App->renderer3D->RenderMesh(mesh, new_trans->GetWorldTransform(), new_mat->name_id);
+		else
+			App->renderer3D->RenderMesh(mesh, new_trans->GetWorldTransform(), new_mat->name_id, new_mat->IsEnable());
+	}
 
 	return ret;
 }
@@ -48,12 +45,13 @@ void ComponentMesh::OnEditor()
 {
 	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		bool comp_enable = this->enabled;
+		bool comp_enable = enabled;
 
-		if (ImGui::Checkbox("", &comp_enable))
-			this->enabled = comp_enable;
+		if (ImGui::Checkbox("##Mesh", &comp_enable))
+			enabled = comp_enable;
 
-		ImGui::SameLine();  ImGui::Text("Active");
+		ImGui::SameLine();
+		(enabled) ? (ImGui::Text("(Active)")) : (ImGui::Text("(Desactivated)"));
 
 		ImGui::Separator();	// -------
 
