@@ -26,6 +26,8 @@ public:
 	float4x4	EulerMatrix(float3 euler_angle) const;
 	float3		MatrixToEuler(float4x4 rot_mat);
 
+	void		GenerateBBox();
+
 private:
 	float3		position = float3::zero;
 	float3		rot_angles = float3::zero;
@@ -34,7 +36,8 @@ private:
 	float3		scale = float3::zero;
 	float4x4	local_transform = float4x4::zero;
 	float4x4	world_transform = float4x4::zero;
-	//math::OBB	tmp_Obb;
+	AABB		bbox_go;
+	math::OBB	tmp_obb;
 };
 
 #endif __COMPONENT_TRANSFORM_H__

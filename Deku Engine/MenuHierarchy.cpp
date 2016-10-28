@@ -52,7 +52,6 @@ void MenuHierarchy::Render()
 
 	ImGui::Separator();
 
-	// MUST DO 06: draw the hierarchy
 	h_root = App->go_manager->root;
 	if (h_root->children.size() > 0)
 		RenderChildren(h_root);

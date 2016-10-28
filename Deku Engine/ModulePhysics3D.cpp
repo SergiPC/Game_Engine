@@ -60,7 +60,7 @@ bool ModulePhysics3D::Start()
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass)
+PhysBody3D* ModulePhysics3D::AddBody(const PrimCube& cube, float mass)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 
@@ -87,7 +87,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass)
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
+PhysBody3D* ModulePhysics3D::AddBody(const PrimSphere& sphere, float mass)
 {
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.add(colShape);
@@ -113,7 +113,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Cylinder& cylinder, float mass)
+PhysBody3D* ModulePhysics3D::AddBody(const PrimCylinder& cylinder, float mass)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius*2, 0.0f));
 	shapes.add(colShape);
@@ -139,7 +139,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder& cylinder, float mass)
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Plane& plane)
+PhysBody3D* ModulePhysics3D::AddBody(const PrimPlane& plane)
 {
 	btCollisionShape* colShape = new btStaticPlaneShape(btVector3(plane.normal.x, plane.normal.y, plane.normal.z), plane.constant);
 	shapes.add(colShape);
@@ -299,21 +299,21 @@ update_status ModulePhysics3D::Update(float dt)
 		// drop some primitives on 1,2,3
 		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
-			Sphere s(1);
+			PrimSphere s(1);
 			s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			App->physics3D->AddBody(s);
 		}
 
 		if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 		{
-			Cube c(1, 1, 1);
+			PrimCube c(1, 1, 1);
 			c.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			App->physics3D->AddBody(c);
 		}
 
 		if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 		{
-			Cylinder c(0.5, 1);
+			PrimCylinder c(0.5, 1);
 			c.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			App->physics3D->AddBody(c);
 		}

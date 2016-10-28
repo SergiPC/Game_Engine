@@ -12,10 +12,6 @@ bool ModuleSceneIntro::Start()
 {
 	bool ret = true;
 
-	// town ----------------------------------------
-	//App->load_mesh->LoadFile("Library/Mesh/Street environment_V01.FBX");
-	//App->load_mesh->LoadFile("Library/Mesh/warrior.FBX");
-
 	// Checkmate texture ---------------------------
 	/*
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -59,7 +55,7 @@ bool ModuleSceneIntro::CleanUp()
 
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane(0, 1, 0, 0).Render();
+	PrimPlane(0, 1, 0, 0).Render();
 
 	// parallelepiped 1 by triangles ----------------
 	/*

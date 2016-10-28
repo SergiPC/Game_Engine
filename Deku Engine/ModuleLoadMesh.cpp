@@ -6,7 +6,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
-#include "MathGeoLib\src/MathGeoLib.h"
+#include "MathGeoLib\src\MathGeoLib.h"
 #include "Glew\include\glew.h"
 
 #include "Assimp\include\cimport.h"
@@ -169,6 +169,10 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, G
 				glBindBuffer(GL_ARRAY_BUFFER, m.id_normals);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_normals, m.normals, GL_STATIC_DRAW);
 			}
+
+			// Generate bbox --------------------------------
+			m.bbox_mesh.SetNegativeInfinity();
+			m.bbox_mesh.Enclose((float3*)m.vertices, m.num_vertices);
 
 			// Get transformations --------------------------
 			aiVector3D trans;
