@@ -30,6 +30,8 @@ public:
 	math::AABB		GetBBox();
 	void			GenerateBBox(uint* vertices, uint num_vertices);
 	void			UpdateBBox(float4x4 world_trans);
+	bool			BBoxIsEnable();
+	void			BBoxSetEnable(bool enable);
 	
 public:
 	GameObject*	parent = nullptr;
@@ -40,7 +42,9 @@ public:
 private:
 	bool enabled = false;
 	math::AABB bbox_go = math::AABB::AABB();
+	math::AABB tmp_bbox_go = math::AABB::AABB();
 	math::OBB tmp_obb;
+	bool bbox_enabled = false;
 };
 
 #endif __GAME_OBJECT_H__

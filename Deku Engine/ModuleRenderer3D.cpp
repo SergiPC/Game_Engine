@@ -198,5 +198,47 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 // -----------------------------------------------------------------
 void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox)
 {
-	// Cube!
+	float3 corner_array[8];
+	bbox.GetCornerPoints(corner_array);
+
+	// Parallelepiped by Lines ----------------
+	glColor3f(0.0f, 1.0f, 1.0f);
+
+	glBegin(GL_LINES);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	/*
+	glVertex3fv((GLfloat*)&corner_array[1]);
+	glVertex3fv((GLfloat*)&corner_array[5]);
+	glVertex3fv((GLfloat*)&corner_array[7]);
+	glVertex3fv((GLfloat*)&corner_array[3]);
+
+	glVertex3fv((GLfloat*)&corner_array[4]);
+	glVertex3fv((GLfloat*)&corner_array[0]);
+	glVertex3fv((GLfloat*)&corner_array[2]);
+	glVertex3fv((GLfloat*)&corner_array[6]);
+
+	glVertex3fv((GLfloat*)&corner_array[5]);
+	glVertex3fv((GLfloat*)&corner_array[4]);
+	glVertex3fv((GLfloat*)&corner_array[6]);
+	glVertex3fv((GLfloat*)&corner_array[7]);
+
+	glVertex3fv((GLfloat*)&corner_array[0]);
+	glVertex3fv((GLfloat*)&corner_array[1]);
+	glVertex3fv((GLfloat*)&corner_array[3]);
+	glVertex3fv((GLfloat*)&corner_array[2]);
+
+	glVertex3fv((GLfloat*)&corner_array[3]);
+	glVertex3fv((GLfloat*)&corner_array[7]);
+	glVertex3fv((GLfloat*)&corner_array[6]);
+	glVertex3fv((GLfloat*)&corner_array[2]);
+
+	glVertex3fv((GLfloat*)&corner_array[0]);
+	glVertex3fv((GLfloat*)&corner_array[4]);
+	glVertex3fv((GLfloat*)&corner_array[5]);
+	glVertex3fv((GLfloat*)&corner_array[1]);
+	*/
+	glColor3f(1.0f, 1.0f, 1.0f);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnd();
 }

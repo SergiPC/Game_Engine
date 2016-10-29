@@ -168,6 +168,10 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, G
 				glBindBuffer(GL_ARRAY_BUFFER, m.id_normals);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_normals, m.normals, GL_STATIC_DRAW);
 			}
+			
+			// Add ComponentMesh -->
+			ComponentMesh* mesh_comp = (ComponentMesh*)child_go->AddComponent(MESH);
+			mesh_comp->SetMesh(m);
 
 			// Get transformations --------------------------
 			aiVector3D trans;
@@ -182,13 +186,9 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, G
 			
 			// Add ComponentTransform -->
 			ComponentTransform* trans_comp = (ComponentTransform*)child_go->AddComponent(TRANSFORM);
-			trans_comp->SetPosition(position);
 			trans_comp->SetRotationQuat(rot_quat);
+			trans_comp->SetPosition(position);
 			trans_comp->SetScale(scale);
-
-			// Add ComponentMesh -->
-			ComponentMesh* mesh_comp = (ComponentMesh*)child_go->AddComponent(MESH);
-			mesh_comp->SetMesh(m);
 
 			if (scene->HasMaterials())
 			{

@@ -29,13 +29,11 @@ void MenuInspector::Render()
 
 	if (sel_go != nullptr)
 	{
+		// Game Object features ----------------
 		bool go_enable = sel_go->IsEnable();
 
-		if (ImGui::Checkbox("", &go_enable))
+		if (ImGui::Checkbox(sel_go->name.data(), &go_enable))
 			sel_go->SetEnable(go_enable);
-
-		// Name --------------------------------
-		ImGui::SameLine();  ImGui::Text(sel_go->name.data());
 
 		// Iterate components ------------------
 		vector<Component*>* selected_components = &sel_go->components;
@@ -45,8 +43,8 @@ void MenuInspector::Render()
 			(*sel_component)->OnEditor();
 		}
 
-		ImGui::Separator();
-		ImGui::Separator();
+		ImGui::Separator();	// -------
+		ImGui::Separator();	// -------
 
 		// Add components ----------------------
 		if (ImGui::BeginMenu("Add Component"))

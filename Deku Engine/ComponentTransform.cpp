@@ -39,6 +39,21 @@ void ComponentTransform::OnEditor()
 
 		if (ImGui::DragFloat3("Scale", scale.ptr(), 0.1f))
 			SetScale(scale);
+
+		ImGui::Separator();	// -------
+
+		// Bounding Box ------------------------
+		bool aabb_enable = owner->BBoxIsEnable();
+
+		if (ImGui::Checkbox("##Bounding Box", &aabb_enable))
+			owner->BBoxSetEnable(aabb_enable);
+
+		ImGui::SameLine();
+
+		if (aabb_enable)
+			ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "Bounding Box (Active)");
+		else
+			ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "Bounding Box (Desactivated)");
 	}
 }
 

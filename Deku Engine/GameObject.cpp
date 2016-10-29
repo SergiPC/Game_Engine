@@ -8,7 +8,7 @@
 using namespace std;
 
 // -----------------------------------------------------------------
-GameObject::GameObject(GameObject* parent) : enabled(true)
+GameObject::GameObject(GameObject* parent) : enabled(true), bbox_enabled(true)
 {
 	this->parent = parent;
 	name = "GameObject";
@@ -36,11 +36,12 @@ bool GameObject::Update()
 {
 	bool ret = true;
 
-	// Update all components -----
-	App->renderer3D->RenderBBoxDebug(bbox_go);
-
 	if (enabled)
 	{
+		// Update bounding box -------
+		if(bbox_enabled)
+			App->renderer3D->RenderBBoxDebug(tmp_bbox_go);
+
 		// Update all components -----
 		vector<Component*>::iterator tmp_comp = components.begin();
 
@@ -192,11 +193,28 @@ void GameObject::GenerateBBox(uint* vertices, uint num_vertices)
 {
 	bbox_go.SetNegativeInfinity();
 	bbox_go.Enclose((float3*)vertices, num_vertices);
+
+	tmp_bbox_go = bbox_go;
 }
 
 // -----------------------------------------------------------------
 void GameObject::UpdateBBox(float4x4 world_trans)
 {
+	//bbox_go.SetNegativeInfinity();
+	tmp_bbox_go = bbox_go;
 	tmp_obb = bbox_go.Transform(world_trans);
-	bbox_go.Enclose(tmp_obb);
+	tmp_bbox_go.Enclose(tmp_obb);
+}
+
+// -----------------------------------------------------------------
+bool GameObject::BBoxIsEnable()
+{
+	return bbox_enabled;
+}
+
+// -----------------------------------------------------------------
+void GameObject::BBoxSetEnable(bool enable)
+{
+	if (bbox_enabled != enable)
+		bbox_enabled = enable;
 }
