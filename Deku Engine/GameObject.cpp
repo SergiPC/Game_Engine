@@ -200,10 +200,8 @@ void GameObject::GenerateBBox(uint* vertices, uint num_vertices)
 // -----------------------------------------------------------------
 void GameObject::UpdateBBox(float4x4 world_trans)
 {
-	//bbox_go.SetNegativeInfinity();
-	tmp_bbox_go = bbox_go;
 	tmp_obb = bbox_go.Transform(world_trans);
-	tmp_bbox_go.Enclose(tmp_obb);
+	tmp_bbox_go = tmp_obb.MinimalEnclosingAABB();
 }
 
 // -----------------------------------------------------------------

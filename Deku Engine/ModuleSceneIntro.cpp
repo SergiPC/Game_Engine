@@ -1,18 +1,20 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 
+// ------------------------------------------------------------
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
 
+// ------------------------------------------------------------
 ModuleSceneIntro::~ModuleSceneIntro()
 {}
 
+// ------------------------------------------------------------
 bool ModuleSceneIntro::Start()
 {
 	bool ret = true;
 
-	// Checkmate texture ---------------------------
+	// Checkmate texture ------------
 	/*
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
@@ -44,6 +46,7 @@ bool ModuleSceneIntro::Start()
 	return ret;
 }
 
+// ------------------------------------------------------------
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
@@ -53,11 +56,12 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
+// ------------------------------------------------------------
 update_status ModuleSceneIntro::Update(float dt)
 {
 	PrimPlane(0, 1, 0, 0).Render();
 
-	// parallelepiped 1 by triangles ----------------
+	// parallelepiped 1 by triangles --
 	/*
 	float x = 1.0f;
 	float y = 1.0f;
@@ -140,6 +144,6 @@ update_status ModuleSceneIntro::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+// ------------------------------------------------------------
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
-{
-}
+{}
