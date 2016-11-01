@@ -188,9 +188,12 @@ void GameObject::GenerateBBox(uint* vertices, uint num_vertices)
 }
 
 // -----------------------------------------------------------------
-void GameObject::UpdateBBox(float4x4 world_trans)
+void GameObject::UpdateBBox(float4x4 world_trans, float3 scale)
 {
 	tmp_obb = bbox_go.Transform(world_trans);
+
+	// bbox_go.Scale(bbox_go.CenterPoint(), scale);
+
 	tmp_bbox_go = tmp_obb.MinimalEnclosingAABB();
 }
 
@@ -210,5 +213,5 @@ void GameObject::BBoxSetEnable(bool enable)
 // -----------------------------------------------------------------
 void GameObject::BBoxDebug()
 {
-	App->renderer3D->RenderBBoxDebug(tmp_bbox_go, world_trans_go);
+	App->renderer3D->RenderBBoxDebug(tmp_bbox_go);
 }

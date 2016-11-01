@@ -196,7 +196,7 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 }
 
 // -----------------------------------------------------------------
-void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox, math::float4x4 world_trans)
+void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox)
 {
 	//glPushMatrix();
 	//glMultMatrixf(*world_trans.Transposed().v);

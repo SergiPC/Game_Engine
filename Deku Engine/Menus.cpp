@@ -16,8 +16,8 @@ void Menu::SetEnable(bool enable)
 		enabled = enable;
 }
 
-// ------------------------------------------------------------
-bool Menu::IsEnable() const
+// Read only --------------------------------------------------
+const bool Menu::IsEnable() const
 {
 	return enabled;
 }
@@ -30,8 +30,8 @@ void Menu::Render()
 void Menu::UpdatePosSize()
 {}
 
-// ------------------------------------------------------------
-MenuTypes Menu::GetType() const
+// Read only --------------------------------------------------
+const MenuTypes Menu::GetType() const
 {
 	return type;
 }

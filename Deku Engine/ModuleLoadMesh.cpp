@@ -211,7 +211,7 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, G
 
 					if (new_path.length > 0)
 					{
-						std::string texture_path = "../Game/Library/Textures/";
+						std::string texture_path = "Library/Textures/";
 						std::string real_path = new_path.data;
 
 						real_path.erase(0, real_path.find_last_of("\\") + 1);

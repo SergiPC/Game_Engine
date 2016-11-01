@@ -18,11 +18,11 @@ public:
 	virtual ~Menu();
 
 	void			SetEnable(bool enable);
-	bool			IsEnable() const;
+	const bool		IsEnable() const;
 	virtual void	Render();
 
 	virtual void	UpdatePosSize();
-	MenuTypes		GetType() const;
+	const MenuTypes	GetType() const;
 
 	void			ColorButton(int i_color);
 

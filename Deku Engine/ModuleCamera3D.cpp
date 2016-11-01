@@ -70,7 +70,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	// Implement a debug camera with keys and mouse
 
-	// OnKeys WASD keys -----------------------------------
+	// OnKeys WASD keys ---------------------
 	float Speed = 10.0f;
 
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) Speed *= 2.0f;

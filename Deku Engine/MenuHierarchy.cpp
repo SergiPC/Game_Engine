@@ -36,17 +36,6 @@ void MenuHierarchy::Render()
 		if (ImGui::MenuItem("Create Empty Child"))
 			(App->editor->selected_go != nullptr) ? (App->go_manager->CreateNewGO(App->editor->selected_go)) : (App->go_manager->CreateNewGO(nullptr));
 
-		if (ImGui::BeginMenu("Load..."))
-		{
-			if (ImGui::MenuItem("Village"))
-				App->load_mesh->LoadFile("Library/Mesh/Street environment_V01.FBX");
-
-			//if (ImGui::MenuItem("Warrior"))
-				//App->load_mesh->LoadFile("Library/Mesh/warrior.FBX");
-
-			ImGui::EndMenu();
-		}
-
 		ImGui::EndMenu();
 	}
 

@@ -72,6 +72,17 @@ update_status ModuleGuiEditor::Update(float dt)
 					//ret = UPDATE_STOP;
 				}
 
+				if (ImGui::BeginMenu("Open Scene", "    Ctrl+O"))
+				{
+					if (ImGui::MenuItem("Village"))
+						App->load_mesh->LoadFile("Library/Mesh/Street environment_V01.FBX");
+
+					//if (ImGui::MenuItem("Warrior"))
+					//App->load_mesh->LoadFile("Library/Mesh/warrior.FBX");
+
+					ImGui::EndMenu();
+				}
+
 				if (ImGui::MenuItem("Save Scene", "    Ctrl+S"))
 				{
 					//ret = UPDATE_STOP;

@@ -40,34 +40,28 @@ void ComponentTransform::OnEditor()
 		if (ImGui::DragFloat3("Scale", scale.ptr(), 0.1f))
 			SetScale(scale);
 
+		ImGui::Separator();	// -------
+
 		if (ImGui::TreeNode("Transform Matrix"))
 		{
-			float4 column = float4::zero;
+			float4 row = float4::zero;
 			char label[32];
 
-			ImGui::Separator();	// -------
+			sprintf(label, "##Row_%u", 0);
+			row = world_transform.Row(0);
+			ImGui::DragFloat4(label, row.ptr(), .0f, .0f, .0f, "%.1f");
 
-			sprintf(label, "##Column_%u", 0);
-			column = world_transform.Col(0);
-			ImGui::DragFloat4(label, column.ptr());
+			sprintf(label, "##Row_%u", 2);
+			row = world_transform.Row(2);
+			ImGui::DragFloat4(label, row.ptr(), .0f, .0f, .0f, "%.1f");
 
-			ImGui::Separator();	// -------
+			sprintf(label, "##Row_%u", 1);
+			row = world_transform.Row(1);
+			ImGui::DragFloat4(label, row.ptr(), .0f, .0f, .0f, "%.1f");
 
-			sprintf(label, "##Column_%u", 2);
-			column = world_transform.Col(2);
-			ImGui::DragFloat4(label, column.ptr());
-
-			ImGui::Separator();	// -------
-
-			sprintf(label, "##Column_%u", 1);
-			column = world_transform.Col(1);
-			ImGui::DragFloat4(label, column.ptr());
-
-			ImGui::Separator();	// -------
-
-			sprintf(label, "##Column_%u", 3);
-			column = world_transform.Col(3);
-			ImGui::DragFloat4(label, column.ptr());
+			sprintf(label, "##Row_%u", 3);
+			row = world_transform.Row(3);
+			ImGui::DragFloat4(label, row.ptr(), .0f, .0f, .0f, "%.1f");
 
 			ImGui::TreePop();
 		}
@@ -83,7 +77,7 @@ void ComponentTransform::SetPosition(float3 new_pos)
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform);
+	owner->UpdateBBox(world_transform, scale);
 }
 
 // -----------------------------------------------------------------
@@ -96,7 +90,7 @@ void ComponentTransform::SetRotation(float3 new_rot)
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform);
+	owner->UpdateBBox(world_transform, scale);
 }
 
 // -----------------------------------------------------------------
@@ -109,7 +103,7 @@ void ComponentTransform::SetRotationQuat(Quat new_quat)
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform);
+	owner->UpdateBBox(world_transform, scale);
 }
 
 // -----------------------------------------------------------------
@@ -121,7 +115,7 @@ void ComponentTransform::SetScale(float3 new_scale)
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform);
+	owner->UpdateBBox(world_transform, scale);
 }
 
 // -----------------------------------------------------------------
