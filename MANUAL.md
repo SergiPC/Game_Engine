@@ -1,5 +1,6 @@
 [Deku Engine First Guide]
 
+.- Go to File->OpenScene->Village to open "Street environment_V01.fbx".
 .- Use W,A,S,D to move around, with "Shift" you can increase the speed and decrease with "Alt".
 .- R is used to go up and F is used to go down.
 .- To look around using the camera, hold the "Alt" key and the left mouse button, and drag. 
