@@ -88,13 +88,22 @@ update_status ModuleGuiEditor::Update(float dt)
 			if (ImGui::BeginMenu("Window"))
 			{
 				if (ImGui::MenuItem("Hierarchy", "    Ctrl+1"))
-					hierarchy_menu->SwitchActive();
+				{
+					selected = hierarchy_menu->IsEnable();
+					hierarchy_menu->SetEnable(!selected);
+				}
 
 				if (ImGui::MenuItem("Inspector", "    Ctrl+2"))
-					inspector_menu->SwitchActive();
+				{
+					selected = inspector_menu->IsEnable();
+					inspector_menu->SetEnable(!selected);
+				}
 
 				if (ImGui::MenuItem("Configuration", "    Ctrl+3"))
-					diagnostic_menu->SwitchActive();
+				{
+					selected = diagnostic_menu->IsEnable();
+					diagnostic_menu->SetEnable(!selected);
+				}
 
 				if (ImGui::MenuItem("Test", "    Ctrl+4"))
 					show_test_window = !show_test_window;
@@ -110,7 +119,10 @@ update_status ModuleGuiEditor::Update(float dt)
 			if (ImGui::BeginMenu("Help"))
 			{
 				if (ImGui::MenuItem("About"))
-					about_menu->SwitchActive();
+				{
+					selected = about_menu->IsEnable();
+					about_menu->SetEnable(!selected);
+				}
 
 				ImGui::Separator();
 
@@ -140,7 +152,7 @@ update_status ModuleGuiEditor::Update(float dt)
 	{
 		Menu* current_menu = *tmp;
 
-		if (current_menu->IsActive() == true)
+		if (current_menu->IsEnable() == true)
 		{
 			ImGui::SetNextWindowPos(ImVec2((float)current_menu->pos_x, (float)current_menu->pos_y), ImGuiSetCond_Always);
 			ImGui::SetNextWindowSize(ImVec2((float)current_menu->width, (float)current_menu->height), ImGuiSetCond_Always);
@@ -170,7 +182,7 @@ void ModuleGuiEditor::UpdatePosSize()
 // ------------------------------------------------------------
 void ModuleGuiEditor::CalcPar(float current_fps, float current_ms)
 {
-	if (diagnostic_menu->IsActive())
+	if (diagnostic_menu->IsEnable())
 		diagnostic_menu->CalculateParameters(current_fps, current_ms);
 }
 

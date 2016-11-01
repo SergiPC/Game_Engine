@@ -1,5 +1,6 @@
 #include "Application.h"
 
+// ------------------------------------------------------------
 Application::Application()
 {
 	frames = 0;
@@ -8,6 +9,7 @@ Application::Application()
 	capped_ms = 1000 / 60;
 	fps_counter = 0;
 
+	file_sys = new ModuleFileSystem(this);
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -16,25 +18,24 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	editor = new ModuleGuiEditor(this);
-	fs = new ModuleFileSystem(this);
 	load_mesh = new ModuleLoadMesh(this);
-	tex = new ModuleLoadTextures(this);
 	go_manager = new ModuleGOManager(this);
+
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
 	
 	// Main Modules
+	AddModule(file_sys);
 	AddModule(window);
 	AddModule(physics3D);
 	AddModule(renderer3D);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(audio);
-	AddModule(fs);
 	AddModule(load_mesh);
-	AddModule(tex);
 	AddModule(go_manager);
+
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(editor);
@@ -43,6 +44,7 @@ Application::Application()
 	
 }
 
+// ------------------------------------------------------------
 Application::~Application()
 {
 	p2List_item<Module*>* item = list_modules.getLast();
@@ -54,6 +56,7 @@ Application::~Application()
 	}
 }
 
+// ------------------------------------------------------------
 bool Application::Init()
 {
 	bool ret = true;
@@ -82,14 +85,14 @@ bool Application::Init()
 }
 
 
-// ---------------------------------------------
+// ------------------------------------------------------------
 void Application::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.0f;
 	ms_timer.Start();
 }
 
-// ---------------------------------------------
+// ------------------------------------------------------------
 void Application::FinishUpdate()
 {
 	// Recap on framecount and fps
@@ -117,7 +120,7 @@ void Application::FinishUpdate()
 	editor->CalcPar((float)last_fps, (float)last_frame_ms);
 }
 
-// Call PreUpdate, Update and PostUpdate on all modules
+// Call PreUpdate, Update and PostUpdate on all modules -------
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
@@ -154,6 +157,7 @@ update_status Application::Update()
 	return ret;
 }
 
+// ------------------------------------------------------------
 bool Application::CleanUp()
 {
 	bool ret = true;
@@ -167,24 +171,25 @@ bool Application::CleanUp()
 	return ret;
 }
 
+// ------------------------------------------------------------
 void Application::AddModule(Module* mod)
 {
 	list_modules.add(mod);
 }
 
-// ---------------------------------------
+// ------------------------------------------------------------
 const char* Application::GetTitle() const
 {
 	return title.c_str();
 }
 
-// ---------------------------------------
+// ------------------------------------------------------------
 const char* Application::GetOrganizationName() const
 {
 	return organization.c_str();
 }
 
-// ---------------------------------------
+// ------------------------------------------------------------
 void Application::ExecuteBrowser(const char* path)
 {
 	ShellExecute(NULL, "open", path, NULL, NULL, SW_SHOWDEFAULT);

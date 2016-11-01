@@ -1,5 +1,5 @@
-#ifndef __MENU_INSPECTOR__
-#define __MENU_INSPECTOR__
+#ifndef __MENU_INSPECTOR_H__
+#define __MENU_INSPECTOR_H__
 
 #include "Menus.h"
 
@@ -9,8 +9,8 @@ public:
 	MenuInspector();
 	virtual ~MenuInspector();
 
-	void Render();
-	void UpdatePosSize();
+	void	Render();
+	void	UpdatePosSize();
 };
 
-#endif // !__MENU_INSPECTOR__
+#endif // !__MENU_INSPECTOR_H__

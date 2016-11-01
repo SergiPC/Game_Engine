@@ -20,18 +20,17 @@ public:
 	virtual bool	Init();
 	virtual bool	Update();
 
-	bool			IsEnable();
+	const bool		IsEnable() const;
 	void			SetEnable(bool enable);
-
 	virtual void	OnEditor();
-	virtual Type	GetType() const;
 
-public:
-	GameObject* owner = nullptr;
-	bool enabled;
+	const Type			GetType() const;
+	const GameObject*	GetGO() const;
 
 protected:
+	GameObject* owner = nullptr;
 	Type type = AMBIGUOUS;
+	bool enabled = false;
 };
 
 #endif // !__COMPONENT_H__

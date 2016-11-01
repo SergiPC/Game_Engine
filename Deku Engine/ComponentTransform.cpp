@@ -40,20 +40,37 @@ void ComponentTransform::OnEditor()
 		if (ImGui::DragFloat3("Scale", scale.ptr(), 0.1f))
 			SetScale(scale);
 
-		ImGui::Separator();	// -------
+		if (ImGui::TreeNode("Transform Matrix"))
+		{
+			float4 column = float4::zero;
+			char label[32];
 
-		// Bounding Box ------------------------
-		bool aabb_enable = owner->BBoxIsEnable();
+			ImGui::Separator();	// -------
 
-		if (ImGui::Checkbox("##Bounding Box", &aabb_enable))
-			owner->BBoxSetEnable(aabb_enable);
+			sprintf(label, "##Column_%u", 0);
+			column = world_transform.Col(0);
+			ImGui::DragFloat4(label, column.ptr());
 
-		ImGui::SameLine();
+			ImGui::Separator();	// -------
 
-		if (aabb_enable)
-			ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "Bounding Box (Active)");
-		else
-			ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "Bounding Box (Desactivated)");
+			sprintf(label, "##Column_%u", 2);
+			column = world_transform.Col(2);
+			ImGui::DragFloat4(label, column.ptr());
+
+			ImGui::Separator();	// -------
+
+			sprintf(label, "##Column_%u", 1);
+			column = world_transform.Col(1);
+			ImGui::DragFloat4(label, column.ptr());
+
+			ImGui::Separator();	// -------
+
+			sprintf(label, "##Column_%u", 3);
+			column = world_transform.Col(3);
+			ImGui::DragFloat4(label, column.ptr());
+
+			ImGui::TreePop();
+		}
 	}
 }
 
@@ -73,7 +90,7 @@ void ComponentTransform::SetPosition(float3 new_pos)
 void ComponentTransform::SetRotation(float3 new_rot)
 {
 	rot_angles = new_rot;
-	rot_quat = rot_quat.FromEulerXYZ((rot_angles.z * pi) / 180, (rot_angles.y * pi) / 180, (rot_angles.x * pi) / 180);
+	rot_quat = rot_quat.FromEulerXYZ((rot_angles.x * pi) / 180, (rot_angles.y * pi) / 180, (rot_angles.z * pi) / 180);
 	
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();

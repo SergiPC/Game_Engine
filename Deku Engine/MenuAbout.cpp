@@ -8,7 +8,7 @@ MenuAbout::MenuAbout() : Menu(Menu_About)
 	pos_y = 450;
 	width = 600;
 	height = 90;
-	active = false;
+	enabled = false;
 }
 
 // ------------------------------------------------------------
@@ -18,7 +18,7 @@ MenuAbout::~MenuAbout()
 // ------------------------------------------------------------
 void MenuAbout::Render()
 {
-	ImGui::Begin("Deku Engine", &active,
+	ImGui::Begin("Deku Engine", &enabled,
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoFocusOnAppearing |
 		ImGuiWindowFlags_HorizontalScrollbar);

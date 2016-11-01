@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "ComponentMesh.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
@@ -35,6 +36,10 @@ bool ComponentMesh::Update()
 
 		else
 			App->renderer3D->RenderMesh(mesh, new_trans->GetWorldTransform(), new_mat->name_id, new_mat->IsEnable());
+
+		// Render bounding box -------
+		if (owner->BBoxIsEnable())
+			owner->BBoxDebug();
 	}
 
 	return ret;
@@ -52,6 +57,21 @@ void ComponentMesh::OnEditor()
 
 		ImGui::SameLine();
 		(enabled) ? (ImGui::Text("(Active)")) : (ImGui::Text("(Desactivated)"));
+
+		ImGui::Separator();	// -------
+
+		// Bounding Box ------------------------
+		bool aabb_enable = owner->BBoxIsEnable();
+
+		if (ImGui::Checkbox("##Bounding Box", &aabb_enable))
+			owner->BBoxSetEnable(aabb_enable);
+
+		ImGui::SameLine();
+
+		if (aabb_enable)
+			ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "Bounding Box (Active)");
+		else
+			ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.40f), "Bounding Box (Desactivated)");
 
 		ImGui::Separator();	// -------
 

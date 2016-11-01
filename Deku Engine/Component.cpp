@@ -23,8 +23,8 @@ bool Component::Update()
 	return true;
 }
 
-// -----------------------------------------------------------------
-bool Component::IsEnable()
+// Read only -------------------------------------------------------
+const bool Component::IsEnable() const
 {
 	return enabled;
 }
@@ -32,7 +32,8 @@ bool Component::IsEnable()
 // -----------------------------------------------------------------
 void Component::SetEnable(bool enable)
 {
-	enabled = enable;
+	if(enabled != enable)
+		enabled = enable;
 }
 
 // -----------------------------------------------------------------
@@ -40,7 +41,13 @@ void Component::OnEditor()
 {}
 
 // Read only -------------------------------------------------------
-Type Component::GetType() const
+const Type Component::GetType() const
 {
 	return type;
+}
+
+// Read only -------------------------------------------------------
+const GameObject* Component::GetGO() const
+{
+	return owner;
 }

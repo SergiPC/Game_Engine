@@ -17,8 +17,8 @@ public:
 	Menu(MenuTypes type = Menu_Unknown);
 	virtual ~Menu();
 
-	void			SwitchActive();
-	bool			IsActive() const;
+	void			SetEnable(bool enable);
+	bool			IsEnable() const;
 	virtual void	Render();
 
 	virtual void	UpdatePosSize();
@@ -31,10 +31,10 @@ public:
 	int		height = 0;
 	int		pos_x = 0;
 	int		pos_y = 0;
-	bool	active = true;
 
 protected:
-	MenuTypes type;
+	bool enabled = true;
+	MenuTypes type = Menu_Unknown;
 };
 
 #endif __MENUS_H__

@@ -19,19 +19,19 @@ public:
 	bool			Update();
 	bool			CleanUp();
 
-	bool			IsEnable();
+	bool			IsEnable() const;
 	void			SetEnable(bool enable);
 
 	bool			DeleteChild(GameObject* child);
 	Component*		AddComponent(Type type);
 	Component*		GetComponent(Type type);
-	void			DeleteComponent(Component* comp);
 	
-	math::AABB		GetBBox();
 	void			GenerateBBox(uint* vertices, uint num_vertices);
 	void			UpdateBBox(float4x4 world_trans);
-	bool			BBoxIsEnable();
+	const math::AABB GetBBox();
+	const bool		BBoxIsEnable() const;
 	void			BBoxSetEnable(bool enable);
+	void			BBoxDebug();
 	
 public:
 	GameObject*	parent = nullptr;
@@ -40,10 +40,11 @@ public:
 	std::vector<Component*>	components;
 
 private:
-	bool enabled = false;
+	bool enabled = false; // GameObject enabled
 	math::AABB bbox_go = math::AABB::AABB();
 	math::AABB tmp_bbox_go = math::AABB::AABB();
 	math::OBB tmp_obb;
+	math::float4x4 world_trans_go = float4x4::zero;
 	bool bbox_enabled = false;
 };
 

@@ -23,7 +23,7 @@ void MenuInspector::Render()
 	GameObject* sel_go = App->editor->selected_go;
 
 	ImGui::SetNextWindowContentWidth((float)(width * 1.5f));
-	ImGui::Begin("Inspector", &active,
+	ImGui::Begin("Inspector", &enabled,
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoFocusOnAppearing);
 

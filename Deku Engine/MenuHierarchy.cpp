@@ -23,7 +23,7 @@ MenuHierarchy::~MenuHierarchy()
 void MenuHierarchy::Render()
 {
 	ImGui::SetNextWindowContentWidth((float)(width * 1.5f));
-	ImGui::Begin("Hierarchy", &active,
+	ImGui::Begin("Hierarchy", &enabled,
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoFocusOnAppearing |
 		ImGuiWindowFlags_HorizontalScrollbar);

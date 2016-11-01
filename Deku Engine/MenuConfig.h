@@ -1,5 +1,5 @@
-#ifndef __MENU_DIAG__
-#define __MENU_DIAG__
+#ifndef __MENU_CONFIG_H__
+#define __MENU_CONFIG_H__
 
 #include "Menus.h"
 #include <vector>
@@ -10,9 +10,9 @@ public:
 	MenuConfig();
 	virtual ~MenuConfig();
 
-	void Render();
-	void UpdatePosSize();
-	void CalculateParameters(float current_fps, float current_ms);
+	void	Render();
+	void	UpdatePosSize();
+	void	CalculateParameters(float current_fps, float current_ms);
 
 private:
 	std::vector<float> fps;
@@ -20,29 +20,29 @@ private:
 	int	bar_num = 0;
 
 	// Window assets -----
-	bool	fullscreen;
-	bool	resizable;
-	bool	borderless;
-	bool	full_desktop;
-	int		new_width;
-	int		new_height;
+	bool	fullscreen = false;
+	bool	resizable = false;
+	bool	borderless = false;
+	bool	full_desktop = false;
+	int		new_width = 0;
+	int		new_height = 0;
 
 	// Hardware assets -----
 	char sdl_compiled_info[20];
 
-	int		cpu_number;
-	int		cpu_cache;
-	int		system_ram;
-	bool	caps_rdtsc;
-	bool	caps_mmx;
-	bool	caps_sse;
-	bool	caps_sse2;
-	bool	caps_sse3;
-	bool	caps_sse41;
-	bool	caps_sse42;
-	bool	caps_avx;
-	bool	caps_avx2;
-	bool	caps_altivec;
+	int		cpu_number = 0;
+	int		cpu_cache = 0;
+	int		system_ram = 0;
+	bool	caps_rdtsc = false;
+	bool	caps_mmx = false;
+	bool	caps_sse = false;
+	bool	caps_sse2 = false;
+	bool	caps_sse3 = false;
+	bool	caps_sse41 = false;
+	bool	caps_sse42 = false;
+	bool	caps_avx = false;
+	bool	caps_avx2 = false;
+	bool	caps_altivec = false;
 };
 
-#endif // !__MENU_DIAG__
+#endif // !__MENU_CONFIG_H__

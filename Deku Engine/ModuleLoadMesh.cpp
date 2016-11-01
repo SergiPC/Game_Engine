@@ -25,13 +25,15 @@
 
 using namespace std;
 
-
+// ------------------------------------------------------------
 ModuleLoadMesh::ModuleLoadMesh(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
 
+// ------------------------------------------------------------
 ModuleLoadMesh::~ModuleLoadMesh()
 {}
 
+// ------------------------------------------------------------
 bool ModuleLoadMesh::Init()
 {
 	ilInit();
@@ -41,17 +43,23 @@ bool ModuleLoadMesh::Init()
 	return true;
 }
 
+// ------------------------------------------------------------
 bool ModuleLoadMesh::CleanUp()
 {
 	return true;
 }
 
+// ------------------------------------------------------------
 vector<GameObject*> ModuleLoadMesh::LoadFile(const char* path)
 {
 	vector<GameObject*> go_list;
 
+	// Open with FileSystem
+	char* buffer_fs = nullptr;
+	uint length = App->file_sys->Load(path, &buffer_fs);
+
 	// Start from aiScene::mRootNode then go recursive from there.
-	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFileFromMemory(buffer_fs, length, aiProcessPreset_TargetRealtime_MaxQuality, buffer_fs);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -75,6 +83,7 @@ vector<GameObject*> ModuleLoadMesh::LoadFile(const char* path)
 	return go_list;
 }
 
+// ------------------------------------------------------------
 GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, GameObject* parent, const char* path)
 {
 	GameObject* child_go = App->go_manager->CreateNewGO(parent);
@@ -227,6 +236,7 @@ GameObject* ModuleLoadMesh::LoadMesh(const aiScene* scene, aiNode* child_node, G
 	return child_go;
 }
 
+// ------------------------------------------------------------
 uint ModuleLoadMesh::LoadTexture(const char* path)
 {
 	ILuint id;

@@ -11,15 +11,15 @@
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
+// -----------------------------------------------------------------
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-}
+{}
 
-// Destructor
+// Destructor ------------------------------------------------------
 ModuleRenderer3D::~ModuleRenderer3D()
 {}
 
-// Called before render is available
+// Called before render is available -------------------------------
 bool ModuleRenderer3D::Init()
 {
 	
@@ -109,7 +109,7 @@ bool ModuleRenderer3D::Init()
 	return ret;
 }
 
-// PreUpdate: clear buffer
+// PreUpdate: clear buffer -----------------------------------------
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -127,21 +127,21 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
-// Update: debug camera
+// Update: debug camera --------------------------------------------
 update_status ModuleRenderer3D::Update(float dt)
 {
 	
 	return UPDATE_CONTINUE;
 }
 
-// PostUpdate present buffer to screen
+// PostUpdate present buffer to screen -----------------------------
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
+// Called before quitting ------------------------------------------
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
@@ -196,8 +196,11 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 }
 
 // -----------------------------------------------------------------
-void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox)
+void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox, math::float4x4 world_trans)
 {
+	//glPushMatrix();
+	//glMultMatrixf(*world_trans.Transposed().v);
+
 	float3 corner_array[8];
 	bbox.GetCornerPoints(corner_array);
 
@@ -247,4 +250,6 @@ void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox)
 
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glEnd();
+
+	//glPopMatrix();
 }

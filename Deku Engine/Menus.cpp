@@ -10,15 +10,16 @@ Menu::~Menu()
 {}
 
 // ------------------------------------------------------------
-void Menu::SwitchActive()
+void Menu::SetEnable(bool enable)
 {
-	active = !active;
+	if (enabled != enable)
+		enabled = enable;
 }
 
 // ------------------------------------------------------------
-bool Menu::IsActive() const
+bool Menu::IsEnable() const
 {
-	return active;
+	return enabled;
 }
 
 // ------------------------------------------------------------

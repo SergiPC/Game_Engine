@@ -165,7 +165,6 @@
     <ClInclude Include="ModuleGOManager.h" />
     <ClInclude Include="ModuleGuiEditor.h" />
     <ClInclude Include="ModuleLoadMesh.h" />
-    <ClInclude Include="ModuleLoadTextures.h" />
     <ClInclude Include="ModulePhysics3D.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="p2List.h" />
@@ -241,7 +240,6 @@
     <ClCompile Include="ModuleGuiEditor.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleLoadMesh.cpp" />
-    <ClCompile Include="ModuleLoadTextures.cpp" />
     <ClCompile Include="ModulePhysics3D.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleSceneIntro.cpp" />

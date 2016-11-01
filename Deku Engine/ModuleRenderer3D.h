@@ -24,7 +24,7 @@ public:
 	bool CleanUp();
 	
 	void RenderMesh(MeshData mesh, math::float4x4 transform, uint tex_id, bool mat_enable);
-	void RenderBBoxDebug(math::AABB bbox);
+	void RenderBBoxDebug(math::AABB bbox, math::float4x4 world_trans);
 
 	void OnResize(int width, int height);
 

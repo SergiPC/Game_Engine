@@ -1,5 +1,5 @@
-#ifndef __MENU_HIERARCHY__
-#define __MENU_HIERARCHY__
+#ifndef __MENU_HIERARCHY_H__
+#define __MENU_HIERARCHY_H__
 
 #include "Menus.h"
 
@@ -9,14 +9,13 @@ public:
 	MenuHierarchy();
 	virtual ~MenuHierarchy();
 
-	void Render();
-	void RenderChildren(GameObject* _parent);
-	void UpdatePosSize();
+	void	Render();
+	void	RenderChildren(GameObject* _parent);
+	void	UpdatePosSize();
 
 public:
-	const char* name[50];
-	GameObject* h_root = nullptr;
-	GameObject* tmp_go = nullptr;
+	const char*		name[50];
+	GameObject*		h_root = nullptr;
 };
 
-#endif __MENU_HIERARCHY__
+#endif __MENU_HIERARCHY_H__

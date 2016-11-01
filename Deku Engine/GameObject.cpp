@@ -38,10 +38,6 @@ bool GameObject::Update()
 
 	if (enabled)
 	{
-		// Update bounding box -------
-		if(bbox_enabled)
-			App->renderer3D->RenderBBoxDebug(tmp_bbox_go);
-
 		// Update all components -----
 		vector<Component*>::iterator tmp_comp = components.begin();
 
@@ -96,7 +92,7 @@ bool GameObject::CleanUp()
 }
 
 // -----------------------------------------------------------------
-bool GameObject::IsEnable()
+bool GameObject::IsEnable() const
 {
 	return enabled;
 }
@@ -176,14 +172,8 @@ Component* GameObject::GetComponent(Type type)
 	return new_component;
 }
 
-// -----------------------------------------------------------------
-void GameObject::DeleteComponent(Component* comp)
-{
-	//comp->CleanUp();
-}
-
-// -----------------------------------------------------------------
-AABB GameObject::GetBBox()
+// Read only -------------------------------------------------------
+const AABB GameObject::GetBBox()
 {
 	return bbox_go;
 }
@@ -204,8 +194,8 @@ void GameObject::UpdateBBox(float4x4 world_trans)
 	tmp_bbox_go = tmp_obb.MinimalEnclosingAABB();
 }
 
-// -----------------------------------------------------------------
-bool GameObject::BBoxIsEnable()
+// Read only -------------------------------------------------------
+const bool GameObject::BBoxIsEnable() const
 {
 	return bbox_enabled;
 }
@@ -215,4 +205,10 @@ void GameObject::BBoxSetEnable(bool enable)
 {
 	if (bbox_enabled != enable)
 		bbox_enabled = enable;
+}
+
+// -----------------------------------------------------------------
+void GameObject::BBoxDebug()
+{
+	App->renderer3D->RenderBBoxDebug(tmp_bbox_go, world_trans_go);
 }

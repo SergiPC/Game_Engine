@@ -37,14 +37,12 @@ MenuConfig::~MenuConfig()
 void MenuConfig::Render()
 {
 
-	ImGui::Begin("Configuration", &active,
+	ImGui::Begin("Configuration", &enabled,
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoFocusOnAppearing |
 		ImGuiWindowFlags_HorizontalScrollbar);
 
-	// CalculateParameters();
-
-	// Graph window ----------------------------
+	// Graph window --------------------------
 	if (ImGui::CollapsingHeader("Graphs"))
 	{
 		char title[20];
@@ -54,7 +52,7 @@ void MenuConfig::Render()
 		ImGui::PlotHistogram("##milli", &ms[0], ms.size(), 0, title, 0.0f, 30.0f, ImVec2(215, 70));
 	}
 
-	// Window window ----------------------------
+	// Window window --------------------------
 	fullscreen = App->window->GetFullscreen();
 	resizable = App->window->GetResizable();
 	borderless = App->window->GetBorderlees();
@@ -73,14 +71,24 @@ void MenuConfig::Render()
 
 		if (ImGui::DragInt("Width", &new_width, 1, 1120, 1760))
 		{
-			App->window->SetWidth(new_width);
-			App->editor->UpdatePosSize();
+			if (resizable)
+			{
+				App->window->SetWidth(new_width);
+				App->editor->UpdatePosSize();
+			}
+			else
+				new_width = App->window->GetWidth();
 		}
 
 		if (ImGui::DragInt("Height", &new_height, 1, 630, 990))
 		{
-			App->window->SetHeight(new_height);
-			App->editor->UpdatePosSize();
+			if (resizable)
+			{
+				App->window->SetHeight(new_height);
+				App->editor->UpdatePosSize();
+			}
+			else
+				new_height = App->window->GetHeight();
 		}
 
 		ImGui::Separator();	// ------
@@ -97,10 +105,10 @@ void MenuConfig::Render()
 			App->window->SetResizable(resizable);
 	}
 
-	// Hardware window ----------------------------
+	// Hardware window --------------------------
 	if (ImGui::CollapsingHeader("Hardware"))
 	{
-		ImGui::Text("SDL Version:"); ImGui::SameLine();	// Adjust spacing
+		ImGui::Text("SDL Version:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), sdl_compiled_info);
 
 		ImGui::Separator();	// ------

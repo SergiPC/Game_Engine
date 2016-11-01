@@ -300,9 +300,6 @@
     <ClInclude Include="PhysFS\include\physfs.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleLoadTextures.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Sources\GameObjects</Filter>
     </ClInclude>
@@ -513,9 +510,6 @@
       <Filter>Sources\Containers</Filter>
     </ClCompile>
     <ClCompile Include="ModuleFileSystem.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleLoadTextures.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">

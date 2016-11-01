@@ -109,7 +109,12 @@ void ModuleWindow::SetFullscreen(bool enable)
 	if (fullscreen != enable)
 	{
 		if (enable == true)
+		{
 			SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+
+			if (resizable)
+				resizable = false;
+		}
 		else
 			SDL_SetWindowFullscreen(window, 0);
 
