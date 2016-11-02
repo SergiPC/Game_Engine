@@ -8,7 +8,8 @@ enum Type
 	AMBIGUOUS,
 	TRANSFORM,
 	MATERIAL,
-	MESH
+	MESH,
+	CAMERA
 };
 
 class Component

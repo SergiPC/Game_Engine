@@ -77,7 +77,7 @@ void ComponentTransform::SetPosition(float3 new_pos)
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform, scale);
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------
@@ -90,20 +90,21 @@ void ComponentTransform::SetRotation(float3 new_rot)
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform, scale);
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------
 void ComponentTransform::SetRotationQuat(Quat new_quat)
 {
 	rot_angles = new_quat.ToEulerXYZ();
+	rot_angles *= (180 / pi); // angle in degrees = angle in radians * 180/pi
 	rot_quat = new_quat;
 
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform, scale);
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------
@@ -115,7 +116,7 @@ void ComponentTransform::SetScale(float3 new_scale)
 	world_transform = GetWorldTransform();
 
 	// Update Bounding Box ----
-	owner->UpdateBBox(world_transform, scale);
+	owner->UpdateBBox(world_transform);
 }
 
 // -----------------------------------------------------------------

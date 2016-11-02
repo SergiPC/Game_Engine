@@ -27,7 +27,7 @@ public:
 	Component*		GetComponent(Type type);
 	
 	void			GenerateBBox(uint* vertices, uint num_vertices);
-	void			UpdateBBox(float4x4 world_trans, float3 scale);
+	void			UpdateBBox(float4x4 world_trans);
 	const math::AABB GetBBox();
 	const bool		BBoxIsEnable() const;
 	void			BBoxSetEnable(bool enable);

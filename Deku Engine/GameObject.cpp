@@ -187,13 +187,10 @@ void GameObject::GenerateBBox(uint* vertices, uint num_vertices)
 	tmp_bbox_go = bbox_go;
 }
 
-// -----------------------------------------------------------------
-void GameObject::UpdateBBox(float4x4 world_trans, float3 scale)
+// Scale doesn't work well -----------------------------------------
+void GameObject::UpdateBBox(float4x4 world_trans)
 {
 	tmp_obb = bbox_go.Transform(world_trans);
-
-	// bbox_go.Scale(bbox_go.CenterPoint(), scale);
-
 	tmp_bbox_go = tmp_obb.MinimalEnclosingAABB();
 }
 
