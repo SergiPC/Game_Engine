@@ -23,6 +23,8 @@ public:
 
 	float4x4	GetLocalTransform() const;
 	float4x4	GetWorldTransform() const;
+	void		UpdateWorldTransform();
+	void		UpdateWorldTransformChildren();
 	float4x4	EulerMatrix(float3 euler_angle) const;
 	float3		MatrixToEuler(float4x4 rot_mat);
 

@@ -74,7 +74,10 @@ void ComponentTransform::SetPosition(float3 new_pos)
 	position = new_pos;
 
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
-	world_transform = GetWorldTransform();
+
+	// Update World Transform -
+	UpdateWorldTransform();
+	UpdateWorldTransformChildren();
 
 	// Update Bounding Box ----
 	owner->UpdateBBox(world_transform);
@@ -87,7 +90,10 @@ void ComponentTransform::SetRotation(float3 new_rot)
 	rot_quat = rot_quat.FromEulerXYZ((rot_angles.x * pi) / 180, (rot_angles.y * pi) / 180, (rot_angles.z * pi) / 180);
 	
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
-	world_transform = GetWorldTransform();
+
+	// Update World Transform -
+	UpdateWorldTransform();
+	UpdateWorldTransformChildren();
 
 	// Update Bounding Box ----
 	owner->UpdateBBox(world_transform);
@@ -101,7 +107,10 @@ void ComponentTransform::SetRotationQuat(Quat new_quat)
 	rot_quat = new_quat;
 
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
-	world_transform = GetWorldTransform();
+
+	// Update World Transform -
+	UpdateWorldTransform();
+	UpdateWorldTransformChildren();
 
 	// Update Bounding Box ----
 	owner->UpdateBBox(world_transform);
@@ -113,7 +122,10 @@ void ComponentTransform::SetScale(float3 new_scale)
 	scale = new_scale;
 
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
-	world_transform = GetWorldTransform();
+
+	// Update World Transform -
+	UpdateWorldTransform();
+	UpdateWorldTransformChildren();
 
 	// Update Bounding Box ----
 	owner->UpdateBBox(world_transform);
@@ -140,17 +152,44 @@ float3 ComponentTransform::GetScale() const
 // -----------------------------------------------------------------
 float4x4 ComponentTransform::GetWorldTransform() const
 {
-	math::float4x4 tmp_trans = local_transform;
+	return world_transform;
+}
 
+// -----------------------------------------------------------------
+void ComponentTransform::UpdateWorldTransform()
+{
 	if (owner->parent != nullptr)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*)owner->parent->GetComponent(TRANSFORM);
+		ComponentTransform* parent_transform = (ComponentTransform*)owner->parent->GetComponent(TRANSFORM);
 		
-		if(parentTransform != nullptr)
-			tmp_trans =  parentTransform->GetWorldTransform() * tmp_trans;
+		parent_transform->UpdateWorldTransform();
+		world_transform = parent_transform->GetWorldTransform() * local_transform;
 	}
+	else
+	{
+		world_transform = local_transform;
+	}
+}
 
-	return tmp_trans;
+// -----------------------------------------------------------------
+void ComponentTransform::UpdateWorldTransformChildren()
+{
+	// Update all children -------
+	std::vector<GameObject*>::iterator tmp_go = owner->children.begin();
+
+	while (tmp_go != owner->children.end())
+	{
+		ComponentTransform* child_transform = (ComponentTransform*)(*tmp_go)->GetComponent(TRANSFORM);
+
+		if (child_transform != nullptr)
+		{
+			child_transform->UpdateWorldTransform();
+			(*tmp_go)->UpdateBBox(child_transform->GetWorldTransform());
+			child_transform->UpdateWorldTransformChildren();
+		}
+
+		tmp_go++;
+	}
 }
 
 // -----------------------------------------------------------------
