@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "glmath.h"
 #include "Light.h"
+#include "MathGeoLib/src/MathGeoLib.h"
 
 #define MAX_LIGHTS 8
 
@@ -25,6 +26,7 @@ public:
 	
 	void RenderMesh(MeshData mesh, math::float4x4 transform, uint tex_id, bool mat_enable);
 	void RenderBBoxDebug(math::AABB bbox);
+	void RenderFrustum(math::Frustum frustum);
 
 	void OnResize(int width, int height);
 

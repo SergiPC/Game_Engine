@@ -198,14 +198,68 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 // -----------------------------------------------------------------
 void ModuleRenderer3D::RenderBBoxDebug(math::AABB bbox)
 {
-	//glPushMatrix();
-	//glMultMatrixf(*world_trans.Transposed().v);
-
 	float3 corner_array[8];
 	bbox.GetCornerPoints(corner_array);
 
 	// Parallelepiped by Lines ----------------
 	glColor3f(0.0f, 1.0f, 1.0f);
+
+	glBegin(GL_LINES);
+
+	// Top Side ----->
+	glVertex3fv((GLfloat*)&corner_array[2]);
+	glVertex3fv((GLfloat*)&corner_array[3]);
+
+	glVertex3fv((GLfloat*)&corner_array[3]);
+	glVertex3fv((GLfloat*)&corner_array[7]);
+
+	glVertex3fv((GLfloat*)&corner_array[7]);
+	glVertex3fv((GLfloat*)&corner_array[6]);
+
+	glVertex3fv((GLfloat*)&corner_array[6]);
+	glVertex3fv((GLfloat*)&corner_array[2]);
+
+	// Down Side ---->
+	glVertex3fv((GLfloat*)&corner_array[0]);
+	glVertex3fv((GLfloat*)&corner_array[1]);
+
+	glVertex3fv((GLfloat*)&corner_array[1]);
+	glVertex3fv((GLfloat*)&corner_array[5]);
+
+	glVertex3fv((GLfloat*)&corner_array[5]);
+	glVertex3fv((GLfloat*)&corner_array[4]);
+
+	glVertex3fv((GLfloat*)&corner_array[4]);
+	glVertex3fv((GLfloat*)&corner_array[0]);
+
+	// Height ------->
+	glVertex3fv((GLfloat*)&corner_array[2]);
+	glVertex3fv((GLfloat*)&corner_array[0]);
+
+	glVertex3fv((GLfloat*)&corner_array[3]);
+	glVertex3fv((GLfloat*)&corner_array[1]);
+
+	glVertex3fv((GLfloat*)&corner_array[7]);
+	glVertex3fv((GLfloat*)&corner_array[5]);
+
+	glVertex3fv((GLfloat*)&corner_array[6]);
+	glVertex3fv((GLfloat*)&corner_array[4]);
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glEnd();
+}
+
+// -----------------------------------------------------------------
+void ModuleRenderer3D::RenderFrustum(math::Frustum frustum)
+{
+	//glPushMatrix();
+	//glMultMatrixf(*world_trans.Transposed().v);
+
+	float3 corner_array[8];
+	frustum.GetCornerPoints(corner_array);
+
+	// Parallelepiped by Lines ----------------
+	glColor3f(1.0f, 0.0f, 1.0f);
 
 	glBegin(GL_LINES);
 

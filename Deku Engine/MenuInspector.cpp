@@ -57,6 +57,9 @@ void MenuInspector::Render()
 			if (ImGui::MenuItem("Material"))
 				sel_go->AddComponent(MATERIAL);
 
+			if (ImGui::MenuItem("Camera"))
+				sel_go->AddComponent(CAMERA);
+
 			ImGui::EndMenu();
 		}
 	}

@@ -4,6 +4,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 
 using namespace std;
 
@@ -143,6 +144,9 @@ Component* GameObject::AddComponent(Type type)
 			break;
 
 		case MATERIAL: new_component = new ComponentMaterial(this);
+			break;
+
+		case CAMERA: new_component = new ComponentCamera(this);
 			break;
 
 		default: new_component = new ComponentTransform(this); 
