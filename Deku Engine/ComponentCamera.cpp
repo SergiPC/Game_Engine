@@ -61,53 +61,80 @@ void ComponentCamera::OnEditor()
 		ImGui::Separator();	// -------
 		
 		// FOV ----------->
-		bool block = aspect_block;
-
-		if (ImGui::Checkbox("##Aspect", &block))
-			aspect_block = block;
-
-		ImGui::SameLine();
-		(aspect_block) ? (ImGui::Text("Aspect Ratio: ON")) : (ImGui::Text("Aspect Ratio: OFF"));
-
-		new_fov = GetHorizontalFOV();
-		if (ImGui::SliderFloat("H. Fov", &new_fov, 0.1f, 179.9f, "%.1f"))
+		if (ImGui::TreeNode("FOV"))
 		{
-			if (aspect_block)
-				SetHorizontalFOV(new_fov);
+			bool block = aspect_block;
 
-			else
+			if (ImGui::Checkbox("##Aspect", &block))
+				aspect_block = block;
+
+			ImGui::SameLine();
+			(aspect_block) ? (ImGui::Text("Aspect Ratio: ON")) : (ImGui::Text("Aspect Ratio: OFF"));
+
+			new_fov = GetHorizontalFOV();
+			if (ImGui::SliderFloat("H. Fov", &new_fov, 0.1f, 179.5f, "%.1f"))
 			{
-				frustum_cam.horizontalFov = DEGTORAD * new_fov;
-				CreateRatio();
+				if (aspect_block)
+					SetHorizontalFOV(new_fov);
+
+				else
+				{
+					frustum_cam.horizontalFov = DEGTORAD * new_fov;
+					CreateRatio();
+				}
 			}
-		}
 
-		new_fov = GetVerticalFOV();
-		if (ImGui::SliderFloat("V. Fov", &new_fov, 0.1f, 179.9f, "%.1f"))
-		{
-			if (aspect_block)
-				SetVerticalFOV(new_fov);
-
-			else
+			new_fov = GetVerticalFOV();
+			if (ImGui::SliderFloat("V. Fov", &new_fov, 0.1f, 179.5f, "%.1f"))
 			{
-				frustum_cam.verticalFov = DEGTORAD * new_fov;
-				CreateRatio();
+				if (aspect_block)
+					SetVerticalFOV(new_fov);
+
+				else
+				{
+					frustum_cam.verticalFov = DEGTORAD * new_fov;
+					CreateRatio();
+				}
 			}
-		}
+
+			ImGui::TreePop();
+		}		
 
 		ImGui::Separator();	// -------
 		
 		// Aspect ratio -->
-		asp_rat_vec[0] = aspect_width;
-		asp_rat_vec[1] = aspect_height;
-
-		if (ImGui::SliderFloat2("Asp. Rat.", asp_rat_vec, 1, 20, "%.0f")) // Better with a "fill box"
+		if (ImGui::TreeNode("Aspect ratio"))
 		{
-			SetRatio(asp_rat_vec[0], asp_rat_vec[1], GetHorizontalFOV());
-		}
+			asp_rat_vec[0] = aspect_width;
+			asp_rat_vec[1] = aspect_height;
 
-		ImGui::Text("Aspect Ratio:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%.0f:%.0f (%.1f)", aspect_width, aspect_height, aspect_ratio);
+			if (ImGui::SliderFloat2("Asp. Rat.", asp_rat_vec, 1, 20, "%.0f")) // Better with a "fill box"
+			{
+				SetRatio(asp_rat_vec[0], asp_rat_vec[1], GetHorizontalFOV());
+			}
+
+			ImGui::Text("Aspect Ratio:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.25f, 0.88f, 0.81f, 0.70f), "%.0f:%.0f (%.1f)", aspect_width, aspect_height, aspect_ratio);
+
+			ImGui::TreePop();
+		}
+		
+		ImGui::Separator();	// -------
+
+		// Planes -------->
+		if (ImGui::TreeNode("Planes"))
+		{
+			asp_rat_vec[0] = frustum_cam.nearPlaneDistance;
+			asp_rat_vec[1] = frustum_cam.farPlaneDistance;
+
+			if (ImGui::SliderFloat2("Near|Far", asp_rat_vec, 1, 200, "%.0f")) // Better with a "fill box"
+			{
+				frustum_cam.nearPlaneDistance = asp_rat_vec[0];
+				frustum_cam.farPlaneDistance = asp_rat_vec[1];
+			}
+
+			ImGui::TreePop();
+		}	
 	}
 }
 
