@@ -16,9 +16,12 @@ public:
 	void TransformFrustum();
 
 	void SetRatio(float width, float height, float horizontal_fov);
+	void CreateRatio();
 	void SetHorizontalFOV(float horizontal_fov);
+	void SetVerticalFOV(float vertical_fov);
 
 	const float GetHorizontalFOV();
+	const float GetVerticalFOV();
 
 	void FrustumDebug();
 
@@ -29,10 +32,11 @@ private:
 	float aspect_width = 0;
 	float aspect_height = 0;
 	float field_of_view = .0f;
-	bool resizable = false;
+	bool aspect_block = true;
 
 	// OnEdit() update variables
-	float new_horizontal_fov = .0f;
+	float new_fov = .0f;
+	float asp_rat_vec[2] = {.0f, .0f};
 };
 
 #endif // !__COMPONENT_CAMERA_H__
