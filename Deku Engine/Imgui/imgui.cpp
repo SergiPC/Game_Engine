@@ -770,7 +770,7 @@ ImGuiStyle::ImGuiStyle()
 	Colors[ImGuiCol_ComboBg]				= ImVec4(0.20f, 0.20f, 0.20f, 0.99f);
 	Colors[ImGuiCol_CheckMark]				= ImVec4(0.90f, 0.90f, 0.90f, 0.50f);
 	Colors[ImGuiCol_SliderGrab]				= ImVec4(1.00f, 1.00f, 1.00f, 0.30f);
-	Colors[ImGuiCol_SliderGrabActive]		= ImVec4(0.80f, 0.50f, 0.50f, 1.00f);
+	Colors[ImGuiCol_SliderGrabActive]		= ImVec4(0.25f, 0.88f, 0.81f, 0.70f);
 	Colors[ImGuiCol_Button]					= ImVec4(0.25f, 0.88f, 0.81f, 0.30f);
 	Colors[ImGuiCol_ButtonHovered]			= ImVec4(0.25f, 0.88f, 0.81f, 0.50f);
 	Colors[ImGuiCol_ButtonActive]			= ImVec4(0.25f, 0.88f, 0.81f, 0.70f);

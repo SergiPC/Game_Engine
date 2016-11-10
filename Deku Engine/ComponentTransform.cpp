@@ -8,6 +8,10 @@ ComponentTransform::ComponentTransform(GameObject* owner) : Component(owner, TRA
 position(.0f, .0f, .0f), rot_angles(.0f, .0f, .0f), scale(1.0f, 1.0f, 1.0f)
 {
 	local_transform = local_transform.FromTRS(position, rot_quat, scale);
+
+	// Update World Transform -
+	UpdateWorldTransform();
+	UpdateWorldTransformChildren();
 }
 
 // -----------------------------------------------------------------
