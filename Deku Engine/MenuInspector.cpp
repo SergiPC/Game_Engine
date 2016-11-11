@@ -70,8 +70,8 @@ void MenuInspector::Render()
 // ------------------------------------------------------------
 void MenuInspector::UpdatePosSize()
 {
-	pos_x = (App->window->GetWidth()) - 252;
+	pos_x = (App->window->GetWidth()) - 302;
 	pos_y = 21;
-	width = 250;
+	width = 300;
 	height = (App->window->GetHeight()) - 19 - 4;
 }

@@ -91,8 +91,8 @@ void MenuHierarchy::RenderChildren(GameObject* _parent)
 // ------------------------------------------------------------
 void MenuHierarchy::UpdatePosSize()
 {
-	pos_x = (App->window->GetWidth()) - 504;
+	pos_x = (App->window->GetWidth()) - 579;
 	pos_y = 21;
-	width = 250;
+	width = 275;
 	height = ((App->window->GetHeight()) - 19 - 6) / 2;
 }
