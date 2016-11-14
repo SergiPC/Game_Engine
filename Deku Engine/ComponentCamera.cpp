@@ -51,6 +51,7 @@ void ComponentCamera::OnEditor()
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		bool comp_enable = enabled;
+		bool play_enable = play_cam;
 
 		if (ImGui::Checkbox("##Camera", &comp_enable))
 			enabled = comp_enable;
@@ -58,6 +59,15 @@ void ComponentCamera::OnEditor()
 		ImGui::SameLine();
 		(enabled) ? (ImGui::Text("(Active)")) : (ImGui::Text("(Desactivated)"));
 
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##PlayCamera", &play_enable))
+		{
+			// Check if another component camera is play_cam
+			play_cam = play_enable;
+		}
+
+		ImGui::SameLine();
+		(play_cam) ? (ImGui::Text("Play camera")) : (ImGui::Text("Not Play camera"));
 		ImGui::Separator();	// -------
 		
 		// FOV ----------->
@@ -134,7 +144,7 @@ void ComponentCamera::OnEditor()
 			}
 
 			ImGui::TreePop();
-		}	
+		}
 	}
 }
 

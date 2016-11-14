@@ -33,6 +33,7 @@ private:
 	float aspect_height = 0;
 	float field_of_view = .0f;
 	bool aspect_block = true;
+	bool play_cam = false;
 
 	// OnEdit() update variables
 	float new_fov = .0f;
