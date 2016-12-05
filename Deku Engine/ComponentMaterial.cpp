@@ -3,7 +3,9 @@
 
 // -----------------------------------------------------------------
 ComponentMaterial::ComponentMaterial(GameObject* owner) : Component(owner, MATERIAL)
-{}
+{
+	kind = solid;
+}
 
 // -----------------------------------------------------------------
 ComponentMaterial::~ComponentMaterial()
@@ -29,6 +31,12 @@ void ComponentMaterial::OnEditor()
 
 		ImGui::SameLine();
 		(enabled) ? (ImGui::Text("(Active)")) : (ImGui::Text("(Desactivated)"));
+
+		ImGui::Separator();	// -------
+
+		static int item = kind;
+		ImGui::Combo("Material Type", &item, "solid\0alpha_test\0blend");
+		kind = (mat_type)item;
 
 		ImGui::Separator();	// -------
 

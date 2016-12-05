@@ -182,6 +182,10 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 	if (mat_enable)
 	{
 		glEnable(GL_TEXTURE_2D);
+		// It doesn't work... :^(
+		// with glDesbale(GL_BLEND) and glEnable(GL_BLEND)
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, .5);
 		glBindTexture(GL_TEXTURE_2D, tex_id);
 	}
 
@@ -191,6 +195,7 @@ void ModuleRenderer3D::RenderMesh(MeshData mesh, math::float4x4 transform, uint 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_ALPHA_TEST);
 
 	glPopMatrix();
 }
